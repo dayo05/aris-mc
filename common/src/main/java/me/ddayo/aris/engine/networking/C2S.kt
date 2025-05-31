@@ -34,7 +34,7 @@ class C2SPacketDeclaration(id: ResourceLocation) : PacketDeclaration(id), ILuaSt
                     task.coroutine.setField(-2, rl.path)
             2
         } ?: run {
-            LogManager.getLogger().error("Not declared packet $id")
+            LogManager.getLogger().error("Not declared packet handler for $id")
         }
     }
 }

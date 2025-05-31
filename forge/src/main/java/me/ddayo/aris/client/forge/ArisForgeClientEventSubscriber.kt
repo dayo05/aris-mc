@@ -2,13 +2,13 @@ package me.ddayo.aris.client.forge
 
 import me.ddayo.aris.client.ArisClient
 import me.ddayo.aris.engine.client.ClientInGameEngine
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.common.Mod
 
 @Mod.EventBusSubscriber(modid = "aris", bus = Mod.EventBusSubscriber.Bus.FORGE, value = [Dist.CLIENT])
@@ -25,23 +25,20 @@ object ArisForgeClientEvents {
         ArisClient.onClientLeaveGame()
     }
 
-    @SubscribeEvent
-    fun onClientWorldTick(event: TickEvent.LevelTickEvent) {
-        if(event.phase == TickEvent.Phase.END || event.side != LogicalSide.CLIENT) {
-            ArisClient.clientWorldTick()
-        }
-    }
-
     /** Your per-frame client tick logic. */
     @SubscribeEvent
     fun onClientTick(evt: TickEvent.ClientTickEvent) {
         if (evt.phase == TickEvent.Phase.END) {
             ArisClient.clientTick()
+            val mc = Minecraft.getInstance()
+            if (mc.player != null && mc.level != null) {
+                ArisClient.clientWorldTick()
+            }
         }
     }
 
     @SubscribeEvent
-    fun onRenderGuiOverlay(event: RenderGuiOverlayEvent.Pre) {
+    fun onRenderGuiOverlay(event: RenderGuiOverlayEvent.Post) {
         val graphics: GuiGraphics = event.guiGraphics
         val delta = event.partialTick
         ClientInGameEngine.INSTANCE?.renderHud(graphics, delta)
