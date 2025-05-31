@@ -1,5 +1,6 @@
 package me.ddayo.aris.engine
 
+import dev.architectury.injectables.annotations.ExpectPlatform
 import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.item.ScriptableItem
 import me.ddayo.aris.luagen.LuaFunction
@@ -17,10 +18,17 @@ object InitFunction {
      */
     @LuaFunction("create_item")
     fun registerItem(key: String) {
-        Registry.register(
-            BuiltInRegistries.ITEM,
-            ResourceLocation(Aris.MOD_ID, key),
-            ScriptableItem(ResourceLocation(Aris.MOD_ID, key), Item.Properties())
-        )
+        registerItem(ResourceLocation(Aris.MOD_ID, key)) {
+            ScriptableItem(
+                ResourceLocation(Aris.MOD_ID, key),
+                Item.Properties()
+            )
+        }
+    }
+
+    @JvmStatic
+    @ExpectPlatform
+    fun registerItem(location: ResourceLocation, item: () -> Item) {
+        throw NotImplementedError()
     }
 }

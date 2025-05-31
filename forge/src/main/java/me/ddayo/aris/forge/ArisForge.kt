@@ -2,11 +2,14 @@ package me.ddayo.aris.forge
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.client.ArisClient
+import me.ddayo.aris.engine.forge.InitFunctionImpl
 import net.minecraftforge.eventbus.api.Event
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.minecraftforge.fml.loading.FMLEnvironment
 import org.apache.logging.log4j.LogManager
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 
 @net.minecraftforge.fml.common.Mod(Aris.MOD_ID)
@@ -22,14 +25,22 @@ class ArisForge {
 
     init {
         MOD_CONTEXT.getKEventBus().post(AEvent())
-        MOD_CONTEXT.getKEventBus().register { it: FMLConstructModEvent ->
+        MOD_BUS.addListener { it: FMLConstructModEvent ->
             it.enqueueWork {
                 Aris.init()
                 if (FMLEnvironment.dist.isClient)
                     ArisClient.init()
             }
         }
+        MOD_BUS.addListener { it: FMLLoadCompleteEvent ->
+            it.enqueueWork {
+                if (FMLEnvironment.dist.isClient)
+                    ArisClient.onClientStart()
+            }
+        }
 
+
+        InitFunctionImpl.ITEMS.register(MOD_BUS)
         ArisForgeNetworking.register()
     }
 }

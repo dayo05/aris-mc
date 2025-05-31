@@ -1,32 +1,15 @@
-package me.ddayo.aris.client.forgelike
+package me.ddayo.aris.client.forge
 
 import me.ddayo.aris.client.ArisClient
-import me.ddayo.aris.client.gui.RenderUtil
 import me.ddayo.aris.engine.client.ClientInGameEngine
-import me.ddayo.aris.util.ListExtensions.mutableForEach
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.multiplayer.ServerData
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
 import net.minecraftforge.event.TickEvent
-import net.minecraftforge.event.TickEvent.LevelTickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent
-import org.apache.logging.log4j.LogManager
-
-@Mod.EventBusSubscriber(modid = "aris", bus = Mod.EventBusSubscriber.Bus.MOD, value = [Dist.CLIENT])
-object ArisForgeMod {
-    @SubscribeEvent
-    fun onLoadComplete(event: FMLLoadCompleteEvent) {
-        // Called once after client has fully loaded
-        ArisClient.onClientStart()
-    }
-}
 
 @Mod.EventBusSubscriber(modid = "aris", bus = Mod.EventBusSubscriber.Bus.FORGE, value = [Dist.CLIENT])
 object ArisForgeClientEvents {
