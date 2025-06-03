@@ -31,6 +31,9 @@ class InGameEngine(lua: Lua): MCBaseEngine(lua) {
 
     init {
         InGameGenerated.initEngine(this)
+        EngineAddOn.inGameEngineAddOns().forEach {
+            it.initLua(this)
+        }
     }
 
     val itemUseHook = mutableMapOf<String, MutableList<LuaFunc>>()

@@ -1,6 +1,6 @@
 package me.ddayo.aris.engine
 
 
-interface EngineInitializer {
-    fun initLua(engine: MCBaseEngine)
+interface EngineInitializer<T> where T: MCBaseEngine {
+    fun initLua(engine: T)
 }
