@@ -17,6 +17,7 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.eventbus.api.Event
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.event.IModBusEvent
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent
 import net.minecraftforge.fml.loading.FMLEnvironment
@@ -26,7 +27,7 @@ import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 
 @net.minecraftforge.fml.common.Mod(Aris.MOD_ID)
 class ArisForge {
-    abstract class RegisterEngineEvent<T>(private val initializers: MutableList<EngineInitializer<T>>): Event() where T: MCBaseEngine {
+    abstract class RegisterEngineEvent<T>(private val initializers: MutableList<EngineInitializer<T>>): Event(), IModBusEvent where T: MCBaseEngine {
         fun register(target: EngineInitializer<T>) {
             initializers.add(target)
         }
