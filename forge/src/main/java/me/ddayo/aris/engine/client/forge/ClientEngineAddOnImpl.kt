@@ -4,17 +4,15 @@ import me.ddayo.aris.engine.EngineInitializer
 import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.client.ClientInitEngine
 import me.ddayo.aris.engine.client.ClientMainEngine
+import me.ddayo.aris.forge.ArisForge
 
 object ClientEngineAddOnImpl {
-    val clientInitEngineInitializers = mutableListOf<EngineInitializer<ClientInitEngine>>()
     @JvmStatic
-    fun clientInitEngineAddOns()= clientInitEngineInitializers
+    fun clientInitEngineAddOns() = ArisForge.cloneExtensions(ArisForge.clientInitExtensions)
 
-    val clientMainEngineInitializers = mutableListOf<EngineInitializer<ClientMainEngine>>()
     @JvmStatic
-    fun clientMainEngineAddOns()= clientMainEngineInitializers
+    fun clientMainEngineAddOns() = ArisForge.cloneExtensions(ArisForge.clientMainExtensions)
 
-    val clientInGameEngineInitializers = mutableListOf<EngineInitializer<ClientInGameEngine>>()
     @JvmStatic
-    fun clientInGameEngineAddOns() = clientInGameEngineInitializers
+    fun clientInGameEngineAddOns() = ArisForge.cloneExtensions(ArisForge.clientInGameExtensions)
 }

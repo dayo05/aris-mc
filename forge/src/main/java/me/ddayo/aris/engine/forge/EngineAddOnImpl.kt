@@ -3,13 +3,11 @@ package me.ddayo.aris.engine.forge
 import me.ddayo.aris.engine.EngineInitializer
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
+import me.ddayo.aris.forge.ArisForge
 
 object EngineAddOnImpl {
-    val initEngineInitializers = mutableListOf<EngineInitializer<InitEngine>>()
     @JvmStatic
-    fun initEngineAddOns()= initEngineInitializers
-
-    val inGameEngineInitializers = mutableListOf<EngineInitializer<InGameEngine>>()
+    fun initEngineAddOns() = ArisForge.cloneExtensions(ArisForge.initExtensions)
     @JvmStatic
-    fun inGameEngineAddOns() = inGameEngineInitializers
+    fun inGameEngineAddOns() = ArisForge.cloneExtensions(ArisForge.inGameExtensions)
 }
