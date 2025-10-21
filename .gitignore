@@ -21,3 +21,6 @@ private/
 aris_run/
 deobf-work/
 /forge/forge-installer
+
+/.architectury-transformer
+/.kotlin
