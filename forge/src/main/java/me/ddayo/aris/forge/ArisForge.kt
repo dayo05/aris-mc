@@ -2,7 +2,6 @@ package me.ddayo.aris.forge
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.client.ArisClient
-import me.ddayo.aris.engine.forge.InitFunctionImpl
 import net.minecraftforge.eventbus.api.Event
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent
@@ -39,8 +38,10 @@ class ArisForge {
             }
         }
 
+        RegistryHelperImpl.registries.forEach {
+            it.register(MOD_BUS)
+        }
 
-        InitFunctionImpl.ITEMS.register(MOD_BUS)
         ArisForgeNetworking.register()
     }
 }

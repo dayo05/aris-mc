@@ -1,6 +1,7 @@
 package me.ddayo.aris.engine.client
 
 import me.ddayo.aris.engine.MCBaseEngine
+import me.ddayo.aris.lua.glue.InGameGenerated
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -33,6 +34,7 @@ open class ClientMainEngine protected constructor (lua: Lua): MCBaseEngine(lua) 
     override val basePath = File("robots/client")
 
     init {
+        InGameGenerated.initEngine(this)
         LuaClientOnlyGenerated.initEngine(this)
     }
 }

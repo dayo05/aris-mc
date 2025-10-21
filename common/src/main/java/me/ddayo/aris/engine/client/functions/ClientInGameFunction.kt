@@ -1,15 +1,20 @@
 package me.ddayo.aris.engine.client.functions
 
-import me.ddayo.aris.luagen.LuaFunc
+import com.mojang.blaze3d.platform.InputConstants
 import me.ddayo.aris.client.gui.HudRenderer
-import me.ddayo.aris.engine.wrapper.LuaItemStack
 import me.ddayo.aris.engine.client.ClientInGameEngine
+import me.ddayo.aris.engine.wrapper.LuaEntity
+import me.ddayo.aris.engine.wrapper.LuaItemStack
+import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import me.ddayo.aris.luagen.RetrieveEngine
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.projectile.ProjectileUtil
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.phys.AABB
 
 
 @LuaProvider(ClientInGameEngine.PROVIDER, library = "aris.game.client")
@@ -55,6 +60,16 @@ object ClientInGameFunction {
     }
 
     /**
+     * 플레이어가 얼마나 오랫동안 아이템을 사용했는지(charging)
+     * @return 플레이어가 차징한 시간(tick)
+     */
+    @LuaFunction("item_used_duration")
+    fun getUsedDuration(): Int {
+        val player = Minecraft.getInstance().player!!
+        return player.useItem.useDuration - player.useItemRemainingTicks
+    }
+
+    /**
      * HUD를 생성합니다.
      */
     @LuaFunction("create_hud")
@@ -91,4 +106,36 @@ object ClientInGameFunction {
      */
     @LuaFunction("add_on_key_pressed")
     fun onKeyPressed(@RetrieveEngine engine: ClientInGameEngine, key: String, function: LuaFunc) = engine.registerKeyHook(key, function)
+
+    /**
+     * 특정 키가 눌린 상태인지 검사합니다.
+     * 이 함수는 씹힐 위험이 있으니, 사용을 지양하세요.
+     * @param key 눌려져있는지 확인할 키
+     */
+    @LuaFunction("is_key_pressed")
+    fun isKeyPressed(key: Int): Boolean {
+        return InputConstants.isKeyDown(Minecraft.getInstance().window.window, key)
+    }
+
+    @LuaFunction("target_crosshair_entity")
+    fun getCrosshairEntity(reach: Double): LuaEntity?
+    {
+        val player = Minecraft.getInstance().player!!
+        val eyePos = player.getEyePosition(1.0f)
+        val lookVec = player.getViewVector(1.0f)
+        val endPos = eyePos.add(lookVec.scale(reach))
+
+        val searchBox: AABB = player.boundingBox
+            .expandTowards(lookVec.scale(reach))
+            .inflate(1.0)
+
+        return ProjectileUtil.getEntityHitResult(
+            player,
+            eyePos,
+            endPos,
+            searchBox,
+            { entity: Entity? -> !entity!!.isSpectator && entity.isPickable },
+            reach * reach
+        )?.entity?.let { LuaEntity(it) }
+    }
 }

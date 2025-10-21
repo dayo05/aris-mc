@@ -8,7 +8,7 @@ import me.ddayo.aris.luagen.LuaProvider
 import net.minecraft.world.entity.player.Player
 
 @LuaProvider(InGameEngine.PROVIDER)
-open class LuaPlayerEntity(val player: Player) : LuaEntity(player), ILuaStaticDecl by InGameGenerated.LuaPlayerEntity_LuaGenerated {
+open class LuaPlayerEntity(val player: Player) : LuaLivingEntity(player), ILuaStaticDecl by InGameGenerated.LuaPlayerEntity_LuaGenerated {
     /**
      * 플레이어의 오른손의 아이템을 가져옵니다.
      */

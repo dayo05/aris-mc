@@ -71,7 +71,10 @@ object Aris {
     }
 
     fun onServerTick() {
-        InGameEngine.INSTANCE?.loop()
+        InGameEngine.INSTANCE?.run {
+            loop()
+            tick()
+        }
     }
 
     fun reloadEngine() {

@@ -3,6 +3,7 @@ package me.ddayo.aris.fabriclike
 import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.wrapper.LuaItemStack
+import me.ddayo.aris.engine.wrapper.LuaPlayerEntity
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import me.ddayo.aris.util.ListExtensions.mutableForEach
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
@@ -25,14 +26,18 @@ object ArisFabricLike {
 
         UseItemCallback.EVENT.register { player, world, hand ->
             val stack = player.getItemInHand(hand)
-            if(!world.isClientSide) {
-                InGameEngine.INSTANCE?.itemUseHook?.let {
-                    it[BuiltInRegistries.ITEM.getKey(stack.item).toString()]?.let {
-                        val sp = LuaServerPlayer(player as ServerPlayer)
+            InGameEngine.INSTANCE?.let {
+                if (!world.isClientSide) {
+                    val sp = LuaServerPlayer(player as ServerPlayer)
+                    it.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()]?.let {
                         val lis = LuaItemStack(stack)
                         it.mutableForEach {
                             it.callAsTask(sp, lis)
                         }
+                    }
+
+                    it.rightClickFunctions.forEach {
+                        it.callAsTask(LuaPlayerEntity(player))
                     }
                 }
             }

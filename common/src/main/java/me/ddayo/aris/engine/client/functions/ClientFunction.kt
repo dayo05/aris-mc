@@ -14,6 +14,7 @@ import me.ddayo.aris.client.gui.ScreenRenderer
 import me.ddayo.aris.client.gui.element.*
 import me.ddayo.aris.engine.wrapper.LuaItemStack
 import me.ddayo.aris.engine.client.ClientMainEngine
+import me.ddayo.aris.math.Point3
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.Minecraft
@@ -26,6 +27,9 @@ object ClientFunction {
 
     @LuaFunction("create_point")
     fun create(x: Double, y: Double) = Point(x, y)
+
+    @LuaFunction("create_point")
+    fun create(x: Double, y: Double, z: Double) = Point3(x, y, z)
 
     @LuaFunction("create_window")
     fun createWindow() = ScreenRenderer()
@@ -73,4 +77,7 @@ object ClientFunction {
 
     @LuaFunction("close_screen")
     fun closeScreen() = Minecraft.getInstance().setScreen(null)
+
+    @LuaFunction("get_keybinding")
+    fun getKeybinding(of: String) = Minecraft.getInstance().options.keyMappings.find { it.name == of }
 }

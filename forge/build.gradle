@@ -468,7 +468,8 @@ tasks.register("arisClient", JavaExec) {
     jvmArgs.addAll([
             "-Xmx2G",
             "-Xms2G",
-            "-Djava.library.path=${nativesDir}"
+            "-Djava.library.path=${nativesDir}",
+            "-XstartOnFirstThread"
     ])
 
     setJvmArgs(jvmArgs)
@@ -524,3 +525,15 @@ tasks.register("copyArisModJar", Copy) {
 }
 
 // SJhub end - custom mc client for fix native lib loading issue
+
+// 1) Copy the reobf‐jar, not the raw 'jar'
+tasks.register('copyMod', Copy) {
+    dependsOn tasks.named('remapJar')
+    from(tasks.named('remapJar').flatMap { it.archiveFile })
+    into("/Users/dayo/Library/Application Support/PrismLauncher/instances/1.20.1 aris test forge/minecraft/mods/")
+}
+
+// 2) Hook into the lifecycle
+//    If you run `./gradlew build`, FG already wires up reobfJar after jar,
+//    so finalizing 'build' is enough:
+build.finalizedBy tasks.named('copyMod')

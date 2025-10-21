@@ -1,14 +1,13 @@
-package me.ddayo.aris.engine.fabric
+package me.ddayo.aris.fabric
 
-import me.ddayo.aris.engine.InitEngine
-import me.ddayo.aris.luagen.LuaProvider
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Item
 
-@LuaProvider(InitEngine.Companion.PROVIDER, library = "aris.init")
-object InitFunctionImpl {
+object RegistryHelperImpl {
     @JvmStatic
     fun registerItem(location: ResourceLocation, item: () -> Item) {
         Registry.register(
@@ -16,5 +15,10 @@ object InitFunctionImpl {
             location,
             item()
         )
+    }
+
+    @JvmStatic
+    fun<T: Entity> getEntityType(rl: ResourceLocation): EntityType<T>? {
+        return if (BuiltInRegistries.ENTITY_TYPE.containsKey(rl)) BuiltInRegistries.ENTITY_TYPE.get(rl) as? EntityType<T> else null
     }
 }

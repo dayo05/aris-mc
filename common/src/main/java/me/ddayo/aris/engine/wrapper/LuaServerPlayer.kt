@@ -71,24 +71,4 @@ class LuaServerPlayer(player: ServerPlayer) : LuaPlayerEntity(player), Coroutine
                 fn.await(this@coroutine, LuaServerPlayer(it))
         }
     }
-
-    @LuaFunction(name = "add_effect")
-    fun addEffect(effect: LuaMobEffectInstance) {
-        player.addEffect(effect.build())
-    }
-
-    @LuaFunction(name = "clear_effect")
-    fun clearEffect() {
-        player.removeAllEffects()
-    }
-
-    @LuaFunction(name = "remove_effect")
-    fun removeEffect(of: String) {
-        player.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation(of))!!)
-    }
-
-    @LuaFunction(name = "remove_effect")
-    fun removeEffect(ns: String, of: String) {
-        player.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation(ns, of))!!)
-    }
 }

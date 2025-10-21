@@ -2,6 +2,7 @@ package me.ddayo.aris.engine
 
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.lua.glue.InGameGenerated
+import me.ddayo.aris.util.ListExtensions.mutableForEach
 import net.minecraft.resources.ResourceLocation
 import party.iroiro.luajava.Lua
 import java.io.File
@@ -33,7 +34,15 @@ class InGameEngine(lua: Lua): MCBaseEngine(lua) {
         InGameGenerated.initEngine(this)
     }
 
+    fun tick() {
+        tickFunctions.mutableForEach { it.call() }
+    }
+
     val itemUseHook = mutableMapOf<String, MutableList<LuaFunc>>()
     val packetFunctions = mutableMapOf<ResourceLocation, LuaFunc>()
     val commandFunctions = mutableMapOf<ResourceLocation, LuaFunc>()
+    val tickFunctions = mutableListOf<LuaFunc>()
+
+    // TODO: current fabric only
+    val rightClickFunctions = mutableListOf<LuaFunc>()
 }

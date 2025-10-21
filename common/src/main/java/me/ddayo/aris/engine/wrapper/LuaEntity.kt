@@ -10,7 +10,10 @@ import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.luagen.LuaProvider
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.phys.AABB
 import kotlin.math.cos
 import kotlin.math.sin
@@ -72,6 +75,18 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
         set(value) {
             inner.teleportTo(inner.x, inner.y, value)
         }
+
+    /**
+     * 엔티티의 uuid를 가져옵니다.
+     */
+    @LuaProperty
+    val uuid get() = inner.stringUUID
+
+    /**
+     * 엔티티의 world를 가져옵니다.
+     */
+    @LuaProperty(name = "server_world")
+    val serverWorld get() = LuaServerWorld(inner.level() as ServerLevel)
 
     /**
      * 엔티티에 특정 데미지를 줄 수 있습니다.
@@ -165,5 +180,28 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
             fn.await(this, LuaEntity(it))
             true
         }
+    }
+}
+
+@LuaProvider(InGameEngine.PROVIDER)
+open class LuaLivingEntity(val living: LivingEntity) : LuaEntity(living), ILuaStaticDecl by InGameGenerated.LuaLivingEntity_LuaGenerated {
+    @LuaFunction(name = "add_effect")
+    fun addEffect(effect: LuaMobEffectInstance) {
+        living.addEffect(effect.build())
+    }
+
+    @LuaFunction(name = "clear_effect")
+    fun clearEffect() {
+        living.removeAllEffects()
+    }
+
+    @LuaFunction(name = "remove_effect")
+    fun removeEffect(of: String) {
+        living.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation(of))!!)
+    }
+
+    @LuaFunction(name = "remove_effect")
+    fun removeEffect(ns: String, of: String) {
+        living.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation(ns, of))!!)
     }
 }

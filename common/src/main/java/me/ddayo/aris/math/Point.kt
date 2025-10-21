@@ -4,6 +4,7 @@ import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.lua.glue.LuaGenerated
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.math.Point
 import me.ddayo.aris.math.Point.Companion.with
 
 
@@ -15,6 +16,31 @@ object PointFunctions {
      */
     @LuaFunction("create_point")
     fun createPoint(x: Double, y: Double) = x with y
+
+    /**
+     * Create point object (x, y, z)
+     * @return Point3(x, y, z)
+     */
+    @LuaFunction("create_point")
+    fun createPoint(x: Double, y: Double, z: Double) = Point3(x, y, z)
+}
+
+@LuaProvider
+data class Point3(val x: Double, val y: Double, val z: Double): ILuaStaticDecl by LuaGenerated.Point3_LuaGenerated {
+    constructor(x: Int, y: Int, z: Int): this(x.toDouble(), y.toDouble(), z.toDouble())
+
+    @LuaFunction
+    infix operator fun minus(other: Point3) = (x - other.x) with (y - other.y)
+    @LuaFunction
+    infix operator fun plus(other: Point3) = (x + other.x) with (y + other.y)
+    @LuaFunction
+    infix operator fun div(other: Double) = (x / other) with (y / other)
+    infix operator fun div(other: Int) = (x / other) with (y / other)
+    @LuaFunction
+    infix fun center(other: Point3) = (this + other) / 2
+
+    @LuaFunction("into_string")
+    fun intoString() = "($x, $y, $z)"
 }
 
 @LuaProvider
