@@ -46,6 +46,9 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
             inner.customName = Component.literal(value)
         }
 
+    @LuaProperty("entity_type")
+    val entityType get() = LuaEntityType(inner.type)
+
     /**
      * 플레이어의 X좌표를 가져오거나 설정할 수 있습니다.
      */
@@ -204,4 +207,12 @@ open class LuaLivingEntity(val living: LivingEntity) : LuaEntity(living), ILuaSt
     fun removeEffect(ns: String, of: String) {
         living.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation(ns, of))!!)
     }
+
+    @LuaProperty
+    var pitch get() = living.xRot
+        set(value) { living.xRot = value }
+
+    @LuaProperty
+    var yaw get() = living.yRot
+        set(value) { living.yRot = value }
 }

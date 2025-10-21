@@ -50,6 +50,15 @@ object ClientInGameFunction {
     @LuaFunction("get_player_y")
     fun getPlayerY() = mc.player!!.y
 
+    @LuaFunction("get_player_z")
+    fun getPlayerZ() = mc.player!!.z
+
+    @LuaFunction("get_player_pitch")
+    fun getPlayerPitch() = mc.player!!.xRot
+
+    @LuaFunction("get_player_yaw")
+    fun getPlayerYaw() = mc.player!!.yRot
+
     /**
      * 매 틱마다 실행할 함수를 추가합니다.
      * @param f 실행할 함수
