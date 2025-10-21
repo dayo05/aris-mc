@@ -1,12 +1,16 @@
 package me.ddayo.aris.engine.client.functions
 
+import me.ddayo.aris.Aris
 import me.ddayo.aris.client.KeyBindingHelper
 import me.ddayo.aris.engine.client.ClientInitEngine
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.luagen.RetrieveEngine
+import me.ddayo.aris.particle.ParticleInfo
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.KeyMapping
+import net.minecraft.resources.ResourceLocation
 
 @Environment(EnvType.CLIENT)
 @LuaProvider(ClientInitEngine.PROVIDER, library = "aris.init.client")
@@ -20,5 +24,12 @@ object ClientInitFunction {
     @LuaFunction("create_keybinding")
     fun createKeyBinding(key: String, code: Int, category: String) {
         KeyBindingHelper.register(KeyMapping(key, code, category))
+    }
+
+    @LuaFunction("create_particle_info")
+    fun createParticleInfo(@RetrieveEngine engine: ClientInitEngine, key: String): ParticleInfo {
+        val info = ParticleInfo()
+        engine.particleInfo[ResourceLocation(Aris.MOD_ID, key)] = info
+        return info
     }
 }

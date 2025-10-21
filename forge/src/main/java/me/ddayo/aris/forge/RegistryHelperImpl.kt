@@ -1,6 +1,8 @@
 package me.ddayo.aris.forge
 
 import me.ddayo.aris.Aris
+import net.minecraft.core.particles.ParticleType
+import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
@@ -11,11 +13,17 @@ import net.minecraftforge.registries.ForgeRegistries
 
 object RegistryHelperImpl {
     val ITEMS: DeferredRegister<Item> = DeferredRegister.create<Item>(ForgeRegistries.ITEMS, Aris.MOD_ID)
+    val PARTICLES: DeferredRegister<ParticleType<*>> = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Aris.MOD_ID)
 
-    val registries = listOf(ITEMS)
+    val registries = listOf(ITEMS, PARTICLES)
     @JvmStatic
     fun registerItem(location: ResourceLocation, item: () -> Item) {
         ITEMS.register(location.path, item)
+    }
+
+    @JvmStatic
+    fun registerParticle(location: ResourceLocation) {
+        PARTICLES.register(location.path) { SimpleParticleType(false) }
     }
 
     @JvmStatic

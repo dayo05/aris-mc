@@ -1,13 +1,16 @@
 package me.ddayo.aris.client.fabriclike
 
 import me.ddayo.aris.client.ArisClient
-import me.ddayo.aris.client.gui.RenderUtil
 import me.ddayo.aris.engine.client.ClientInGameEngine
-import me.ddayo.aris.util.ListExtensions.mutableForEach
+import me.ddayo.aris.engine.client.ClientInitEngine
+import me.ddayo.aris.particle.CustomParticleProvider
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
+import net.minecraft.core.particles.SimpleParticleType
+import net.minecraft.core.registries.BuiltInRegistries
 
 object ArisFabricLikeClient {
     fun init() {
@@ -39,6 +42,15 @@ object ArisFabricLikeClient {
         HudRenderCallback.EVENT.register { graphics, delta ->
             ClientInGameEngine.INSTANCE?.renderHud(graphics, delta)
         }
+
+        ClientInitEngine.INSTANCE!!.particleInfo.forEach { (rl, info) ->
+            ParticleFactoryRegistry.getInstance().register(
+                BuiltInRegistries.PARTICLE_TYPE[rl] as SimpleParticleType,
+            ) {
+                CustomParticleProvider(it, info)
+            }
+        }
+
         ClientNetworking.register()
     }
 }

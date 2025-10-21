@@ -7,6 +7,7 @@ import me.ddayo.aris.engine.item.ScriptableItem
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import net.minecraft.core.Registry
+import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
@@ -25,5 +26,10 @@ object InitFunction {
                 Item.Properties()
             )
         }
+    }
+
+    @LuaFunction("create_particle")
+    fun createParticle(key: String) {
+        RegistryHelper.registerParticle(ResourceLocation(Aris.MOD_ID, key))
     }
 }
