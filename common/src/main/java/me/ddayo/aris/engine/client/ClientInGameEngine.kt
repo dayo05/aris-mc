@@ -39,6 +39,9 @@ class ClientInGameEngine protected constructor(lua: Lua) : ClientMainEngine(lua)
 
     init {
         ClientInGameOnlyGenerated.initEngine(this)
+        ClientEngineAddOn.clientInGameEngineAddOns().forEach {
+            it.initLua(this)
+        }
     }
 
     private val keyBindingHooks = mutableMapOf<KeyMapping, MutableList<LuaFunc>>()

@@ -36,5 +36,8 @@ open class ClientMainEngine protected constructor (lua: Lua): MCBaseEngine(lua) 
     init {
         InGameGenerated.initEngine(this)
         LuaClientOnlyGenerated.initEngine(this)
+        ClientEngineAddOn.clientMainEngineAddOns().forEach {
+            it.initLua(this)
+        }
     }
 }
