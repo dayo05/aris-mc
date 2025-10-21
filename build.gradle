@@ -1,8 +1,9 @@
 import groovy.json.JsonSlurper
-
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
 
 buildscript {
     ext.kotlin_version = '2.0.20'
@@ -39,6 +40,14 @@ subprojects {
     }
 }
 
+def sharedModVersion = {
+    def baseVersion = rootProject.mod_version // 'gradle.properties' 등에서 가져온 기본 버전
+    def timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd_HHmm"))
+
+    // 최종 버전 문자열을 반환합니다.
+    return "${baseVersion}-${timestamp}"
+}()
+
 allprojects {
     apply plugin: "java"
     apply plugin: "architectury-plugin"
@@ -48,7 +57,7 @@ allprojects {
         archivesName = rootProject.archives_base_name
     }
 
-    version = rootProject.mod_version
+    version = sharedModVersion
     group = rootProject.maven_group
 
     repositories {
@@ -67,6 +76,10 @@ allprojects {
     java {
         withSourcesJar()
     }
+
+    jar.doFirst {
+        delete fileTree(layout.buildDirectory.dir('libs'))
+    }
 }
 repositories {
     mavenCentral()
@@ -80,10 +93,9 @@ dependencies {
 ext.directoriesToUpload = ['common/build/generated/ksp/main/resources']  // List of directories
 ext.gistDesc = 'Lua functions for aris'
 ext.gistIsPublic = true // true → public gist
-if(!project.hasProperty("github_token")) {
+if (!project.hasProperty("github_token")) {
     logger.warn('Set a personal access token in env var GITHUB_TOKEN')
-}
-else ext.token = project.github_token
+} else ext.token = project.github_token
 ext.user = 'dayo05'  // Set your GitHub username here
 
 
