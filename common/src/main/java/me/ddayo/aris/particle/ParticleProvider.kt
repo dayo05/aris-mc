@@ -19,6 +19,7 @@ class CustomParticle(level: ClientLevel, x: Double, y: Double, z: Double, vx: Do
         this.friction = friction
         this.quadSize = quadSize
     }
+
     override fun getRenderType() = ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT
 }
 
@@ -38,6 +39,8 @@ class ParticleInfo(
     var g: Float = 1.0f,
     @LuaProperty
     var b: Float = 1.0f,
+    @LuaProperty(name = "enable_random_movement")
+    var enableRandomMovement: Boolean = false,
 ): ILuaStaticDecl by ClientInitGenerated.ParticleInfo_LuaGenerated
 
 class CustomParticleProvider(
@@ -56,5 +59,7 @@ class CustomParticleProvider(
     ) = CustomParticle(clientLevel, x, y, z, vx, vy, vz, info.lifetime, info.hasPhysics, info.friction, info.quadSize).apply {
         pickSprite(sprites)
         setColor(info.r, info.g, info.b)
+        if(!info.enableRandomMovement)
+            setParticleSpeed(vx, vy, vz)
     }
 }
