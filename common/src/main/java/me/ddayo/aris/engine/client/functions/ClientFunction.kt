@@ -14,6 +14,7 @@ import me.ddayo.aris.client.gui.ScreenRenderer
 import me.ddayo.aris.client.gui.element.*
 import me.ddayo.aris.engine.wrapper.LuaItemStack
 import me.ddayo.aris.engine.client.ClientMainEngine
+import me.ddayo.aris.engine.client.wrapper.LuaKeyBinding
 import me.ddayo.aris.math.Point3
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -79,5 +80,6 @@ object ClientFunction {
     fun closeScreen() = Minecraft.getInstance().setScreen(null)
 
     @LuaFunction("get_keybinding")
-    fun getKeybinding(of: String) = Minecraft.getInstance().options.keyMappings.find { it.name == of }
+    fun getKeybinding(of: String) =
+        Minecraft.getInstance().options.keyMappings.find { it.name == of }?.let { LuaKeyBinding(it) }
 }
