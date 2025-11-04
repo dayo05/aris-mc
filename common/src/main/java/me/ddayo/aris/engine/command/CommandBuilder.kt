@@ -11,6 +11,7 @@ import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
+import me.ddayo.aris.engine.hook.CommandHooks
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import me.ddayo.aris.lua.glue.InitGenerated
 import me.ddayo.aris.luagen.LuaFunction
@@ -19,6 +20,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.resources.ResourceLocation
+import org.apache.logging.log4j.LogManager
 
 
 @LuaProvider(InGameEngine.PROVIDER, library = "aris.game.command")
@@ -30,7 +32,8 @@ object CommandInGameFunctions {
      */
     @LuaFunction("register_endpoint")
     fun registerEndpoint(of: String, func: LuaFunc) {
-        InGameEngine.INSTANCE!!.commandFunctions[ResourceLocation(Aris.MOD_ID, of)] = func
+        LogManager.getLogger().warn("Use aris.game.hook.add_command_endpoint instead")
+        CommandHooks.registerEndpoint(of, func)
     }
 }
 
@@ -173,8 +176,8 @@ abstract class AbstractCommandHandler : ILuaStaticDecl by InitGenerated.Abstract
     fun execute(ctx: CommandContext<CommandSourceStack>) {
         val builder = CommandBuilder()
         parse(ctx, builder)
-        InGameEngine.INSTANCE!!.commandFunctions[endpoint
-            ?: throw Exception("No endpoint declared to handle this command")]!!.callAsTaskRawArg { task ->
+        CommandHooks.commandEndpointHook[endpoint
+            ?: throw Exception("No endpoint declared to handle this command")].callAsTaskRawArg { task ->
             engine.luaMain.pushNoInline(task.coroutine, ctx.source.player?.let { LuaServerPlayer(it) })
             task.coroutine.newTable()
             for ((rl, act) in builder.inner)

@@ -2,6 +2,7 @@ package me.ddayo.aris.forge
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.InGameEngine
+import me.ddayo.aris.engine.hook.PlayerHooks
 import me.ddayo.aris.engine.wrapper.LuaItemStack
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import me.ddayo.aris.util.ListExtensions.mutableForEach
@@ -27,15 +28,9 @@ object ArisForgeServerEventSubscriber {
     fun onItemUse(event: PlayerInteractEvent.RightClickItem) {
         val player = event.entity as? ServerPlayer ?: return
         val stack = player.getItemInHand(event.hand)
-        InGameEngine.INSTANCE?.itemUseHook?.let {
-            it[BuiltInRegistries.ITEM.getKey(stack.item).toString()]?.let {
-                val sp = LuaServerPlayer(player as ServerPlayer)
-                val lis = LuaItemStack(stack)
-                it.mutableForEach {
-                    it.callAsTask(sp, lis)
-                }
-            }
-        }
+        val sp = LuaServerPlayer(player as ServerPlayer)
+        val lis = LuaItemStack(stack)
+        PlayerHooks.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()].callAsTask(sp, lis)
     }
 
     @SubscribeEvent

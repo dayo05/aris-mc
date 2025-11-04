@@ -3,6 +3,7 @@ package me.ddayo.aris.engine.client.functions
 import com.mojang.blaze3d.platform.InputConstants
 import me.ddayo.aris.client.gui.HudRenderer
 import me.ddayo.aris.engine.client.ClientInGameEngine
+import me.ddayo.aris.engine.hook.client.ClientInGameHooks
 import me.ddayo.aris.engine.wrapper.LuaEntity
 import me.ddayo.aris.engine.wrapper.LuaItemStack
 import me.ddayo.aris.luagen.LuaFunc
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.projectile.ProjectileUtil
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.phys.AABB
+import org.apache.logging.log4j.LogManager
 
 
 @LuaProvider(ClientInGameEngine.PROVIDER, library = "aris.game.client")
@@ -59,13 +61,15 @@ object ClientInGameFunction {
     @LuaFunction("get_player_yaw")
     fun getPlayerYaw() = mc.player!!.yRot
 
+    fun warnTickFunction() = LogManager.getLogger().warn("Use aris.game.client.hook.* instead.")
     /**
      * 매 틱마다 실행할 함수를 추가합니다.
      * @param f 실행할 함수
      */
     @LuaFunction("add_tick_hook")
     fun addTickHook(@RetrieveEngine engine: ClientInGameEngine, f: LuaFunc) {
-        engine.tickFunctions.add(f)
+        warnTickFunction()
+        ClientInGameHooks.addTickHook(engine, f)
     }
 
     /**
@@ -114,7 +118,10 @@ object ClientInGameFunction {
      * @param function 실행할 함수
      */
     @LuaFunction("add_on_key_pressed")
-    fun onKeyPressed(@RetrieveEngine engine: ClientInGameEngine, key: String, function: LuaFunc) = engine.registerKeyHook(key, function)
+    fun onKeyPressed(@RetrieveEngine engine: ClientInGameEngine, key: String, function: LuaFunc) {
+        warnTickFunction()
+        ClientInGameHooks.onKeyPressed(key, function)
+    }
 
     /**
      * 특정 키가 눌린 상태인지 검사합니다.

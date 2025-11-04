@@ -7,6 +7,7 @@ import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
 import me.ddayo.aris.engine.client.ClientInGameEngine
+import me.ddayo.aris.engine.hook.LuaHook
 import me.ddayo.aris.lua.glue.InGameGenerated
 import me.ddayo.aris.lua.glue.InitGenerated
 import me.ddayo.aris.luagen.LuaFunction
@@ -91,7 +92,7 @@ abstract class PacketDeclaration(val id: ResourceLocation): ILuaStaticDecl by In
     }
 
     abstract fun parse(buf: FriendlyByteBuf): Array<Pair<ResourceLocation, Any?>>
-    abstract fun getFunction(): LuaFunc?
+    abstract fun getFunction(): LuaHook?
 
     @LuaProvider(InGameEngine.PROVIDER)
     @LuaProvider(ClientInGameEngine.PROVIDER)

@@ -2,6 +2,7 @@ package me.ddayo.aris.fabriclike
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.InGameEngine
+import me.ddayo.aris.engine.hook.PlayerHooks
 import me.ddayo.aris.engine.wrapper.LuaItemStack
 import me.ddayo.aris.engine.wrapper.LuaPlayerEntity
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
@@ -29,16 +30,10 @@ object ArisFabricLike {
             InGameEngine.INSTANCE?.let {
                 if (!world.isClientSide) {
                     val sp = LuaServerPlayer(player as ServerPlayer)
-                    it.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()]?.let {
-                        val lis = LuaItemStack(stack)
-                        it.mutableForEach {
-                            it.callAsTask(sp, lis)
-                        }
-                    }
+                    val lis = LuaItemStack(stack)
+                    PlayerHooks.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()].callAsTask(sp, lis)
 
-                    it.rightClickFunctions.forEach {
-                        it.callAsTask(LuaPlayerEntity(player))
-                    }
+                    PlayerHooks.rightClickHook.callAsTask(LuaPlayerEntity(player))
                 }
             }
             InteractionResultHolder.pass(stack)

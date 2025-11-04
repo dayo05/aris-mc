@@ -1,6 +1,8 @@
 package me.ddayo.aris.engine.client
 
 import me.ddayo.aris.engine.MCBaseEngine
+import me.ddayo.aris.engine.hook.LuaHook
+import me.ddayo.aris.engine.hook.LuaHookMap
 import me.ddayo.aris.lua.glue.InGameGenerated
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import net.fabricmc.api.EnvType
@@ -29,6 +31,9 @@ open class ClientMainEngine protected constructor (lua: Lua): MCBaseEngine(lua) 
                 }
             }
         }
+
+        val hooks = mutableListOf<LuaHook>()
+        val hookMaps = mutableListOf<LuaHookMap<*>>()
     }
 
     override val basePath = File("robots/client")

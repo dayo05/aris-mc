@@ -5,6 +5,8 @@ import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.client.KeyBindingHelper
 import me.ddayo.aris.client.gui.HudRenderer
 import me.ddayo.aris.client.gui.RenderUtil
+import me.ddayo.aris.engine.hook.LuaHook
+import me.ddayo.aris.engine.hook.LuaHookMap
 import me.ddayo.aris.lua.glue.ClientInGameOnlyGenerated
 import me.ddayo.aris.util.ListExtensions.mutableForEach
 import net.minecraft.client.KeyMapping
@@ -33,6 +35,9 @@ class ClientInGameEngine protected constructor(lua: Lua) : ClientMainEngine(lua)
                 }
             }
         }
+
+        val hooks = mutableListOf<LuaHook>()
+        val hookMaps = mutableListOf<LuaHookMap<*>>()
     }
 
     override val basePath = File("robots/client-game")
@@ -73,7 +78,6 @@ class ClientInGameEngine protected constructor(lua: Lua) : ClientMainEngine(lua)
         }
     }
 
-    val packetFunctions = mutableMapOf<ResourceLocation, LuaFunc>()
     val clientStringData = mutableMapOf<String, String>()
     val clientNumberData = mutableMapOf<String, Double>()
     val clientItemStackData = mutableMapOf<String, ItemStack>()

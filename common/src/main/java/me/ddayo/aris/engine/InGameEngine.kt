@@ -1,5 +1,7 @@
 package me.ddayo.aris.engine
 
+import me.ddayo.aris.engine.hook.LuaHook
+import me.ddayo.aris.engine.hook.LuaHookMap
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.lua.glue.InGameGenerated
 import me.ddayo.aris.util.ListExtensions.mutableForEach
@@ -14,6 +16,12 @@ class InGameEngine(lua: Lua): MCBaseEngine(lua) {
             private set
 
         fun disposeEngine() {
+            hooks.forEach {
+                it.clear()
+            }
+            hookMaps.forEach {
+                it.clear()
+            }
             INSTANCE = null
         }
 
@@ -26,6 +34,9 @@ class InGameEngine(lua: Lua): MCBaseEngine(lua) {
                 }
             }
         }
+
+        val hooks = mutableListOf<LuaHook>()
+        val hookMaps = mutableListOf<LuaHookMap<*>>()
     }
 
     override val basePath = File("robots/game")
@@ -37,15 +48,8 @@ class InGameEngine(lua: Lua): MCBaseEngine(lua) {
         }
     }
 
+    val tickHook = LuaHook()
     fun tick() {
-        tickFunctions.mutableForEach { it.call() }
+        tickHook.call()
     }
-
-    val itemUseHook = mutableMapOf<String, MutableList<LuaFunc>>()
-    val packetFunctions = mutableMapOf<ResourceLocation, LuaFunc>()
-    val commandFunctions = mutableMapOf<ResourceLocation, LuaFunc>()
-    val tickFunctions = mutableListOf<LuaFunc>()
-
-    // TODO: current fabric only
-    val rightClickFunctions = mutableListOf<LuaFunc>()
 }
