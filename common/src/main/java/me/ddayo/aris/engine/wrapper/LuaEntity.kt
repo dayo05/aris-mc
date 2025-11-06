@@ -12,8 +12,10 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.AABB
 import kotlin.math.cos
 import kotlin.math.sin
@@ -21,6 +23,15 @@ import kotlin.math.sin
 
 @LuaProvider(InGameEngine.PROVIDER)
 open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaEntity_LuaGenerated {
+    companion object {
+        fun Entity.toLuaValue() = when (this) {
+            is ServerPlayer -> LuaServerPlayer(this)
+            is Player -> LuaPlayerEntity(this)
+            is LivingEntity -> LuaLivingEntity(this)
+            else -> LuaEntity(this)
+        }
+    }
+
     /**
      * 엔티티의 이름을 가져옵니다.
      */
@@ -179,15 +190,16 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
         val level = inner.level()
         val area: AABB? = inner.boundingBox.inflate(radius)
         level.getEntities(inner, area) {
-            if(includeSelf || it != inner)
-            fn.await(this, LuaEntity(it))
+            if (includeSelf || it != inner)
+                fn.await(this, LuaEntity(it))
             true
         }
     }
 }
 
 @LuaProvider(InGameEngine.PROVIDER)
-open class LuaLivingEntity(val living: LivingEntity) : LuaEntity(living), ILuaStaticDecl by InGameGenerated.LuaLivingEntity_LuaGenerated {
+open class LuaLivingEntity(val living: LivingEntity) : LuaEntity(living),
+    ILuaStaticDecl by InGameGenerated.LuaLivingEntity_LuaGenerated {
     @LuaFunction(name = "add_effect")
     fun addEffect(effect: LuaMobEffectInstance) {
         living.addEffect(effect.build())
@@ -209,10 +221,16 @@ open class LuaLivingEntity(val living: LivingEntity) : LuaEntity(living), ILuaSt
     }
 
     @LuaProperty
-    var pitch get() = living.xRot
-        set(value) { living.xRot = value }
+    var pitch
+        get() = living.xRot
+        set(value) {
+            living.xRot = value
+        }
 
     @LuaProperty
-    var yaw get() = living.yRot
-        set(value) { living.yRot = value }
+    var yaw
+        get() = living.yRot
+        set(value) {
+            living.yRot = value
+        }
 }

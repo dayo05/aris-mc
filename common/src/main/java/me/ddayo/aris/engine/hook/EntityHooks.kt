@@ -1,17 +1,21 @@
 package me.ddayo.aris.engine.hook
 
 import me.ddayo.aris.engine.InGameEngine
+import me.ddayo.aris.engine.wrapper.LuaDamageSource
+import me.ddayo.aris.engine.wrapper.LuaEntity.Companion.toLuaValue
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
-import me.ddayo.aris.luagen.RetrieveEngine
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.LivingEntity
 
 @LuaProvider(InGameEngine.PROVIDER, library = "aris.game.hook")
-object PlayerHooks {
+object EntityHooks {
     val itemUseHook = LuaHookMap<String>()
     init {
         InGameEngine.hookMaps.add(itemUseHook)
     }
+
     /**
      * 추가한 아이템을 사용했을때 실행할 함수를 추가합니다.
      * @param item 아이템 id
@@ -53,20 +57,23 @@ object PlayerHooks {
         rightClickHook.clear()
     }
 
-    /**
-     * 매 틱마다 실행할 함수를 추가합니다.
-     * @param f 실행할 함수
-     */
-    @LuaFunction("add_tick")
-    fun addTickHook(@RetrieveEngine engine: InGameEngine, f: LuaFunc) {
-        engine.tickHook.add(f)
+    val onEntityDamagedHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(onEntityDamagedHook)
     }
 
     /**
-     * 매 틱마다 실행할 함수를 초기화합니다.
+     * 플레이어가 데미지를 입었을 때 실행할 함수
+     * @param f 실행할 함수
      */
-    @LuaFunction("clear_tick")
-    fun clearTickHook(@RetrieveEngine engine: InGameEngine, f: LuaFunc) {
-        engine.tickHook.clear()
+    @LuaFunction("add_on_entity_damaged")
+    fun onEntityGotDamaged(f: LuaFunc) {
+        onEntityDamagedHook.add(f)
+    }
+
+    fun executeOnEntityGotDamage(damage: DamageSource, amount: Float, target: LivingEntity): Float {
+        val incr = LuaDamageSource(damage, amount)
+        onEntityDamagedHook.call(incr, target.toLuaValue())
+        return incr.amount
     }
 }

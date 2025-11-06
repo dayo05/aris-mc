@@ -120,7 +120,7 @@ object ClientInGameFunction {
     @LuaFunction("add_on_key_pressed")
     fun onKeyPressed(@RetrieveEngine engine: ClientInGameEngine, key: String, function: LuaFunc) {
         warnTickFunction()
-        ClientInGameHooks.onKeyPressed(key, function)
+        ClientInGameHooks.onKeyPressed(engine, key, function)
     }
 
     /**

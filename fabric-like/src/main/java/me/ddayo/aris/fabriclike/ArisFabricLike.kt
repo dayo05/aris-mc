@@ -2,12 +2,13 @@ package me.ddayo.aris.fabriclike
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.InGameEngine
-import me.ddayo.aris.engine.hook.PlayerHooks
+import me.ddayo.aris.engine.hook.EntityHooks
+import me.ddayo.aris.engine.hook.EntityHooks.executeOnEntityGotDamage
 import me.ddayo.aris.engine.wrapper.LuaItemStack
 import me.ddayo.aris.engine.wrapper.LuaPlayerEntity
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
-import me.ddayo.aris.util.ListExtensions.mutableForEach
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
@@ -31,9 +32,9 @@ object ArisFabricLike {
                 if (!world.isClientSide) {
                     val sp = LuaServerPlayer(player as ServerPlayer)
                     val lis = LuaItemStack(stack)
-                    PlayerHooks.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()].callAsTask(sp, lis)
+                    EntityHooks.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()].callAsTask(sp, lis)
 
-                    PlayerHooks.rightClickHook.callAsTask(LuaPlayerEntity(player))
+                    EntityHooks.rightClickHook.callAsTask(LuaPlayerEntity(player))
                 }
             }
             InteractionResultHolder.pass(stack)

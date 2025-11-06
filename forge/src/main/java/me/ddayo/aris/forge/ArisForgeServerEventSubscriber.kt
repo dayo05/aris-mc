@@ -1,11 +1,9 @@
 package me.ddayo.aris.forge
 
 import me.ddayo.aris.Aris
-import me.ddayo.aris.engine.InGameEngine
-import me.ddayo.aris.engine.hook.PlayerHooks
+import me.ddayo.aris.engine.hook.EntityHooks
 import me.ddayo.aris.engine.wrapper.LuaItemStack
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
-import me.ddayo.aris.util.ListExtensions.mutableForEach
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.server.level.ServerPlayer
 import net.minecraftforge.event.RegisterCommandsEvent
@@ -30,7 +28,7 @@ object ArisForgeServerEventSubscriber {
         val stack = player.getItemInHand(event.hand)
         val sp = LuaServerPlayer(player as ServerPlayer)
         val lis = LuaItemStack(stack)
-        PlayerHooks.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()].callAsTask(sp, lis)
+        EntityHooks.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()].callAsTask(sp, lis)
     }
 
     @SubscribeEvent

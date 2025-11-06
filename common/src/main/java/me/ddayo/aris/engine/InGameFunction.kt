@@ -2,7 +2,7 @@ package me.ddayo.aris.engine
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.RegistryHelper
-import me.ddayo.aris.engine.hook.PlayerHooks
+import me.ddayo.aris.engine.hook.EntityHooks
 import me.ddayo.aris.engine.wrapper.LuaEntity
 import me.ddayo.aris.engine.wrapper.LuaEntityType
 import me.ddayo.aris.engine.wrapper.LuaMobEffectInstance
@@ -28,7 +28,7 @@ object InGameFunction {
     @LuaFunction("add_on_use_item")
     fun onUseItemHook(item: String, func: LuaFunc) {
         warnHookFn()
-        PlayerHooks.onUseItemHook(item, func)
+        EntityHooks.onUseItemHook(item, func)
     }
 
     /**
@@ -38,7 +38,7 @@ object InGameFunction {
     @LuaFunction("clear_on_use_item")
     fun clearOnUseItem(item: String) {
         warnHookFn()
-        PlayerHooks.clearOnUseItem(item)
+        EntityHooks.clearOnUseItem(item)
     }
 
     /**
@@ -48,7 +48,7 @@ object InGameFunction {
     @LuaFunction("add_on_right_click_hook")
     fun onRightClick(f: LuaFunc) {
         warnHookFn()
-        PlayerHooks.rightClickHook.add(f)
+        EntityHooks.rightClickHook.add(f)
     }
 
     /**

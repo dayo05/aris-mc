@@ -21,13 +21,13 @@ class LuaHook {
 
     fun call(vararg args: Any?) {
         inner.mutableForEach {
-            it.call(args)
+            it.call(*args)
         }
     }
 
     fun callAsTask(vararg args: Any?) {
         inner.mutableForEach {
-            it.callAsTask(args)
+            it.callAsTask(*args)
         }
     }
 

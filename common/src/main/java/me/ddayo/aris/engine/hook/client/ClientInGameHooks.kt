@@ -27,26 +27,13 @@ object ClientInGameHooks {
         engine.tickFunctions.clear()
     }
 
-
-    val keyBindingHooks = LuaHookMap<String>()
-    init {
-        ClientInGameEngine.hookMaps.add(keyBindingHooks)
-    }
     /**
      * 새로 추가한 조작키를 실행할때 실행될 함수를 지정합니다.
      * @param key 누를 키
      * @param function 실행할 함수
      */
     @LuaFunction("on_key_pressed")
-    fun onKeyPressed(key: String, function: LuaFunc) {
-        keyBindingHooks[key].add(function)
-    }
-    /**
-     * 새로 추가한 조작키를 실행할때 실행될 함수를 초기화합니다.
-     * @param key 누를 키
-     */
-    @LuaFunction("clear_on_key_pressed")
-    fun clearOnKeyPressed(key: String) {
-        keyBindingHooks[key].clear()
+    fun onKeyPressed(@RetrieveEngine engine: ClientInGameEngine, key: String, function: LuaFunc) {
+        engine.registerKeyHook(key, function)
     }
 }
