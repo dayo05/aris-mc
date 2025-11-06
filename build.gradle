@@ -16,7 +16,7 @@ buildscript {
 }
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.9-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.13-SNAPSHOT" apply false
 }
 apply plugin: 'kotlin'
 
@@ -41,11 +41,14 @@ subprojects {
 }
 
 def sharedModVersion = {
-    def baseVersion = rootProject.mod_version // 'gradle.properties' 등에서 가져온 기본 버전
-    def timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd_HHmm"))
+    if (gradle.parent == null && rootProject.findProperty("env") != "slave") {
+        def baseVersion = rootProject.mod_version // 'gradle.properties' 등에서 가져온 기본 버전
+        def timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd_HHmm"))
 
-    // 최종 버전 문자열을 반환합니다.
-    return "${baseVersion}-${timestamp}"
+        // 최종 버전 문자열을 반환합니다.
+        return "${baseVersion}-${timestamp}"
+    }
+    else return rootProject.mod_version
 }()
 
 allprojects {
