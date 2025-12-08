@@ -22,7 +22,12 @@ class ClientInGameEngine protected constructor(lua: Lua) : ClientMainEngine(lua)
         var INSTANCE: ClientInGameEngine? = null
             private set
 
+        val disposeHook = mutableListOf<() -> Unit>()
+
         fun disposeEngine() {
+            disposeHook.forEach { it() }
+            hooks.forEach { it.clear() }
+            hookMaps.forEach { it.clear() }
             INSTANCE = null
         }
 

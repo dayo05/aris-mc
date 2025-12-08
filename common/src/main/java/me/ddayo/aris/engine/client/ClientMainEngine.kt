@@ -11,14 +11,19 @@ import party.iroiro.luajava.Lua
 import java.io.File
 
 @Environment(EnvType.CLIENT)
-open class ClientMainEngine protected constructor (lua: Lua): MCBaseEngine(lua) {
+open class ClientMainEngine protected constructor(lua: Lua) : MCBaseEngine(lua) {
     companion object {
         const val PROVIDER = "LuaClientOnlyGenerated"
 
         var INSTANCE: ClientMainEngine? = null
             private set
 
+        val disposeHook = mutableListOf<() -> Unit>()
+
         fun disposeEngine() {
+            disposeHook.forEach { it() }
+            hooks.forEach { it.clear() }
+            hookMaps.forEach { it.clear() }
             INSTANCE = null
         }
 

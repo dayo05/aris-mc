@@ -9,19 +9,18 @@ import net.minecraft.resources.ResourceLocation
 import party.iroiro.luajava.Lua
 import java.io.File
 
-class InGameEngine(lua: Lua): MCBaseEngine(lua) {
+class InGameEngine(lua: Lua) : MCBaseEngine(lua) {
     companion object {
         const val PROVIDER = "InGameGenerated"
         var INSTANCE: InGameEngine? = null
             private set
 
+        val disposeHook = mutableListOf<() -> Unit>()
+
         fun disposeEngine() {
-            hooks.forEach {
-                it.clear()
-            }
-            hookMaps.forEach {
-                it.clear()
-            }
+            disposeHook.forEach { it() }
+            hooks.forEach { it.clear() }
+            hookMaps.forEach { it.clear() }
             INSTANCE = null
         }
 
