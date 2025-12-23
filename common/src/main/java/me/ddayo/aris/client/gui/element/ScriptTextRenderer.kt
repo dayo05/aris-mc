@@ -24,8 +24,8 @@ class ScriptDefaultTextRenderer(
         graphics.drawString(
             font,
             text,
-            (x / scale).toInt(),
-            (y / scale).toInt(),
+            0,
+            0,
             color
         )
     }

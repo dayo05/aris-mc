@@ -83,6 +83,9 @@ open class BaseComponent : ILuaStaticDecl by LuaClientOnlyGenerated.BaseComponen
 
     private val renderHooks = mutableListOf<LuaFunc>()
 
+    /**
+     * The Function invoked on each frame
+     */
     @LuaFunction(name = "add_render_hook")
     fun addRenderHook(fn: LuaFunc) {
         renderHooks.add(fn)

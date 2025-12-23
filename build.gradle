@@ -96,9 +96,13 @@ dependencies {
 ext.directoriesToUpload = ['common/build/generated/ksp/main/resources']  // List of directories
 ext.gistDesc = 'Lua functions for aris'
 ext.gistIsPublic = true // true → public gist
-if (!project.hasProperty("github_token")) {
+if (!project.hasProperty("github_token") && System.getenv("GITHUB_TOKEN") == null) {
     logger.warn('Set a personal access token in env var GITHUB_TOKEN')
-} else ext.token = project.github_token
+} else {
+    if(project.hasProperty("github_token"))
+        ext.token = project.github_token
+    else ext.token = System.getenv("GITHUB_TOKEN")
+}
 ext.user = 'dayo05'  // Set your GitHub username here
 
 

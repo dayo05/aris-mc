@@ -8,7 +8,7 @@ import me.ddayo.aris.math.Point
 import me.ddayo.aris.math.Point.Companion.with
 
 
-@LuaProvider
+@LuaProvider(library = "aris.math")
 object PointFunctions {
     /**
      * Create point object (x, y)

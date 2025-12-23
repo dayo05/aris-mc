@@ -7,9 +7,11 @@ import me.ddayo.aris.Aris
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.GameRenderer
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import org.apache.logging.log4j.LogManager
+import org.joml.Matrix4f
 import org.joml.Quaternionf
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL33
@@ -41,7 +43,12 @@ open class RenderUtilImpl : RenderUtil() {
     }
 
     override fun resourceExists(x: String): Boolean {
-        return Minecraft.getInstance().resourceManager.getResource(ResourceLocation(Aris.MOD_ID, "textures/$x")).isPresent
+        return Minecraft.getInstance().resourceManager.getResource(
+            ResourceLocation(
+                Aris.MOD_ID,
+                "textures/$x"
+            )
+        ).isPresent
     }
 
     override fun _render(
@@ -75,6 +82,12 @@ open class RenderUtilImpl : RenderUtil() {
         a: Int
     ) = fillRender(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat(), r, g, b, a)
 
+    fun fillRender(x: Float, y: Float, w: Float, h: Float, r: Int, g: Int, b: Int, a: Int) {
+        graphics.bufferSource().getBuffer(RenderType.gui()).apply {
+            quads(x, y, w, h, r, g, b, a)
+        }
+    }
+
     override fun fillRender(
         x: Double,
         y: Double,
@@ -86,23 +99,9 @@ open class RenderUtilImpl : RenderUtil() {
         a: Float
     ) = fillRender(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat(), r, g, b, a)
 
-    fun fillRender(x: Float, y: Float, w: Float, h: Float, r: Int, g: Int, b: Int, a: Int) {
-        Tesselator.getInstance().apply {
-            builder.apply {
-                begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR)
-                quads(x, y, w, h, r, g, b, a)
-            }
-            end()
-        }
-    }
-
     fun fillRender(x: Float, y: Float, w: Float, h: Float, r: Float, g: Float, b: Float, a: Float) {
-        Tesselator.getInstance().apply {
-            builder.apply {
-                begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR)
-                quadColor(x, y, w, h, r, g, b, a)
-            }
-            end()
+        graphics.bufferSource().getBuffer(RenderType.gui()).apply {
+            quadColor(x, y, w, h, r, g, b, a)
         }
     }
 
@@ -126,7 +125,7 @@ open class RenderUtilImpl : RenderUtil() {
         }
     }
 
-    private fun BufferBuilder.quads(
+    private fun VertexConsumer.quads(
         x: Float,
         y: Float,
         w: Float,
@@ -142,7 +141,7 @@ open class RenderUtilImpl : RenderUtil() {
         vertex(matrix.last().pose(), x, y, 0.0f).uv(th1, tv1).endVertex()
     }
 
-    private fun BufferBuilder.quadColorTex(
+    private fun VertexConsumer.quadColorTex(
         x: Float,
         y: Float,
         w: Float,
@@ -162,14 +161,14 @@ open class RenderUtilImpl : RenderUtil() {
         vertex(matrix.last().pose(), x, y, 0.0f).color(r, g, b, a).uv(th1, tv1).endVertex()
     }
 
-    private fun BufferBuilder.quads(x: Float, y: Float, w: Float, h: Float, r: Int, g: Int, b: Int, a: Int) {
+    private fun VertexConsumer.quads(x: Float, y: Float, w: Float, h: Float, r: Int, g: Int, b: Int, a: Int) {
         vertex(matrix.last().pose(), x, y + h, 0.0f).color(r, g, b, a).endVertex()
         vertex(matrix.last().pose(), x + w, y + h, 0.0f).color(r, g, b, a).endVertex()
         vertex(matrix.last().pose(), x + w, y, 0.0f).color(r, g, b, a).endVertex()
         vertex(matrix.last().pose(), x, y, 0.0f).color(r, g, b, a).endVertex()
     }
 
-    private fun BufferBuilder.quadColor(
+    private fun VertexConsumer.quadColor(
         x: Float,
         y: Float,
         w: Float,
@@ -206,7 +205,7 @@ open class RenderUtilImpl : RenderUtil() {
     private var swizzleTest = false
     private fun swizzleDisabledGrayscaleBuffer(buf: ByteBuffer, width: Int, height: Int): ByteBuffer {
         val dir = BufferUtils.createByteBuffer(buf.remaining() * 4)
-        while(buf.hasRemaining()){
+        while (buf.hasRemaining()) {
             val d = buf.get()
             dir.put(d)
                 .put(d)
@@ -224,20 +223,20 @@ open class RenderUtilImpl : RenderUtil() {
         GL33.glTexParameteri(GL33.GL_TEXTURE_2D, GL33.GL_TEXTURE_MAG_FILTER, GL33.GL_LINEAR)
 
         swizzleTest = false
-        if(!swizzleTest) {
+        if (!swizzleTest) {
             GL33.glTexParameteri(GL33.GL_TEXTURE_2D, GL33.GL_TEXTURE_SWIZZLE_R, GL33.GL_ALPHA)
             val gle = GL33.glGetError()
-            if(gle != GL33.GL_NO_ERROR) { // test swizzle
+            if (gle != GL33.GL_NO_ERROR) { // test swizzle
                 Minecraft.getInstance().player?.sendSystemMessage(Component.literal("GPU 드라이버 문제가 감지되어 느린 방법으로 우회합니다."))
-                LogManager.getLogger().error("OpenGL error $gle: Cannot use auto swizzle with texture. On next try, it will uses cpu based method.")
+                LogManager.getLogger()
+                    .error("OpenGL error $gle: Cannot use auto swizzle with texture. On next try, it will uses cpu based method.")
                 swizzleTest = true
-            }
-            else {
+            } else {
                 GL33.glTexParameteri(GL33.GL_TEXTURE_2D, GL33.GL_TEXTURE_SWIZZLE_G, GL33.GL_ALPHA)
                 GL33.glTexParameteri(GL33.GL_TEXTURE_2D, GL33.GL_TEXTURE_SWIZZLE_B, GL33.GL_ALPHA)
             }
         }
-        if(!swizzleTest)
+        if (!swizzleTest)
             GL33.glPixelStorei(GL33.GL_UNPACK_ALIGNMENT, 1)
 
         GL33.glTexImage2D(
@@ -247,9 +246,9 @@ open class RenderUtilImpl : RenderUtil() {
             width,
             height,
             0,
-            if(swizzleTest) GL33.GL_RGBA else GL33.GL_ALPHA,
+            if (swizzleTest) GL33.GL_RGBA else GL33.GL_ALPHA,
             GL33.GL_UNSIGNED_BYTE,
-            if(swizzleTest) swizzleDisabledGrayscaleBuffer(buf, width, height) else buf
+            if (swizzleTest) swizzleDisabledGrayscaleBuffer(buf, width, height) else buf
         )
     }
 }
@@ -349,7 +348,8 @@ abstract class RenderUtil {
     abstract fun scale(x: Double, y: Double, z: Double)
     open fun readyRender() {}
 
-    fun fixScale(width: Int, height: Int, newWidth: Int, newHeight: Int, x: () -> Unit) = fixScale(width.toDouble(), height.toDouble(), newWidth.toDouble(), newHeight.toDouble(), x)
+    fun fixScale(width: Int, height: Int, newWidth: Int, newHeight: Int, x: () -> Unit) =
+        fixScale(width.toDouble(), height.toDouble(), newWidth.toDouble(), newHeight.toDouble(), x)
 
     fun fixScale(width: Double, height: Double, newWidth: Double, newHeight: Double, x: () -> Unit) {
         push {

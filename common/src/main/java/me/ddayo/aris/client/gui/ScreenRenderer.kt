@@ -27,11 +27,11 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
     var canExitWithEsc = true
 
     @LuaProperty("window_width", exportPropertySetter = false)
-    var windowWidth = 0.0
+    var windowWidth = fixedWidth
         private set
 
     @LuaProperty("window_height", exportPropertySetter = false)
-    var windowHeight = 0.0
+    var windowHeight = fixedHeight
         private set
 
     /* May dependent to Minecraft */

@@ -5,7 +5,7 @@ import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import org.apache.logging.log4j.LogManager
 
-@LuaProvider
+@LuaProvider(library = "aris")
 object BaseFunction {
     private val logger = LogManager.getLogger()
     @LuaFunction("log_debug")

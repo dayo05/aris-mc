@@ -9,7 +9,7 @@ import kotlin.math.abs
 import kotlin.math.min
 
 
-@LuaProvider
+@LuaProvider(library = "aris.math")
 object AreaFunctions {
     /**
      * @param x x of left-top point
