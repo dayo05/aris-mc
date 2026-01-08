@@ -107,7 +107,7 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
      */
     @LuaFunction(name = "add_damage")
     fun addDamage(damage: Double) {
-        inner.hurt(inner.damageSources().fellOutOfWorld(), damage.toFloat())
+        inner.hurt(inner.damageSources().generic(), damage.toFloat())
     }
 
     @LuaFunction("add_velocity")
