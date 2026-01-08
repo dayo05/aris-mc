@@ -9,6 +9,8 @@ import me.ddayo.aris.luagen.LuaProvider
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.util.ListExtensions.mutableForEach
+import kotlin.math.cos
+import kotlin.math.sin
 
 @LuaProvider(ClientMainEngine.PROVIDER)
 open class BaseComponent : ILuaStaticDecl by LuaClientOnlyGenerated.BaseComponent_LuaGenerated {
@@ -17,6 +19,15 @@ open class BaseComponent : ILuaStaticDecl by LuaClientOnlyGenerated.BaseComponen
 
     @LuaProperty
     var y = 0.0
+
+    @LuaProperty
+    var rotation = 0.0
+
+    @LuaProperty("anchor_x")
+    var anchorX = 0.0
+
+    @LuaProperty("anchor_y")
+    var anchorY = 0.0
 
     @LuaProperty(name = "is_scale_rate_fixed")
     open val isScaleRateFixed = false
@@ -57,10 +68,11 @@ open class BaseComponent : ILuaStaticDecl by LuaClientOnlyGenerated.BaseComponen
         r.apply {
             push {
                 translate(x, y, 0.0)
+                rotate(0.0, 0.0, Math.toRadians(rotation))
                 scale(xScale, yScale, 1.0)
+                translate(-anchorX, -anchorY, 0.0)
 
-                val nmx = (mx - x) / xScale
-                val nmy = (my - y) / yScale
+                val (nmx, nmy) = getLocalMouse(mx, my)
 
                 renderHooks.mutableForEach {
                     it.call(nmx, nmy, delta)
@@ -113,14 +125,30 @@ open class BaseComponent : ILuaStaticDecl by LuaClientOnlyGenerated.BaseComponen
     open fun RenderUtil._render(mx: Double, my: Double, delta: Float) {}
 
     fun onMouseRelease(mx: Double, my: Double, button: Int): Boolean {
-        val nmx = (mx - x) / xScale
-        val nmy = (my - y) / yScale
+        if (!isVisible || !isActive) return false
+        val (nmx, nmy) = getLocalMouse(mx, my)
         if (this is IClickableElement)
             if(clicked(nmx, nmy, button)) return true
         addedWidgets.mutableForEach {
             if(it.onMouseRelease(nmx, nmy, button)) return true
         }
         return false
+    }
+
+    private fun getLocalMouse(mx: Double, my: Double): Pair<Double, Double> {
+        val dx = mx - x
+        val dy = my - y
+
+        val (rdx, rdy) = if (rotation == 0.0) {
+            dx to dy
+        } else {
+            val rad = Math.toRadians(-rotation)
+            val c = cos(rad)
+            val s = sin(rad)
+            (dx * c - dy * s) to (dx * s + dy * c)
+        }
+
+        return ((rdx / xScale) + anchorX) to ((rdy / yScale) + anchorY)
     }
 
     @LuaProperty(exportPropertySetter = false)
