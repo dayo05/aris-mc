@@ -9,6 +9,7 @@ import me.ddayo.aris.fabriclike.ServerNetworking
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
+import org.apache.logging.log4j.LogManager
 import java.io.File
 
 object ClientNetworking {

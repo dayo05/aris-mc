@@ -12,15 +12,31 @@ import net.minecraft.client.renderer.GameRenderer
 
 @LuaProvider(ClientMainEngine.PROVIDER)
 class ScriptColorRenderer(
+    /**
+     * The red component of the color (0-255).
+     */
     @LuaProperty
     var r: Int,
+    /**
+     * The green component of the color (0-255).
+     */
     @LuaProperty
     var g: Int,
+    /**
+     * The blue component of the color (0-255).
+     */
     @LuaProperty
     var b: Int,
+    /**
+     * The alpha component of the color (0-255).
+     */
     @LuaProperty
     var a: Int
 ) : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGenerated.ScriptColorRenderer_LuaGenerated {
+    /**
+     * The full color value packed into a Long (ARGB format).
+     * Setting this updates [r], [g], [b], and [a].
+     */
     @LuaProperty
     var color: Long
         get() = (r.toLong() shl 16) or (g.toLong() shl 8) or b.toLong() or (a.toLong() shl 24)

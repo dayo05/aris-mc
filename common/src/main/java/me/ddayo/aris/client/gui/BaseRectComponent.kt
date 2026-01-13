@@ -9,6 +9,10 @@ import me.ddayo.aris.luagen.LuaProvider
 @LuaProvider(ClientMainEngine.PROVIDER)
 open class BaseRectComponent : BaseComponent(),
     ILuaStaticDecl by LuaClientOnlyGenerated.BaseRectComponent_LuaGenerated {
+    /**
+     * The visual width of the component.
+     * Setting this updates [xScale] based on [fixedWidth].
+     */
     @LuaProperty("width")
     var width = 1.0
         set(value) {
@@ -16,6 +20,10 @@ open class BaseRectComponent : BaseComponent(),
             field = value
         }
 
+    /**
+     * The visual height of the component.
+     * Setting this updates [yScale] based on [fixedHeight].
+     */
     @LuaProperty("height")
     var height = 1.0
         set(value) {
@@ -23,6 +31,10 @@ open class BaseRectComponent : BaseComponent(),
             field = value
         }
 
+    /**
+     * The internal reference width (e.g., texture width).
+     * Changing this recalculates [xScale] to maintain visual [width].
+     */
     @LuaProperty("fixed_width")
     var fixedWidth = 1.0
         set(value) {
@@ -30,6 +42,10 @@ open class BaseRectComponent : BaseComponent(),
             field = value
         }
 
+    /**
+     * The internal reference height (e.g., texture height).
+     * Changing this recalculates [yScale] to maintain visual [height].
+     */
     @LuaProperty("fixed_height")
     var fixedHeight = 1.0
         set(value) {

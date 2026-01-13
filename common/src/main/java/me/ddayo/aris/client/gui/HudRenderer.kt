@@ -14,11 +14,21 @@ TODO: This may replaced into IN_GAME_ONLY
  */
 @LuaProvider(ClientMainEngine.PROVIDER)
 class HudRenderer: BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGenerated.HudRenderer_LuaGenerated {
+    /**
+     * Registers this renderer to the in-game HUD engine, making it visible on the HUD.
+     *
+     * @param engine The game engine instance (retrieved automatically).
+     */
     @LuaFunction(name = "open_hud")
     fun openHud(@RetrieveEngine engine: ClientInGameEngine) {
         engine.enabledHud.add(this)
     }
 
+    /**
+     * Unregisters this renderer from the in-game HUD engine.
+     *
+     * @param engine The game engine instance (retrieved automatically).
+     */
     @LuaFunction(name = "close_hud")
     fun closeHud(@RetrieveEngine engine: ClientInGameEngine) {
         if(!engine.enabledHud.remove(this))

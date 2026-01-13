@@ -15,6 +15,9 @@ import net.minecraft.client.renderer.GameRenderer
 
 @LuaProvider(ClientMainEngine.PROVIDER)
 class ScriptImageRenderer(
+    /**
+     * The image resource to be rendered.
+     */
     @LuaProperty(name = "image")
     var resource: ImageResource
 ) : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGenerated.ScriptImageRenderer_LuaGenerated {
@@ -30,24 +33,41 @@ class ScriptImageRenderer(
     private var tv1 = 0.0
     private var tv2 = 1.0
 
+    /**
+     * Returns the UV coordinates of the first corner.
+     * @return MultiReturn(u, v)
+     */
     @LuaFunction("get_uv1")
     fun getUV1() = LuaMultiReturn(th1, tv1)
 
+    /**
+     * Returns the UV coordinates of the second corner.
+     * @return MultiReturn(u, v)
+     */
     @LuaFunction("get_uv2")
     fun getUV2() = LuaMultiReturn(th2, tv2)
 
+    /**
+     * Sets the UV coordinates for the first corner.
+     */
     @LuaFunction("set_uv1")
     fun setUV1(u: Double, v: Double) {
         th1 = u
         tv1 = v
     }
 
+    /**
+     * Sets the UV coordinates for the second corner.
+     */
     @LuaFunction("set_uv2")
     fun setUV2(u: Double, v: Double) {
         th2 = u
         tv2 = v
     }
 
+    /**
+     * Crops the image UV from the top-left (UV1) side, adjusting position and size to match visual changes.
+     */
     @LuaFunction("crop_uv1")
     fun cropUV1(u: Double, v: Double) {
         x = x - width / th1 + width / u
@@ -58,6 +78,9 @@ class ScriptImageRenderer(
         tv1 = v
     }
 
+    /**
+     * Crops the image UV from the bottom-right (UV2) side, adjusting size to match.
+     */
     @LuaFunction("crop_uv2")
     fun cropUV2(u: Double, v: Double) {
         width = width * (u - th1) / (th2 - th1)

@@ -12,6 +12,9 @@ import me.ddayo.aris.luagen.LuaProvider
 @LuaProvider(ClientMainEngine.PROVIDER)
 class ScriptClickableRenderer(
     private val clickHook: () -> Unit,
+    /**
+     * The area within which clicks are detected.
+     */
     @LuaProperty
     var area: Area
 ) : ILuaStaticDecl by LuaClientOnlyGenerated.ScriptClickableRenderer_LuaGenerated, BaseComponent(), IClickableElement {

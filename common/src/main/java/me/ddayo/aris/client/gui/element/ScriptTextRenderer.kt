@@ -11,9 +11,15 @@ import net.minecraft.client.gui.Font
 
 @LuaProvider(ClientMainEngine.PROVIDER)
 class ScriptDefaultTextRenderer(
+    /**
+     * The text string to display.
+     */
     @LuaProperty
     var text: String,
     private val font: Font,
+    /**
+     * The text color.
+     */
     @LuaProperty
     var color: Int
 ) : BaseComponent(),

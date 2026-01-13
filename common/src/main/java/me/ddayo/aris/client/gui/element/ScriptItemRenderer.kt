@@ -22,6 +22,9 @@ class ScriptItemRenderer(
 
     override val isScaleRateFixed = true
 
+    /**
+     * The Minecraft item to render, wrapped for Lua access.
+     */
     @LuaProperty("item")
     var luaItem
         get() = LuaItemStack(item)
