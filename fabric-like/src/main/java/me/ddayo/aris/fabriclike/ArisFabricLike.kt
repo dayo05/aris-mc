@@ -9,6 +9,7 @@ import me.ddayo.aris.engine.wrapper.LuaPlayerEntity
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
@@ -19,7 +20,7 @@ import net.minecraft.world.InteractionResultHolder
 object ArisFabricLike {
     fun init() {
         Aris.init()
-        ServerPlayConnectionEvents.JOIN.register { handler, sender, server ->
+        ServerLifecycleEvents.SERVER_STARTING.register { server ->
             Aris.onServerStart(server)
         }
         ServerTickEvents.START_SERVER_TICK.register {

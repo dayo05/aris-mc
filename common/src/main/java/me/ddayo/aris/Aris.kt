@@ -68,6 +68,7 @@ object Aris {
     fun onServerStart(server: MinecraftServer) {
         this.server = server
         InGameEngine.createEngine(LuaJit())
+        InGameEngine.INSTANCE!!.loop()
     }
 
     fun onServerTick() {
@@ -81,6 +82,7 @@ object Aris {
         InGameEngine.INSTANCE?.run {
             InGameEngine.disposeEngine()
             InGameEngine.createEngine(LuaJit())
+            InGameEngine.INSTANCE!!.loop()
         }
     }
 
