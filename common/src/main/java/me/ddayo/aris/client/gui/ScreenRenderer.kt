@@ -72,7 +72,11 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
                 super.render(guiGraphics, i, j, f)
             }
 
-            override fun mouseReleased(i: Double, j: Double, button: Int) = onMouseRelease(i, j, button)
+            override fun mouseClicked(i: Double, j: Double, button: Int) = onMouseDown(i, j, button)
+
+            override fun mouseDragged(i: Double, j: Double, button: Int, f: Double, g: Double) = onMouseDrag(i, j, button)
+
+            override fun mouseReleased(i: Double, j: Double, button: Int) = onMouseUp(i, j, button)
 
             override fun onClose() {
                 super.onClose()

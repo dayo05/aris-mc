@@ -66,7 +66,7 @@ object ClientFunction {
      */
     @LuaFunction("create_clickable")
     fun createClickable(onClick: LuaFunc, area: Area) =
-        ScriptClickableRenderer({ onClick.call() }, area)
+        ScriptMouseHandlerRenderer(onClick::call, area)
 
     /**
      * Creates an invisible clickable component defined by a rectangle.
@@ -78,7 +78,7 @@ object ClientFunction {
      */
     @LuaFunction("create_clickable")
     fun createClickable(onClick: LuaFunc, x: Int, y: Int, width: Int, height: Int) =
-        ScriptClickableRenderer(
+        ScriptMouseHandlerRenderer(
             onClick::call,
             Area(x with y, x with (y + height), (x + width) with (y + height), (x + width) with y)
         )

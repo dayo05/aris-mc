@@ -3,7 +3,7 @@ package me.ddayo.aris.client.gui
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.client.ClientMainEngine
-import me.ddayo.aris.client.gui.element.IClickableElement
+import me.ddayo.aris.client.gui.element.IMouseHandlerElement
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
@@ -201,13 +201,35 @@ open class BaseComponent : ILuaStaticDecl by LuaClientOnlyGenerated.BaseComponen
 
     open fun RenderUtil._render(mx: Double, my: Double, delta: Float) {}
 
-    fun onMouseRelease(mx: Double, my: Double, button: Int): Boolean {
+    fun onMouseDown(mx: Double, my: Double, button: Int): Boolean {
         if (!isVisible || !isActive) return false
         val (nmx, nmy) = getLocalMouse(mx, my)
-        if (this is IClickableElement)
-            if(clicked(nmx, nmy, button)) return true
+        if (this is IMouseHandlerElement)
+            if(mouseDown(nmx, nmy, button)) return true
         addedWidgets.mutableForEach {
-            if(it.onMouseRelease(nmx, nmy, button)) return true
+            if(it.onMouseDown(nmx, nmy, button)) return true
+        }
+        return false
+    }
+
+    fun onMouseDrag(mx: Double, my: Double, button: Int): Boolean {
+        if (!isVisible || !isActive) return false
+        val (nmx, nmy) = getLocalMouse(mx, my)
+        if (this is IMouseHandlerElement)
+            if(mouseDrag(nmx, nmy, button)) return true
+        addedWidgets.mutableForEach {
+            if(it.onMouseDrag(nmx, nmy, button)) return true
+        }
+        return false
+    }
+
+    fun onMouseUp(mx: Double, my: Double, button: Int): Boolean {
+        if (!isVisible || !isActive) return false
+        val (nmx, nmy) = getLocalMouse(mx, my)
+        if (this is IMouseHandlerElement)
+            if(mouseUp(nmx, nmy, button)) return true
+        addedWidgets.mutableForEach {
+            if(it.onMouseUp(nmx, nmy, button)) return true
         }
         return false
     }
