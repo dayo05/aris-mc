@@ -3,6 +3,7 @@ package me.ddayo.aris.math
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.lua.glue.LuaGenerated
 import me.ddayo.aris.luagen.LuaFunction
+import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.luagen.LuaProvider
 import me.ddayo.aris.math.Point
 import me.ddayo.aris.math.Point.Companion.with
@@ -26,7 +27,7 @@ object PointFunctions {
 }
 
 @LuaProvider
-data class Point3(val x: Double, val y: Double, val z: Double): ILuaStaticDecl by LuaGenerated.Point3_LuaGenerated {
+data class Point3(@LuaProperty var x: Double, @LuaProperty var y: Double, @LuaProperty var z: Double): ILuaStaticDecl by LuaGenerated.Point3_LuaGenerated {
     constructor(x: Int, y: Int, z: Int): this(x.toDouble(), y.toDouble(), z.toDouble())
 
     @LuaFunction
@@ -44,7 +45,7 @@ data class Point3(val x: Double, val y: Double, val z: Double): ILuaStaticDecl b
 }
 
 @LuaProvider
-data class Point(val x: Double, val y: Double): ILuaStaticDecl by LuaGenerated.Point_LuaGenerated {
+data class Point(@LuaProperty var x: Double, @LuaProperty var y: Double): ILuaStaticDecl by LuaGenerated.Point_LuaGenerated {
     constructor(x: Int, y: Int): this(x.toDouble(), y.toDouble())
 
     companion object {
