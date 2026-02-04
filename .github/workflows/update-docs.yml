@@ -1,0 +1,73 @@
+name: Update Documentation
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  generate-and-publish-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Grants permission to push the commit back to the repo
+
+    steps:
+      # 1. Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up Java (Update version as needed)
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      # 3. Setup Gradle (Caches dependencies automatically)
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      # 4. Run the Gradle build to generate the files
+      - name: Build with Gradle
+        run: ./gradlew common:kspKotlin
+
+      # 5. Copy the generated files to docs/
+      - name: Update Docs Directory
+        run: |
+          echo "Preparing to copy documentation..."
+          
+          # Define source and destination
+          SOURCE_DIR="common/build/generated/ksp/main/resources"
+          DEST_DIR="docs"
+          
+          # Check if source exists to prevent errors
+          if [ -d "$SOURCE_DIR" ]; then
+            # Ensure destination exists
+            mkdir -p "$DEST_DIR"
+          
+            # clear existing docs to ensure strict overwrite (remove stale files)
+            rm -rf "$DEST_DIR"/*
+          
+            # Copy new content
+            cp -r "$SOURCE_DIR"/* "$DEST_DIR"/
+            echo "Documentation copied successfully."
+          else
+            echo "Error: Source directory $SOURCE_DIR not found!"
+            exit 1
+          fi
+
+      # 6. Commit and Push changes
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add docs/
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes detected in documentation. Skipping push."
+          else
+            git commit -m "chore: update documentation [skip ci]"
+            git push
+          fi
