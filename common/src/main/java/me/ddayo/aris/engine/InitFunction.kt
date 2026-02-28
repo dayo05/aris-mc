@@ -20,9 +20,9 @@ object InitFunction {
      */
     @LuaFunction("create_item")
     fun registerItem(key: String) {
-        RegistryHelper.registerItem(ResourceLocation(Aris.MOD_ID, key)) {
+        RegistryHelper.registerItem(RegistryHelper.getResourceLocation(key)) {
             ScriptableItem(
-                ResourceLocation(Aris.MOD_ID, key),
+                RegistryHelper.getResourceLocation(key),
                 Item.Properties()
             )
         }
@@ -30,6 +30,6 @@ object InitFunction {
 
     @LuaFunction("create_particle")
     fun createParticle(key: String) {
-        RegistryHelper.registerParticle(ResourceLocation(Aris.MOD_ID, key))
+        RegistryHelper.registerParticle(RegistryHelper.getResourceLocation(key))
     }
 }

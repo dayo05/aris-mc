@@ -2,6 +2,7 @@ package me.ddayo.aris.engine.networking
 
 import dev.architectury.injectables.annotations.ExpectPlatform
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.hook.client.ClientNetworkingHooks
 import me.ddayo.aris.luagen.LuaFunc
@@ -29,7 +30,7 @@ object C2SPacketSenderHandler {
      */
     @LuaFunction("create_c2s_packet_builder")
     fun createPacketBuilder(of: String): PacketDeclaration.Builder {
-        return C2SPacketHandler.packets[ResourceLocation(Aris.MOD_ID, of)]!!.Builder()
+        return C2SPacketHandler.packets[RegistryHelper.getResourceLocation(of)]!!.Builder()
     }
 }
 

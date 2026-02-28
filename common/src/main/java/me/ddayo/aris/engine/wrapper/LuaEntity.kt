@@ -45,7 +45,7 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
      * 엔티티의 표시된 이름을 가져옵니다.
      */
     @LuaProperty("display_name")
-    val displayName get() = inner.displayName.string
+    val displayName get() = inner.displayName?.string ?: name
 
     /**
      * 엔티티의 커스텀 이름을 설정하거나 가져올 수 있습니다.
@@ -212,12 +212,12 @@ open class LuaLivingEntity(val living: LivingEntity) : LuaEntity(living),
 
     @LuaFunction(name = "remove_effect")
     fun removeEffect(of: String) {
-        living.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation(of))!!)
+        living.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(of)).get())
     }
 
     @LuaFunction(name = "remove_effect")
     fun removeEffect(ns: String, of: String) {
-        living.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation(ns, of))!!)
+        living.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.tryBuild(ns, of)!!).get())
     }
 
     @LuaProperty

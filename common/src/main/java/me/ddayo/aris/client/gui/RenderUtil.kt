@@ -1,17 +1,14 @@
 package me.ddayo.aris.client.gui
 
 import com.mojang.blaze3d.platform.GlStateManager
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.*
-import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import org.apache.logging.log4j.LogManager
-import org.joml.Matrix4f
 import org.joml.Quaternionf
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL33
@@ -22,16 +19,11 @@ import kotlin.math.sqrt
 
 open class RenderUtilImpl : RenderUtil() {
     override fun readyRender() {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader)
-    }
 
-    private fun bindTexture(idf: ResourceLocation) {
-        // Minecraft.getInstance().textureManager.bindForSetup(idf)
-        RenderSystem.setShaderTexture(0, idf)
     }
 
     override fun _useTexture(x: String) {
-        bindTexture(ResourceLocation(Aris.MOD_ID, "textures/$x"))
+        currentTexture = RegistryHelper.getResourceLocation("textures/$x")
     }
 
     override fun _useTexture(x: ImageResource) {
@@ -39,13 +31,12 @@ open class RenderUtilImpl : RenderUtil() {
     }
 
     override fun unbindTexture() {
-        bindTexture(ResourceLocation(Aris.MOD_ID, "textures/dummy.png"))
+        currentTexture = null
     }
 
     override fun resourceExists(x: String): Boolean {
         return Minecraft.getInstance().resourceManager.getResource(
-            ResourceLocation(
-                Aris.MOD_ID,
+            RegistryHelper.getResourceLocation(
                 "textures/$x"
             )
         ).isPresent
@@ -83,8 +74,10 @@ open class RenderUtilImpl : RenderUtil() {
     ) = fillRender(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat(), r, g, b, a)
 
     fun fillRender(x: Float, y: Float, w: Float, h: Float, r: Int, g: Int, b: Int, a: Int) {
-        graphics.bufferSource().getBuffer(RenderType.gui()).apply {
-            quads(x, y, w, h, r, g, b, a)
+        graphics.drawSpecial {
+            it.getBuffer(RenderType.gui()).apply {
+                quads(x, y, w, h, r, g, b, a)
+            }
         }
     }
 
@@ -100,45 +93,20 @@ open class RenderUtilImpl : RenderUtil() {
     ) = fillRender(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat(), r, g, b, a)
 
     fun fillRender(x: Float, y: Float, w: Float, h: Float, r: Float, g: Float, b: Float, a: Float) {
-        graphics.bufferSource().getBuffer(RenderType.gui()).apply {
-            quadColor(x, y, w, h, r, g, b, a)
+        graphics.drawSpecial {
+            it.getBuffer(RenderType.gui()).apply {
+                quadColor(x, y, w, h, r, g, b, a)
+            }
         }
     }
 
     fun render(x: Float, y: Float, w: Float, h: Float, th1: Float, th2: Float, tv1: Float, tv2: Float) {
-        Tesselator.getInstance().apply {
-            builder.apply {
-                begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX)
-                quads(x, y, w, h, th1, th2, tv1, tv2)
-            }
-            end()
+        graphics.drawSpecial {
+            it.getBuffer(RenderType.guiTexturedOverlay(currentTexture))
+                .apply {
+                    quadColorTex(x, y, w, h, th1, th2, tv1, tv2, 1f, 1f, 1f, 1f)
+                }
         }
-    }
-
-    override fun renderColorTex(x: Float, y: Float, w: Float, h: Float, r: Float, g: Float, b: Float, a: Float) {
-        Tesselator.getInstance().apply {
-            builder.apply {
-                begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX)
-                quadColorTex(x, y, w, h, 0.0f, 1.0f, 0.0f, 1.0f, r, g, b, a)
-            }
-            end()
-        }
-    }
-
-    private fun VertexConsumer.quads(
-        x: Float,
-        y: Float,
-        w: Float,
-        h: Float,
-        th1: Float,
-        th2: Float,
-        tv1: Float,
-        tv2: Float
-    ) {
-        vertex(matrix.last().pose(), x, y + h, 0.0f).uv(th1, tv2).endVertex()
-        vertex(matrix.last().pose(), x + w, y + h, 0.0f).uv(th2, tv2).endVertex()
-        vertex(matrix.last().pose(), x + w, y, 0.0f).uv(th2, tv1).endVertex()
-        vertex(matrix.last().pose(), x, y, 0.0f).uv(th1, tv1).endVertex()
     }
 
     private fun VertexConsumer.quadColorTex(
@@ -155,17 +123,17 @@ open class RenderUtilImpl : RenderUtil() {
         b: Float,
         a: Float
     ) {
-        vertex(matrix.last().pose(), x, y + h, 0.0f).color(r, g, b, a).uv(th1, tv2).endVertex()
-        vertex(matrix.last().pose(), x + w, y + h, 0.0f).color(r, g, b, a).uv(th2, tv2).endVertex()
-        vertex(matrix.last().pose(), x + w, y, 0.0f).color(r, g, b, a).uv(th2, tv1).endVertex()
-        vertex(matrix.last().pose(), x, y, 0.0f).color(r, g, b, a).uv(th1, tv1).endVertex()
+        addVertex(matrix.last().pose(), x, y + h, 0.0f).setColor(r, g, b, a).setUv(th1, tv2)
+        addVertex(matrix.last().pose(), x + w, y + h, 0.0f).setColor(r, g, b, a).setUv(th2, tv2)
+        addVertex(matrix.last().pose(), x + w, y, 0.0f).setColor(r, g, b, a).setUv(th2, tv1)
+        addVertex(matrix.last().pose(), x, y, 0.0f).setColor(r, g, b, a).setUv(th1, tv1)
     }
 
     private fun VertexConsumer.quads(x: Float, y: Float, w: Float, h: Float, r: Int, g: Int, b: Int, a: Int) {
-        vertex(matrix.last().pose(), x, y + h, 0.0f).color(r, g, b, a).endVertex()
-        vertex(matrix.last().pose(), x + w, y + h, 0.0f).color(r, g, b, a).endVertex()
-        vertex(matrix.last().pose(), x + w, y, 0.0f).color(r, g, b, a).endVertex()
-        vertex(matrix.last().pose(), x, y, 0.0f).color(r, g, b, a).endVertex()
+        addVertex(matrix.last().pose(), x, y + h, 0.0f).setColor(r, g, b, a)
+        addVertex(matrix.last().pose(), x + w, y + h, 0.0f).setColor(r, g, b, a)
+        addVertex(matrix.last().pose(), x + w, y, 0.0f).setColor(r, g, b, a)
+        addVertex(matrix.last().pose(), x, y, 0.0f).setColor(r, g, b, a)
     }
 
     private fun VertexConsumer.quadColor(
@@ -178,15 +146,11 @@ open class RenderUtilImpl : RenderUtil() {
         b: Float,
         a: Float
     ) {
-        vertex(matrix.last().pose(), x, y + h, 0.0f).color(r, g, b, a).endVertex()
-        vertex(matrix.last().pose(), x + w, y + h, 0.0f).color(r, g, b, a).endVertex()
-        vertex(matrix.last().pose(), x + w, y, 0.0f).color(r, g, b, a).endVertex()
-        vertex(matrix.last().pose(), x, y, 0.0f).color(r, g, b, a).endVertex()
+        addVertex(matrix.last().pose(), x, y + h, 0.0f).setColor(r, g, b, a)
+        addVertex(matrix.last().pose(), x + w, y + h, 0.0f).setColor(r, g, b, a)
+        addVertex(matrix.last().pose(), x + w, y, 0.0f).setColor(r, g, b, a)
+        addVertex(matrix.last().pose(), x, y, 0.0f).setColor(r, g, b, a)
     }
-
-    override fun getTexWidth() = GL33.glGetTexLevelParameteri(GL33.GL_TEXTURE_2D, 0, GL33.GL_TEXTURE_WIDTH)
-
-    override fun getTexHeight() = GL33.glGetTexLevelParameteri(GL33.GL_TEXTURE_2D, 0, GL33.GL_TEXTURE_HEIGHT)
 
     override fun push() = matrix.pushPose()
     override fun pop() = matrix.popPose()
@@ -227,7 +191,7 @@ open class RenderUtilImpl : RenderUtil() {
             GL33.glTexParameteri(GL33.GL_TEXTURE_2D, GL33.GL_TEXTURE_SWIZZLE_R, GL33.GL_ALPHA)
             val gle = GL33.glGetError()
             if (gle != GL33.GL_NO_ERROR) { // test swizzle
-                Minecraft.getInstance().player?.sendSystemMessage(Component.literal("GPU 드라이버 문제가 감지되어 느린 방법으로 우회합니다."))
+                Minecraft.getInstance().player?.displayClientMessage(Component.literal("GPU 드라이버 문제가 감지되어 느린 방법으로 우회합니다."), false)
                 LogManager.getLogger()
                     .error("OpenGL error $gle: Cannot use auto swizzle with texture. On next try, it will uses cpu based method.")
                 swizzleTest = true
@@ -254,6 +218,8 @@ open class RenderUtilImpl : RenderUtil() {
 }
 
 abstract class RenderUtil {
+    var currentTexture: ResourceLocation? = null
+
     companion object {
         val renderer: RenderUtil = RenderUtilImpl()
     }
@@ -315,25 +281,10 @@ abstract class RenderUtil {
     fun _render(x: Int, y: Int, w: Int, h: Int) = _render(x.toDouble(), y.toDouble(), w.toDouble(), h.toDouble())
 
     fun _render(x: Double, y: Double, w: Double, h: Double) = _render(x, y, w, h, 0.0, 1.0, 0.0, 1.0)
-    fun renderColorTex(x: Double, y: Double, w: Double, h: Double, r: Double, g: Double, b: Double, a: Double) =
-        renderColorTex(
-            x.toFloat(),
-            y.toFloat(),
-            w.toFloat(),
-            h.toFloat(),
-            r.toFloat(),
-            g.toFloat(),
-            b.toFloat(),
-            a.toFloat()
-        )
 
     abstract fun fillRender(x: Double, y: Double, w: Double, h: Double, r: Int, g: Int, b: Int, a: Int)
     abstract fun fillRender(x: Double, y: Double, w: Double, h: Double, r: Float, g: Float, b: Float, a: Float)
     abstract fun _render(x: Double, y: Double, w: Double, h: Double, th1: Double, th2: Double, tv1: Double, tv2: Double)
-    abstract fun renderColorTex(x: Float, y: Float, w: Float, h: Float, r: Float, g: Float, b: Float, a: Float)
-
-    abstract fun getTexWidth(): Int
-    abstract fun getTexHeight(): Int
 
     abstract fun push()
     abstract fun pop()

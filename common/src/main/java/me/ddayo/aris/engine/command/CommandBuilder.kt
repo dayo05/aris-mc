@@ -7,6 +7,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InGameEngine
@@ -58,7 +59,7 @@ object CommandBuilderFunctions {
      */
     @LuaFunction("integer_arg")
     fun intArg(of: String) = object : AbstractCommandHandler() {
-        val rl = ResourceLocation(Aris.MOD_ID, of)
+        val rl = RegistryHelper.getResourceLocation(of)
         override fun retrieve() = Commands.argument(of, IntegerArgumentType.integer())
         override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
             builder.inner[rl] = IntegerArgumentType.getInteger(ctx, of)
@@ -72,7 +73,7 @@ object CommandBuilderFunctions {
      */
     @LuaFunction("float_arg")
     fun floatArg(of: String) = object : AbstractCommandHandler() {
-        val rl = ResourceLocation(Aris.MOD_ID, of)
+        val rl = RegistryHelper.getResourceLocation(of)
         override fun retrieve() = Commands.argument(of, DoubleArgumentType.doubleArg())
         override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
             builder.inner[rl] = DoubleArgumentType.getDouble(ctx, of)
@@ -85,7 +86,7 @@ object CommandBuilderFunctions {
      */
     @LuaFunction("player_arg")
     fun playerArg(of: String) = object : AbstractCommandHandler() {
-        val rl = ResourceLocation(Aris.MOD_ID, of)
+        val rl = RegistryHelper.getResourceLocation(of)
         override fun retrieve() = Commands.argument(of, EntityArgument.player())
         override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
             builder.inner[rl] = LuaServerPlayer(EntityArgument.getPlayer(ctx, of))
@@ -108,7 +109,7 @@ object CommandBuilderFunctions {
             ) { /* Nothing to write */
             }
         }
-        commands[ResourceLocation(Aris.MOD_ID, of)] = r
+        commands[RegistryHelper.getResourceLocation(of)] = r
         return r
     }
 
@@ -129,7 +130,7 @@ abstract class AbstractCommandHandler : ILuaStaticDecl by InitGenerated.Abstract
      */
     @LuaFunction("set_endpoint")
     fun setEndpoint(of: String) {
-        endpoint = ResourceLocation(Aris.MOD_ID, of)
+        endpoint = RegistryHelper.getResourceLocation(of)
     }
 
     @LuaFunction

@@ -42,11 +42,10 @@ object ArisForgeClientEvents {
             }
         }
     }
-
     @SubscribeEvent
-    fun onRenderGuiOverlay(event: RenderGuiOverlayEvent.Post) {
+    fun onRenderGuiOverlay(event: RenderGuiLayerEvent.Post) {
         val graphics: GuiGraphics = event.guiGraphics
-        val delta = event.partialTick
+        val delta = event.partialTick.getRealtimeDeltaTicks()
         ClientInGameEngine.INSTANCE?.renderHud(graphics, delta)
     }
 }

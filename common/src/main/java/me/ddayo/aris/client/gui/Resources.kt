@@ -2,13 +2,14 @@ package me.ddayo.aris.client.gui
 
 import com.mojang.blaze3d.platform.NativeImage
 import com.mojang.blaze3d.systems.RenderSystem
-import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import org.apache.logging.log4j.LogManager
 import org.lwjgl.BufferUtils
+import org.lwjgl.stb.STBImage
 import org.lwjgl.stb.STBTTFontinfo
 import org.lwjgl.stb.STBTruetype
 import java.io.File
@@ -107,7 +108,6 @@ abstract class Resource(private val uri: String) {
         fun clearResource() {
             ImageResource.clearResource()
             FontResource.clearResource()
-            Minecraft.getInstance().player?.sendSystemMessage(Component.literal("Custom script resource reloaded!!"))
         }
     }
 }
@@ -249,7 +249,7 @@ class FontResource(uri: String) : Resource(uri) {
 class ImageResource(uri: String) : Resource(uri) {
     companion object {
         private var currentId = 0
-        fun getNewIdentifier() = ResourceLocation(Aris.MOD_ID, "private/images/${currentId++}")
+        fun getNewIdentifier() = RegistryHelper.getResourceLocation("private/images/${currentId++}")
         private val resourceMap = mutableMapOf<String, ImageResource>()
         fun getOrCreate(uri: String) = resourceMap.getOrPut(uri) { ImageResource(uri) }
 
@@ -259,12 +259,18 @@ class ImageResource(uri: String) : Resource(uri) {
                 if (it.value::rl.isInitialized && tm.getTexture(it.value.rl) != null)
                     tm.release(it.value.rl)
             }
+            resourceMap.clear()
         }
     }
 
     override val resourceType: ResourceType
         get() = ResourceType.Images
     private lateinit var rl: ResourceLocation
+
+    var width: Int = -1
+        private set
+    var height: Int = -1
+        private set
 
     fun loadAsTexture(): ResourceLocation? {
         if (::rl.isInitialized) return rl
@@ -274,7 +280,13 @@ class ImageResource(uri: String) : Resource(uri) {
             dbuf.flip()
             rl = getNewIdentifier()
 
-            Minecraft.getInstance().textureManager.register(rl, DynamicTexture(NativeImage.read(dbuf)))
+            val ni = NativeImage.read(dbuf)
+            width = ni.width
+            height = ni.height
+            Minecraft.getInstance().textureManager.register(rl, DynamicTexture(ni)
+                .apply {
+                    setFilter(false, false)
+                })
             rl
         }
     }
@@ -282,7 +294,7 @@ class ImageResource(uri: String) : Resource(uri) {
     fun bindTexture() {
         loadAsTexture()?.let {
             // Minecraft.getInstance().textureManager.bindForSetup(it)
-            RenderSystem.setShaderTexture(0, it)
+            RenderUtil.renderer.currentTexture = it
         }
     }
 

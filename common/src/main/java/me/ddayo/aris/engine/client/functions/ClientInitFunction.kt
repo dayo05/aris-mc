@@ -1,6 +1,7 @@
 package me.ddayo.aris.engine.client.functions
 
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.client.KeyBindingHelper
 import me.ddayo.aris.engine.client.ClientInitEngine
 import me.ddayo.aris.luagen.LuaFunction
@@ -29,7 +30,7 @@ object ClientInitFunction {
     @LuaFunction("create_particle_info")
     fun createParticleInfo(@RetrieveEngine engine: ClientInitEngine, key: String): ParticleInfo {
         val info = ParticleInfo()
-        engine.particleInfo[ResourceLocation(Aris.MOD_ID, key)] = info
+        engine.particleInfo[RegistryHelper.getResourceLocation(key)] = info
         return info
     }
 }

@@ -12,6 +12,7 @@ import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.luagen.LuaProvider
 import net.minecraft.client.renderer.GameRenderer
+import net.minecraft.client.renderer.RenderType
 
 @LuaProvider(ClientMainEngine.PROVIDER)
 class ScriptImageRenderer(
@@ -91,14 +92,13 @@ class ScriptImageRenderer(
 
     override fun RenderUtil._render(mx: Double, my: Double, delta: Float) {
         if (resource.isLoaded) {
-            RenderSystem.setShader(GameRenderer::getPositionTexShader)
             useTexture(resource) {
                 if (!imageLoaded) {
                     imageLoaded = true
                     if (width == 0.0)
-                        width = getTexWidth().toDouble()
+                        width = resource.width.toDouble()
                     if (height == 0.0)
-                        height = getTexHeight().toDouble()
+                        height = resource.height.toDouble()
                 }
 
                 _render(0.0, 0.0, 1.0, 1.0, th1, th2, tv1, tv2)

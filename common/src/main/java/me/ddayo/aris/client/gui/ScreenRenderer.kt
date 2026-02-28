@@ -1,18 +1,12 @@
 package me.ddayo.aris.client.gui
 
-import com.mojang.blaze3d.systems.RenderSystem
 import me.ddayo.aris.client.gui.element.IKeyboardHandlerElement
-import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.engine.client.ClientMainEngine
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
-import me.ddayo.aris.luagen.LuaFunc
-import me.ddayo.aris.luagen.LuaFunction
-import me.ddayo.aris.luagen.LuaProperty
-import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.luagen.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.Screen
-import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.network.chat.Component
 import org.apache.logging.log4j.LogManager
 
@@ -106,18 +100,17 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
 
         attachedScreen = object : Screen(Component.empty()), IKeyboardHandlerElement {
             override fun render(guiGraphics: GuiGraphics, i: Int, j: Int, f: Float) {
-                if (minecraft?.level != null)
-                    renderBackground(guiGraphics)
+                super.render(guiGraphics, i, j, f)
+                /*
+                if (minecraft?.level != null) renderBackground(guiGraphics, i, j, f)
                 else RenderUtil.renderer.loadMatrix(guiGraphics) {
-                    RenderSystem.setShader(GameRenderer::getPositionColorShader)
                     fillRender(0, 0, width, height, 0, 0, 0, 0xff)
                 }
+                 */
 
                 RenderUtil.renderer.loadMatrix(guiGraphics) {
                     this@ScreenRenderer.render(this, i.toDouble(), j.toDouble(), f)
                 }
-
-                super.render(guiGraphics, i, j, f)
             }
 
             override fun mouseClicked(i: Double, j: Double, button: Int) = onMouseDown(i, j, button)

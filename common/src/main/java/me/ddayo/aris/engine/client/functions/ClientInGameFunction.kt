@@ -28,7 +28,7 @@ object ClientInGameFunction {
      */
     @LuaFunction("send_system_message")
     fun sendSystemMessage(message: String) {
-        mc.player!!.sendSystemMessage(Component.literal(message))
+        mc.player!!.displayClientMessage(Component.literal(message), false)
     }
 
     /**
@@ -79,7 +79,7 @@ object ClientInGameFunction {
     @LuaFunction("item_used_duration")
     fun getUsedDuration(): Int {
         val player = Minecraft.getInstance().player!!
-        return player.useItem.useDuration - player.useItemRemainingTicks
+        return player.useItem.getUseDuration(player) - player.useItemRemainingTicks
     }
 
     /**

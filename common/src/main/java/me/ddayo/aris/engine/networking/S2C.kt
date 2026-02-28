@@ -2,6 +2,7 @@ package me.ddayo.aris.engine.networking
 
 import dev.architectury.injectables.annotations.ExpectPlatform
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InGameEngine
@@ -19,10 +20,6 @@ import org.apache.logging.log4j.LogManager
 
 @LuaProvider(InitEngine.PROVIDER)
 class S2CPacketDeclaration(id: ResourceLocation) : PacketDeclaration(id), ILuaStaticDecl by InitGenerated.S2CPacketDeclaration_LuaGenerated {
-    override fun parse(buf: FriendlyByteBuf): Array<Pair<ResourceLocation, Any?>> {
-        return frozen.map { it.first to it.second.process(buf) }.toTypedArray()
-    }
-
     override fun getFunction() = ClientNetworkingHooks.packetHooks[id]
 
     fun execute(parsed: Array<Pair<ResourceLocation, Any?>>) {
@@ -47,7 +44,7 @@ object S2CPacketHandler {
      */
     @LuaFunction("create_s2c_packet")
     fun createS2CPacket(_id: String): S2CPacketDeclaration {
-        val id = ResourceLocation(Aris.MOD_ID, _id)
+        val id = RegistryHelper.getResourceLocation(_id)
         val packet = S2CPacketDeclaration(id)
         packets[id] = packet
         return packet

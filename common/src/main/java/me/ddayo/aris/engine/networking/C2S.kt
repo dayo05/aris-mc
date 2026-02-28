@@ -2,6 +2,7 @@ package me.ddayo.aris.engine.networking
 
 import dev.architectury.injectables.annotations.ExpectPlatform
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InGameEngine
@@ -20,10 +21,6 @@ import org.apache.logging.log4j.LogManager
 
 @LuaProvider(InitEngine.PROVIDER)
 class C2SPacketDeclaration(id: ResourceLocation) : PacketDeclaration(id), ILuaStaticDecl by InitGenerated.C2SPacketDeclaration_LuaGenerated {
-    override fun parse(buf: FriendlyByteBuf): Array<Pair<ResourceLocation, Any?>> {
-        return frozen.map { it.first to it.second.process(buf) }.toTypedArray()
-    }
-
     override fun getFunction() = ServerNetworkingHooks.packetHooks[id]
 
     fun execute(player: ServerPlayer, parsed: Array<Pair<ResourceLocation, Any?>>) {
@@ -49,7 +46,7 @@ object C2SPacketHandler {
      */
     @LuaFunction("create_c2s_packet")
     fun createC2SPacket(_id: String): C2SPacketDeclaration {
-        val id = ResourceLocation(Aris.MOD_ID, _id)
+        val id = RegistryHelper.getResourceLocation(_id)
         val packet = C2SPacketDeclaration(id)
         packets[id] = packet
         return packet

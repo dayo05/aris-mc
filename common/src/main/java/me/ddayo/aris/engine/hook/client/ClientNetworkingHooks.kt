@@ -1,6 +1,7 @@
 package me.ddayo.aris.engine.hook.client
 
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.hook.LuaHookMap
 import me.ddayo.aris.luagen.LuaFunc
@@ -22,6 +23,6 @@ object ClientNetworkingHooks {
      */
     @LuaFunction("add_s2c_packet_handler")
     fun registerHandler(id: String, func: LuaFunc) {
-        packetHooks[ResourceLocation(Aris.MOD_ID, id)].add(func)
+        packetHooks[RegistryHelper.getResourceLocation(id)].add(func)
     }
 }

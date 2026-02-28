@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter
 import java.time.LocalDateTime
 
 buildscript {
-    ext.kotlin_version = '2.0.20'
+    ext.kotlin_version = '2.3.0'
     repositories {
         mavenCentral()
     }
@@ -73,7 +73,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release = 21
     }
 
     java {
@@ -89,123 +89,4 @@ repositories {
 }
 dependencies {
 
-}
-
-
-// Configurations
-ext.directoriesToUpload = ['common/build/generated/ksp/main/resources']  // List of directories
-ext.gistDesc = 'Lua functions for aris'
-ext.gistIsPublic = true // true → public gist
-if (!project.hasProperty("github_token") && System.getenv("GITHUB_TOKEN") == null) {
-    logger.warn('Set a personal access token in env var GITHUB_TOKEN')
-} else {
-    if(project.hasProperty("github_token"))
-        ext.token = project.github_token
-    else ext.token = System.getenv("GITHUB_TOKEN")
-}
-ext.user = 'dayo05'  // Set your GitHub username here
-
-
-// Function to find Gist ID by name
-def findGistIdByName(gistName) {
-    def url = "https://api.github.com/users/$user/gists"  // Fetch gists for the user
-    def request = HttpRequest.newBuilder()
-            .uri(URI.create(url))
-            .header("Authorization", "token $token")
-            .header("Accept", "application/vnd.github+json")
-            .GET()
-            .build()
-
-    def response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString())
-    println response.body()
-    println response.statusCode()
-    def gists = new JsonSlurper().parseText(response.body())
-
-    return gists.find { gist ->
-        gist.description.trim().contains(gistName.trim())
-    }?.id
-}
-
-// Task to upload files from multiple directories into a single Gist or update an existing Gist
-task uploadGists {
-    group = 'github'
-    description = 'Uploads all files from multiple directories into a single GitHub Gist or updates it if it exists'
-
-    doLast {
-        // Check if a Gist with the specified name exists
-        def gistId = findGistIdByName(gistDesc)
-
-        // Prepare the map to store files and their contents
-        def filesMap = [:]
-
-        // Iterate through each directory and process the files
-        directoriesToUpload.each { dirPath ->
-            def directoryToUpload = file(dirPath)
-            if (!directoryToUpload.exists() || !directoryToUpload.isDirectory()) {
-                println "Skipping invalid directory: $dirPath"
-                return
-            }
-
-            // Iterate through files in the directory
-            directoryToUpload.listFiles().each { fileToUpload ->
-                if (fileToUpload.isFile()) {
-                    def fileName = fileToUpload.name
-                    def content = fileToUpload.text
-                            .replace('\\', '\\\\')  // Escape backslashes
-                            .replace('"', '\\"')    // Escape double quotes
-                            .replace('\n', '\\n')   // Escape newlines
-
-                    filesMap[fileName] = [content: content]
-                }
-            }
-        }
-
-        // Build JSON body for the Gist request
-        def body = """
-        {
-            "description": "$gistDesc",
-            "public": $gistIsPublic,
-            "files": {
-        """
-
-        filesMap.eachWithIndex { entry, index ->
-            body += """
-                "${entry.key}": {
-                    "content": "${entry.value.content}"
-                }
-            """
-            if (index < filesMap.size() - 1) {
-                body += ","
-            }
-        }
-
-        body += """
-            }
-        }
-        """
-
-        // Determine the URI based on whether the Gist exists (PATCH for update, POST for create)
-        def uri = gistId ? URI.create("https://api.github.com/gists/$gistId") : URI.create("https://api.github.com/gists")
-        def httpMethod = gistId ? 'PATCH' : 'POST' // Use PATCH to update the existing Gist
-
-        // Make the HTTP request to create or update the Gist
-        def request = HttpRequest.newBuilder()
-                .uri(uri)
-                .header("Authorization", "token $token")
-                .header("Accept", "application/vnd.github+json")
-                .method(httpMethod, HttpRequest.BodyPublishers.ofString(body))
-                .build()
-
-        // Send the request and get the response
-        def response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString())
-
-        // Output the result
-        if (gistId) {
-            println "Updated Gist '$gistDesc' (ID: $gistId)"
-        } else {
-            println "Created new Gist '$gistDesc'"
-        }
-        println "Status code : ${response.statusCode()}"
-        println "Response    : ${response.body()}"
-    }
 }

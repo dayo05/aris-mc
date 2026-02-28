@@ -2,6 +2,7 @@ package me.ddayo.aris.engine.networking
 
 import dev.architectury.injectables.annotations.ExpectPlatform
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.hook.ServerNetworkingHooks
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
@@ -45,6 +46,6 @@ object S2CPacketSenderHandler {
      */
     @LuaFunction("create_s2c_packet_builder")
     fun createPacketBuilder(of: String): PacketDeclaration.Builder {
-        return S2CPacketHandler.packets[ResourceLocation(Aris.MOD_ID, of)]!!.Builder()
+        return S2CPacketHandler.packets[RegistryHelper.getResourceLocation(of)]!!.Builder()
     }
 }

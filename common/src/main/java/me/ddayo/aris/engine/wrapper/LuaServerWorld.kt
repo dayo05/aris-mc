@@ -31,5 +31,5 @@ object LuaServerWorldFunctions {
     val end = Aris.server.getLevel(Level.END)?.let { LuaServerWorld(it) }
 
     @LuaFunction("get_world")
-    fun getWorld(world: String) = Aris.server.getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation(world)))?.let { LuaServerWorld(it) }
+    fun getWorld(world: String) = Aris.server.getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(world)))?.let { LuaServerWorld(it) }
 }

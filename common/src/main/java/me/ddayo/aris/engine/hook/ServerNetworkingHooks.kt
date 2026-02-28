@@ -1,6 +1,7 @@
 package me.ddayo.aris.engine.hook
 
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
@@ -20,6 +21,6 @@ object ServerNetworkingHooks {
      */
     @LuaFunction("add_c2s_packet_handler")
     fun registerHandler(id: String, func: LuaFunc) {
-        packetHooks[ResourceLocation(Aris.MOD_ID, id)].add(func)
+        packetHooks[RegistryHelper.getResourceLocation(id)].add(func)
     }
 }

@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
 import me.ddayo.aris.engine.command.CommandBuilderFunctions
+import me.ddayo.aris.networking.NetworkPayloadManager
 import me.ddayo.aris.networking.NetworkingExtensions.sendDataPacket
 import me.ddayo.aris.networking.NetworkingExtensions.sendReloadPacket
 import net.minecraft.commands.CommandBuildContext
@@ -60,6 +61,8 @@ object Aris {
             engine.loop()
             engine.removeAllFinished()
         }
+
+        NetworkPayloadManager.init()
     }
 
     lateinit var server: MinecraftServer

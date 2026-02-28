@@ -1,6 +1,7 @@
 package me.ddayo.aris.fabric.mixin;
 
 import me.ddayo.aris.engine.hook.EntityHooks;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -23,8 +24,8 @@ public abstract class LivingEntityMixin extends Entity {
         super(entityType, level);
     }
 
-    @ModifyVariable(method = "hurt", at = @At("HEAD"), argsOnly = true)
-    public float f(float amount, DamageSource damageSource) {
+    @ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true)
+    public float f(float amount, ServerLevel w, DamageSource damageSource) {
         if(level().isClientSide) return amount;
         else return EntityHooks.INSTANCE.executeOnEntityGotDamage(damageSource, amount, (LivingEntity) (Object)this);
     }

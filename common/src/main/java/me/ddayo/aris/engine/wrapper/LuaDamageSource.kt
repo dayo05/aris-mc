@@ -16,7 +16,7 @@ class LuaDamageSource(val damageSource: DamageSource, @LuaProperty var amount: F
     @LuaProperty
     val direct get() = damageSource.directEntity?.toLuaValue()
     @LuaProperty
-    val isDirect get() = !damageSource.isIndirect
+    val isDirect get() = damageSource.isDirect
     @LuaProperty
     val id get() = damageSource.type().msgId
 }

@@ -12,8 +12,10 @@ import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import me.ddayo.aris.luagen.RetrieveEngine
 import me.ddayo.aris.math.Point3
+import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntitySpawnReason
 import org.apache.logging.log4j.LogManager
 
 
@@ -74,20 +76,30 @@ object InGameFunction {
     }
 
     @LuaFunction("create_effect_builder")
-    fun createEffectBuilder(of: String) = LuaMobEffectInstance(ResourceLocation(of))
+    fun createEffectBuilder(of: String) = LuaMobEffectInstance(ResourceLocation.parse(of))
 
     @LuaFunction("create_effect_builder")
-    fun createEffectBuilder(ns: String, of: String) = LuaMobEffectInstance(ResourceLocation(ns, of))
+    fun createEffectBuilder(ns: String, of: String) = LuaMobEffectInstance(ResourceLocation.tryBuild(ns, of)!!)
 
     @LuaFunction("summon_entity")
     fun summonEntityAt(entityType: LuaEntityType<*>, world: LuaServerWorld, pos: Point3): LuaEntity {
-        val entity = entityType.inner.create(world.inner)!!
-        entity.moveTo(pos.x, pos.y, pos.z, 0.0f, 0.0f)
-        world.inner.addFreshEntity(entity)
+        val blockPos = BlockPos.containing(pos.x, pos.y, pos.z)
+
+        val entity = entityType.inner.create(
+            world.inner,
+            { e ->
+                e.moveTo(pos.x, pos.y, pos.z, 0f, 0f)
+            },
+            blockPos,
+            EntitySpawnReason.COMMAND,
+            true,
+            false
+        )!!
+
         return LuaEntity(entity)
     }
 
     @LuaFunction("entity_type_of")
     fun getEntityTypeOf(str: String): LuaEntityType<Entity>? =
-        RegistryHelper.getEntityType<Entity>(ResourceLocation(str))?.let { LuaEntityType(it) }
+        RegistryHelper.getEntityType<Entity>(ResourceLocation.parse(str))?.let { LuaEntityType(it) }
 }

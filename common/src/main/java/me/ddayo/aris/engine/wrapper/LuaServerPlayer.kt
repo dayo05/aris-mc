@@ -54,7 +54,7 @@ class LuaServerPlayer(player: ServerPlayer) : LuaPlayerEntity(player), Coroutine
 
     @LuaFunction("send_message")
     fun sendMessage(msg: Component) {
-        player.sendSystemMessage(msg)
+        player.displayClientMessage(msg, false)
     }
 
     /**

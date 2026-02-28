@@ -2,6 +2,7 @@ package me.ddayo.aris.engine.networking
 
 import io.netty.buffer.Unpooled
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InGameEngine
@@ -14,6 +15,7 @@ import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
+import org.apache.logging.log4j.LogManager
 
 /**
  * This file introduce how to add data into packet
@@ -29,7 +31,7 @@ object PacketBuilderFunctions {
      * @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
      */
     @LuaFunction("integer_arg")
-    fun integerArg(of: String) = object: AbstractPackableData<Int>(ResourceLocation(Aris.MOD_ID, of)) {
+    fun integerArg(of: String) = object: AbstractPackableData<Int>(RegistryHelper.getResourceLocation(of)) {
         override fun process(buf: FriendlyByteBuf) = buf.readInt()
         override fun intoPacket(buf: FriendlyByteBuf, data: Int) {
             buf.writeInt(data)
@@ -42,7 +44,7 @@ object PacketBuilderFunctions {
      * @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
      */
     @LuaFunction("float_arg")
-    fun floatArg(of: String) = object: AbstractPackableData<Double>(ResourceLocation(Aris.MOD_ID, of)) {
+    fun floatArg(of: String) = object: AbstractPackableData<Double>(RegistryHelper.getResourceLocation(of)) {
         override fun process(buf: FriendlyByteBuf) = buf.readDouble()
         override fun intoPacket(buf: FriendlyByteBuf, data: Double) {
             buf.writeDouble(data)
@@ -55,7 +57,7 @@ object PacketBuilderFunctions {
      * @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
      */
     @LuaFunction("string_arg")
-    fun stringArg(of: String) = object: AbstractPackableData<String>(ResourceLocation(Aris.MOD_ID, of)) {
+    fun stringArg(of: String) = object: AbstractPackableData<String>(RegistryHelper.getResourceLocation(of)) {
         override fun process(buf: FriendlyByteBuf) = buf.readUtf()
         override fun intoPacket(buf: FriendlyByteBuf, data: String) {
             buf.writeUtf(data)
@@ -83,7 +85,7 @@ abstract class PacketDeclaration(val id: ResourceLocation): ILuaStaticDecl by In
 
     val frozen by lazy { subPackets.toList().sortedBy { it.first } }
 
-    fun buildBuffer(of: Builder) = FriendlyByteBuf(Unpooled.buffer()).apply {
+    fun buildBuffer(buf: FriendlyByteBuf, of: Builder) = buf.apply {
         writeResourceLocation(id)
         for((id, instance) in frozen) {
             @Suppress("UNCHECKED_CAST")
@@ -91,7 +93,10 @@ abstract class PacketDeclaration(val id: ResourceLocation): ILuaStaticDecl by In
         }
     }
 
-    abstract fun parse(buf: FriendlyByteBuf): Array<Pair<ResourceLocation, Any?>>
+    fun parse(buf: FriendlyByteBuf): Array<Pair<ResourceLocation, Any?>> {
+        return frozen.map { it.first to it.second.process(buf) }.toTypedArray()
+    }
+
     abstract fun getFunction(): LuaHook?
 
     @LuaProvider(InGameEngine.PROVIDER)
@@ -100,7 +105,7 @@ abstract class PacketDeclaration(val id: ResourceLocation): ILuaStaticDecl by In
         val inner = mutableMapOf<ResourceLocation, Any?>()
         // @LuaFunction
         fun append(id: String, of: Any?) {
-            inner[ResourceLocation(Aris.MOD_ID, id)] = of
+            inner[RegistryHelper.getResourceLocation(id)] = of
         }
 
         /**
@@ -133,7 +138,7 @@ abstract class PacketDeclaration(val id: ResourceLocation): ILuaStaticDecl by In
             append(id, of)
         }
 
-        fun build() = buildBuffer(this)
+        fun build(buf: FriendlyByteBuf) = buildBuffer(buf, this)
     }
 }
 

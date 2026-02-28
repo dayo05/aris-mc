@@ -31,7 +31,7 @@ class LuaMobEffectInstance(val rl: ResourceLocation): ILuaStaticDecl by InGameGe
     var showIcon = false
 
     fun build() = MobEffectInstance(
-        BuiltInRegistries.MOB_EFFECT.get(rl)!!,
+        BuiltInRegistries.MOB_EFFECT.get(rl).get(),
         duration, amplifier, ambient, visible, showIcon
     )
 }

@@ -49,7 +49,6 @@ class ScriptColorRenderer(
 
     constructor(color: Long) : this(((color and 0xff0000) shr 16).toInt(), ((color and 0xff00) shr 8).toInt(), (color and 0xff).toInt(), ((color and 0xff000000) shr 24).toInt())
     override fun RenderUtil._render(mx: Double, my: Double, delta: Float) {
-        RenderSystem.setShader(GameRenderer::getPositionColorShader)
         fillRender(0, 0, 1, 1, r, g, b, a)
     }
 }

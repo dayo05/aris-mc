@@ -2,6 +2,7 @@ package me.ddayo.aris.engine.wrapper
 
 import com.google.gson.JsonParser
 import com.mojang.serialization.JsonOps
+import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
 import me.ddayo.aris.engine.MCBaseEngine
@@ -12,6 +13,7 @@ import me.ddayo.aris.luagen.LuaProvider
 import me.ddayo.aris.luagen.RetrieveEngine
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.nbt.ByteArrayTag
 import net.minecraft.nbt.ByteTag
 import net.minecraft.nbt.CompoundTag
@@ -32,16 +34,19 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.EntitySpawnReason
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.portal.TeleportTransition
+import net.minecraft.world.phys.Vec3
 import org.apache.logging.log4j.LogManager
 import party.iroiro.luajava.Lua
 import party.iroiro.luajava.value.LuaValue
 
 @LuaProvider(InGameEngine.PROVIDER)
 @LuaProvider(InitEngine.PROVIDER)
-class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.LuaNBTCompound_LuaGenerated {
+class LuaNBTCompound(val inner: CompoundTag) : ILuaStaticDecl by InGameGenerated.LuaNBTCompound_LuaGenerated {
     /**
      * Convert NBT into JSON string
      */
@@ -61,7 +66,7 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
      */
     @LuaFunction("into_item_stack")
     fun intoItemStack(): LuaItemStack {
-        return LuaItemStack(ItemStack.of(inner))
+        return LuaItemStack(ItemStack.parseOptional(Aris.server.registryAccess(), inner))
     }
 
     /**
@@ -69,7 +74,7 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
      */
     @LuaFunction("apply_entity")
     fun applyEntity(entity: LuaEntity) {
-        val uid = if(inner.contains("UUID"))
+        val uid = if (inner.contains("UUID"))
             inner.getUUID("UUID").also {
                 inner.remove("UUID")
             } else null
@@ -86,13 +91,13 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
      */
     @LuaFunction("spawn_entity")
     fun spawnEntity(level: LuaServerWorld): LuaEntity? {
-        val uid = if(inner.contains("UUID"))
+        val uid = if (inner.contains("UUID"))
             inner.getUUID("UUID").also {
                 inner.remove("UUID")
             } else null
 
         val level = level.inner
-        val entityOpt = EntityType.create(inner, level)
+        val entityOpt = EntityType.create(inner, level, EntitySpawnReason.EVENT)
 
         val entity = if (entityOpt.isPresent) {
             val entity = entityOpt.get()
@@ -108,38 +113,39 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
         return entity
     }
 
-    /**
-     * Places block entity with this NBT
-     * If existing then it replaces
-     * @return is successful
-     */
     @LuaFunction("place_block_entity")
     fun placeBlockEntity(level: LuaServerWorld): Boolean {
         if (!hasPositionData()) return false
-        val level = level.inner
-
+        val serverLevel = level.inner
         val pos = getPosition()
+        val registryAccess = serverLevel.registryAccess()
 
         val requiredIdStr = inner.getString("id")
         val requiredLocation = ResourceLocation.tryParse(requiredIdStr)
 
         if (requiredLocation != null) {
-            val currentBlockState = level.getBlockState(pos)
-            val currentBlockId = BuiltInRegistries.BLOCK.getKey(currentBlockState.block)
+            val currentBlockState = serverLevel.getBlockState(pos)
 
-            if (currentBlockId != requiredLocation) {
-                val newBlock = BuiltInRegistries.BLOCK.get(requiredLocation)
-                level.setBlock(pos, newBlock.defaultBlockState(), 3)
+            val newBlockOptional = BuiltInRegistries.BLOCK.getOptional(requiredLocation)
+
+            if (newBlockOptional.isPresent) {
+                val newBlock = newBlockOptional.get()
+                val currentBlockId = BuiltInRegistries.BLOCK.getKey(currentBlockState.block)
+
+                if (currentBlockId != requiredLocation) {
+                    serverLevel.setBlock(pos, newBlock.defaultBlockState(), 3)
+                }
             }
         }
 
-        val state = level.getBlockState(pos)
-        val blockEntity = BlockEntity.loadStatic(pos, state, inner)
+        val state = serverLevel.getBlockState(pos)
+        val blockEntity = BlockEntity.loadStatic(pos, state, inner, registryAccess)
 
         if (blockEntity != null) {
-            level.setBlockEntity(blockEntity)
+            serverLevel.setBlockEntity(blockEntity)
             blockEntity.setChanged()
-            level.sendBlockUpdated(pos, state, state, 3)
+
+            serverLevel.sendBlockUpdated(pos, state, state, 3)
             return true
         }
         return false
@@ -152,8 +158,14 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
      */
     @LuaFunction("place_block_state")
     fun placeBlockState(level: LuaServerWorld, x: Int, y: Int, z: Int): Boolean {
-        val state = NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), inner)
-        return level.inner.setBlock(BlockPos(x, y, z), state, 3)
+        val serverLevel = level.inner
+        val registryAccess = serverLevel.registryAccess()
+        val state = NbtUtils.readBlockState(
+            registryAccess.lookupOrThrow(Registries.BLOCK),
+            inner
+        )
+
+        return serverLevel.setBlock(BlockPos(x, y, z), state, 3)
     }
 
     private fun getPosition() = BlockPos(inner.getInt("x"), inner.getInt("y"), inner.getInt("z"))
@@ -165,8 +177,17 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
         if (level !is ServerLevel) return
 
         if (e is ServerPlayer) {
-            e.teleportTo(level, e.x, e.y, e.z, e.yRot, e.xRot)
-            e.inventoryMenu.broadcastChanges() // Sync Inventory UI
+            e.teleport(
+                TeleportTransition(
+                    level,
+                    Vec3(e.x, e.y, e.z),
+                    Vec3.ZERO,
+                    e.yRot,
+                    e.xRot,
+                    setOf(),
+                    TeleportTransition.DO_NOTHING
+                )
+            ); e.inventoryMenu.broadcastChanges() // Sync Inventory UI
         } else e.absMoveTo(e.x, e.y, e.z, e.yRot, e.xRot)
 
         e.refreshDimensions()
@@ -190,6 +211,7 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
                     }
                     table
                 }
+
                 is ListTag -> {
                     lua.createTable(tag.size, 1)
                     val table = lua.get()
@@ -199,6 +221,7 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
                     table.set("__aris_nbt_type", lua.from(getTypeName(tag.elementType)))
                     table
                 }
+
                 is StringTag -> lua.from(tag.asString)
                 is IntTag -> lua.from(tag.asInt.toLong())
                 is DoubleTag -> lua.from(tag.asDouble)
@@ -213,6 +236,7 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
                     table.set("__aris_nbt_type", lua.from("byte_array"))
                     table
                 }
+
                 is IntArrayTag -> {
                     lua.createTable(tag.size, 1)
                     val table = lua.get()
@@ -220,6 +244,7 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
                     table.set("__aris_nbt_type", lua.from("int_array"))
                     table
                 }
+
                 is LongArrayTag -> {
                     lua.createTable(tag.size, 1)
                     val table = lua.get()
@@ -227,6 +252,7 @@ class LuaNBTCompound(val inner: CompoundTag): ILuaStaticDecl by InGameGenerated.
                     table.set("__aris_nbt_type", lua.from("long_array"))
                     table
                 }
+
                 else -> {
                     lua.pushNil()
                     lua.get()
@@ -278,15 +304,19 @@ object LuaNBTCompoundFunctions {
             entity.inner.saveWithoutId(it)
     })
 
+    private val registryAccess
+        get() = Aris.server.registryAccess()
+
     /**
      * Get NBT of item stack
      * @param stack item stack to get nbt
      * @return full nbt object of item stack
      */
     @LuaFunction("from_item_stack")
-    fun fromItemStack(stack: LuaItemStack) = LuaNBTCompound(CompoundTag().also {
-        stack.inner.save(it)
-    })
+    fun fromItemStack(stack: LuaItemStack): LuaNBTCompound {
+        val tag = stack.inner.save(registryAccess, CompoundTag())
+        return LuaNBTCompound(tag as CompoundTag)
+    }
 
     /**
      * Get NBT of block entity at specific position
@@ -297,7 +327,11 @@ object LuaNBTCompoundFunctions {
      * @return full nbt object of provided location. Nil if not exists.
      */
     @LuaFunction("from_block_entity")
-    fun fromBlockEntity(level: LuaServerWorld, x: Int, y: Int, z: Int) = level.inner.getBlockEntity(BlockPos(x, y, z))?.saveWithId()?.let { LuaNBTCompound(it) }
+    fun fromBlockEntity(level: LuaServerWorld, x: Int, y: Int, z: Int): LuaNBTCompound? {
+        return level.inner.getBlockEntity(BlockPos(x, y, z))
+            ?.saveWithId(level.inner.registryAccess())
+            ?.let { LuaNBTCompound(it) }
+    }
 
     /**
      * Get NBT of block state at specific position
@@ -351,7 +385,11 @@ object LuaNBTCompoundFunctions {
                 }
             }
 
-            LogManager.getLogger().warn("No type information (__aris_nbt_type) provided for NBT conversion. Table content: ${deepToString(value)}")
+            LogManager.getLogger().warn(
+                "No type information (__aris_nbt_type) provided for NBT conversion. Table content: ${
+                    deepToString(value)
+                }"
+            )
 
             // Heuristic Fallback
             if (isArray(value)) {
@@ -431,7 +469,8 @@ object LuaNBTCompoundFunctions {
         return list
     }
 
-    private inline fun iterateTable(table: LuaValue, action: (LuaValue, LuaValue) -> Unit) = table.forEach {(key, value) -> action(key, value)}
+    private inline fun iterateTable(table: LuaValue, action: (LuaValue, LuaValue) -> Unit) =
+        table.forEach { (key, value) -> action(key, value) }
 
     private fun isArray(table: LuaValue): Boolean {
         return table.length() > 0

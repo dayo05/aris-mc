@@ -9,6 +9,8 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.item.Item
 
 object RegistryHelper {
+    fun getResourceLocation(of: String) = ResourceLocation.fromNamespaceAndPath(Aris.MOD_ID, of)!!
+
     @JvmStatic
     @ExpectPlatform
     fun registerItem(key: ResourceLocation, item: () -> Item) {

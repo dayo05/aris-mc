@@ -1,6 +1,7 @@
 package me.ddayo.aris.engine.hook
 
 import me.ddayo.aris.Aris
+import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
@@ -20,6 +21,6 @@ object CommandHooks {
      */
     @LuaFunction("register_endpoint")
     fun registerEndpoint(of: String, func: LuaFunc) {
-        commandEndpointHook[ResourceLocation(Aris.MOD_ID, of)].add(func)
+        commandEndpointHook[RegistryHelper.getResourceLocation(of)].add(func)
     }
 }
