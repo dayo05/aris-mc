@@ -2,11 +2,9 @@ package me.ddayo.aris.engine
 
 import me.ddayo.aris.engine.hook.LuaHook
 import me.ddayo.aris.engine.hook.LuaHookMap
-import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.lua.glue.InGameGenerated
-import me.ddayo.aris.util.ListExtensions.mutableForEach
-import net.minecraft.resources.ResourceLocation
 import party.iroiro.luajava.Lua
+import party.iroiro.luajava.luajit.LuaJit
 import java.io.File
 
 class InGameEngine(lua: Lua) : MCBaseEngine(lua) {
@@ -32,6 +30,11 @@ class InGameEngine(lua: Lua) : MCBaseEngine(lua) {
                     createTask(it, it.nameWithoutExtension)
                 }
             }
+        }
+
+        fun reloadEngine() {
+            disposeEngine()
+            createEngine(LuaJit())
         }
 
         val hooks = mutableListOf<LuaHook>()

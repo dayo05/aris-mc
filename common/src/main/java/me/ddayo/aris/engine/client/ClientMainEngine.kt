@@ -8,6 +8,7 @@ import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import party.iroiro.luajava.Lua
+import party.iroiro.luajava.luajit.LuaJit
 import java.io.File
 
 @Environment(EnvType.CLIENT)
@@ -35,6 +36,11 @@ open class ClientMainEngine protected constructor(lua: Lua) : MCBaseEngine(lua) 
                     createTask(it, it.nameWithoutExtension)
                 }
             }
+        }
+
+        fun reloadEngine() {
+            disposeEngine()
+            createEngine(LuaJit())
         }
 
         val hooks = mutableListOf<LuaHook>()
