@@ -486,16 +486,12 @@
 ## HudRenderer:open_hud()
 ```
  Registers this renderer to the in-game HUD engine, making it visible on the HUD.
-
- @param engine The game engine instance (retrieved automatically).
 ```
 
 
 ## HudRenderer:close_hud()
 ```
  Unregisters this renderer from the in-game HUD engine.
-
- @param engine The game engine instance (retrieved automatically).
 ```
 
 
