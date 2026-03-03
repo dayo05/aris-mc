@@ -1,5 +1,6 @@
 package me.ddayo.aris.engine.client
 
+import me.ddayo.aris.engine.AbstractPersistantEngineCompanion
 import me.ddayo.aris.engine.MCBaseEngine
 import me.ddayo.aris.engine.hook.LuaHook
 import me.ddayo.aris.engine.hook.LuaHookMap
@@ -13,41 +14,14 @@ import java.io.File
 
 @Environment(EnvType.CLIENT)
 open class ClientMainEngine protected constructor(lua: Lua) : MCBaseEngine(lua) {
-    companion object {
+    companion object: AbstractPersistantEngineCompanion<ClientMainEngine>() {
         const val PROVIDER = "LuaClientOnlyGenerated"
+        override val searchPath = "robots/client"
 
-        var INSTANCE: ClientMainEngine? = null
-            private set
-
-        val disposeHook = mutableListOf<() -> Unit>()
-
-        fun disposeEngine() {
-            disposeHook.forEach { it() }
-            hooks.forEach { it.clear() }
-            hookMaps.forEach { it.clear() }
-            INSTANCE = null
-        }
-
-        fun createEngine(lua: Lua): ClientMainEngine {
-            return ClientMainEngine(lua).apply {
-                INSTANCE = this
-
-                File("robots/client").listFiles()?.forEach {
-                    createTask(it, it.nameWithoutExtension)
-                }
-            }
-        }
-
-        fun reloadEngine() {
-            disposeEngine()
-            createEngine(LuaJit())
-        }
-
-        val hooks = mutableListOf<LuaHook>()
-        val hookMaps = mutableListOf<LuaHookMap<*>>()
+        override fun _createEngine(lua: Lua) = ClientMainEngine(lua)
     }
 
-    override val basePath = File("robots/client")
+    override val basePath = File(searchPath)
 
     init {
         InGameGenerated.initEngine(this)

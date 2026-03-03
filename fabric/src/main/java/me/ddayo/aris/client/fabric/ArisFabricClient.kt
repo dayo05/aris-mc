@@ -2,6 +2,7 @@ package me.ddayo.aris.client.fabric
 
 import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.client.ArisClient
+import me.ddayo.aris.client.gui.HudRenderer
 import me.ddayo.aris.client.gui.Resource
 import me.ddayo.aris.engine.EngineInitializer
 import me.ddayo.aris.engine.client.ClientInGameEngine
@@ -92,7 +93,7 @@ class ArisFabricClient: ClientModInitializer {
                     graphics: GuiGraphics,
                     delta: DeltaTracker
                 ) {
-                    ClientInGameEngine.INSTANCE?.renderHud(graphics, delta.gameTimeDeltaTicks)
+                    HudRenderer.renderHud(graphics, delta.gameTimeDeltaTicks)
                 }
             })
         }

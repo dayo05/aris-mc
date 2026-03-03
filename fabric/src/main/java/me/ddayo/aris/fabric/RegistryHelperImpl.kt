@@ -32,6 +32,6 @@ object RegistryHelperImpl {
 
     @JvmStatic
     fun<T: Entity> getEntityType(rl: ResourceLocation): EntityType<T>? {
-        return if (BuiltInRegistries.ENTITY_TYPE.containsKey(rl)) BuiltInRegistries.ENTITY_TYPE.get(rl) as? EntityType<T> else null
+        return if (BuiltInRegistries.ENTITY_TYPE.containsKey(rl)) BuiltInRegistries.ENTITY_TYPE.get(rl).get().value() as? EntityType<T> else null
     }
 }

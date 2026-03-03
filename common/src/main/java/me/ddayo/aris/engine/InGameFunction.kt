@@ -58,9 +58,9 @@ object InGameFunction {
      * @param f 실행할 함수
      */
     @LuaFunction("add_tick_hook")
-    fun addTickHook(@RetrieveEngine engine: InGameEngine, f: LuaFunc) {
+    fun addTickHook(f: LuaFunc) {
         warnHookFn()
-        engine.tickHook.add(f)
+        InGameEngine.tickHook.add(f)
     }
 
     /**

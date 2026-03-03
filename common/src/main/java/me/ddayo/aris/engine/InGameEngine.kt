@@ -1,47 +1,24 @@
 package me.ddayo.aris.engine
 
 import me.ddayo.aris.engine.hook.LuaHook
-import me.ddayo.aris.engine.hook.LuaHookMap
 import me.ddayo.aris.lua.glue.InGameGenerated
 import party.iroiro.luajava.Lua
-import party.iroiro.luajava.luajit.LuaJit
 import java.io.File
 
 class InGameEngine(lua: Lua) : MCBaseEngine(lua) {
-    companion object {
+    companion object: AbstractPersistantEngineCompanion<InGameEngine>() {
         const val PROVIDER = "InGameGenerated"
-        var INSTANCE: InGameEngine? = null
-            private set
+        override val searchPath = "robots/game"
 
-        val disposeHook = mutableListOf<() -> Unit>()
+        override fun _createEngine(lua: Lua) = InGameEngine(lua)
 
-        fun disposeEngine() {
-            disposeHook.forEach { it() }
-            hooks.forEach { it.clear() }
-            hookMaps.forEach { it.clear() }
-            INSTANCE = null
+        val tickHook = LuaHook()
+        init {
+            hooks.add(tickHook)
         }
-
-        fun createEngine(lua: Lua): InGameEngine {
-            return InGameEngine(lua).apply {
-                INSTANCE = this
-
-                File("robots/game").listFiles()?.forEach {
-                    createTask(it, it.nameWithoutExtension)
-                }
-            }
-        }
-
-        fun reloadEngine() {
-            disposeEngine()
-            createEngine(LuaJit())
-        }
-
-        val hooks = mutableListOf<LuaHook>()
-        val hookMaps = mutableListOf<LuaHookMap<*>>()
     }
 
-    override val basePath = File("robots/game")
+    override val basePath = File(searchPath)
 
     init {
         InGameGenerated.initEngine(this)
@@ -50,7 +27,6 @@ class InGameEngine(lua: Lua) : MCBaseEngine(lua) {
         }
     }
 
-    val tickHook = LuaHook()
     fun tick() {
         tickHook.call()
     }

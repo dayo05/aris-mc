@@ -10,7 +10,7 @@ import party.iroiro.luajava.Lua
 import java.io.File
 
 @Environment(EnvType.CLIENT)
-class ClientInitEngine(lua: Lua): InitEngine(lua) {
+class ClientInitEngine(lua: Lua) : InitEngine(lua) {
     companion object {
         const val PROVIDER = "ClientInitGenerated"
         var INSTANCE: ClientInitEngine? = null
@@ -18,7 +18,7 @@ class ClientInitEngine(lua: Lua): InitEngine(lua) {
     }
 
     init {
-        if(INSTANCE!=null) throw IllegalStateException("Client Init Engine cannot be initialized twice")
+        if (INSTANCE != null) throw IllegalStateException("Client Init Engine cannot be initialized twice")
         INSTANCE = this
         ClientInitGenerated.initEngine(this)
         ClientEngineAddOn.clientInitEngineAddOns().forEach {

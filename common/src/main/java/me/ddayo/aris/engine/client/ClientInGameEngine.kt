@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import me.ddayo.aris.client.KeyBindingHelper
 import me.ddayo.aris.client.gui.HudRenderer
 import me.ddayo.aris.client.gui.RenderUtil
+import me.ddayo.aris.engine.AbstractPersistantEngineCompanion
 import me.ddayo.aris.engine.hook.LuaHook
 import me.ddayo.aris.engine.hook.LuaHookMap
 import me.ddayo.aris.lua.glue.ClientInGameOnlyGenerated
@@ -16,41 +17,21 @@ import party.iroiro.luajava.Lua
 import party.iroiro.luajava.luajit.LuaJit
 import java.io.File
 
-class ClientInGameEngine protected constructor(lua: Lua) : ClientMainEngine(lua) {
-    companion object {
+class ClientInGameEngine private constructor(lua: Lua) : ClientMainEngine(lua) {
+    companion object: AbstractPersistantEngineCompanion<ClientInGameEngine>() {
         const val PROVIDER = "ClientInGameOnlyGenerated"
-        var INSTANCE: ClientInGameEngine? = null
-            private set
 
-        val disposeHook = mutableListOf<() -> Unit>()
+        override val searchPath = "robots/client-game"
 
-        fun disposeEngine() {
-            disposeHook.forEach { it() }
-            hooks.forEach { it.clear() }
-            hookMaps.forEach { it.clear() }
-            INSTANCE = null
+        override fun _createEngine(lua: Lua) = ClientInGameEngine(lua)
+
+        val tickHook = LuaHook()
+        init {
+            hooks.add(tickHook)
         }
-
-        fun createEngine(lua: Lua): ClientInGameEngine {
-            return ClientInGameEngine(lua).apply {
-                INSTANCE = this
-
-                File("robots/client-game").listFiles()?.forEach {
-                    createTask(it, it.nameWithoutExtension)
-                }
-            }
-        }
-
-        fun reloadEngine() {
-            disposeEngine()
-            createEngine(LuaJit())
-        }
-
-        val hooks = mutableListOf<LuaHook>()
-        val hookMaps = mutableListOf<LuaHookMap<*>>()
     }
 
-    override val basePath = File("robots/client-game")
+    override val basePath = File(searchPath)
 
     init {
         ClientInGameOnlyGenerated.initEngine(this)
@@ -67,7 +48,7 @@ class ClientInGameEngine protected constructor(lua: Lua) : ClientMainEngine(lua)
     }
 
     fun tick() {
-        tickFunctions.mutableForEach { it.call() }
+        tickHook.call()
         keyBindingHooks.forEach { (binding, keys) ->
             while (binding.consumeClick())
                 keys.mutableForEach { it.call() }
@@ -75,21 +56,7 @@ class ClientInGameEngine protected constructor(lua: Lua) : ClientMainEngine(lua)
         loop()
     }
 
-    val enabledHud = mutableListOf<HudRenderer>()
-
-    fun renderHud(graphics: GuiGraphics, delta: Float) {
-        RenderSystem.enableBlend()
-        RenderUtil.renderer.loadMatrix(graphics) {
-            fixScale(graphics.guiWidth(), graphics.guiHeight(), 1920, 1080) {
-                enabledHud.mutableForEach {
-                    it.render(this, 0.0, 0.0, delta)
-                }
-            }
-        }
-    }
-
     val clientStringData = mutableMapOf<String, String>()
     val clientNumberData = mutableMapOf<String, Double>()
     val clientItemStackData = mutableMapOf<String, ItemStack>()
-    val tickFunctions = mutableListOf<LuaFunc>()
 }

@@ -67,9 +67,9 @@ object ClientInGameFunction {
      * @param f 실행할 함수
      */
     @LuaFunction("add_tick_hook")
-    fun addTickHook(@RetrieveEngine engine: ClientInGameEngine, f: LuaFunc) {
+    fun addTickHook(f: LuaFunc) {
         warnTickFunction()
-        ClientInGameHooks.addTickHook(engine, f)
+        ClientInGameHooks.addTickHook(f)
     }
 
     /**
@@ -92,7 +92,7 @@ object ClientInGameFunction {
      * 모든 열려있는 HUD를 닫습니다.
      */
     @LuaFunction("clear_opened_hud")
-    fun clearHud(@RetrieveEngine engine: ClientInGameEngine) = engine.enabledHud.clear()
+    fun clearHud() = HudRenderer.enabledHud.clear()
 
     /**
      * 서버로부터 전송받은 문자열 데이터를 가져옵니다.

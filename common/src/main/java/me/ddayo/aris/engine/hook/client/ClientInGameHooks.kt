@@ -15,16 +15,16 @@ object ClientInGameHooks {
      * @param f 실행할 함수
      */
     @LuaFunction("add_tick_hook")
-    fun addTickHook(@RetrieveEngine engine: ClientInGameEngine, f: LuaFunc) {
-        engine.tickFunctions.add(f)
+    fun addTickHook(f: LuaFunc) {
+        ClientInGameEngine.tickHook.add(f)
     }
 
     /**
      * 매 틱마다 실행할 함수를 초기화합니다.
      */
     @LuaFunction("clear_tick_hook")
-    fun clearTickHook(@RetrieveEngine engine: ClientInGameEngine, f: LuaFunc) {
-        engine.tickFunctions.clear()
+    fun clearTickHook(f: LuaFunc) {
+        ClientInGameEngine.tickHook.clear()
     }
 
     /**
