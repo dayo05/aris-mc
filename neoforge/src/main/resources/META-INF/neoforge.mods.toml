@@ -1,0 +1,32 @@
+modLoader = "kotlinforforge"
+loaderVersion = "[5.11,)"
+license = "Insert License Here"
+
+[[mods]]
+modId = "aris"
+version = "${version}"
+displayName = "Project Aris"
+authors = "Dayo"
+description = '''
+Project Aris
+'''
+
+[[mixins]]
+config = "aris-common.mixins.json"
+
+[[mixins]]
+config = "aris.mixins.json"
+
+[[dependencies.aris]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.4,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.aris]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.4,)"
+ordering = "NONE"
+side = "BOTH"

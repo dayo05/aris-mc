@@ -20,7 +20,7 @@ classes/
 private/
 aris_run/
 deobf-work/
-/forge/forge-installer
+/neoforge/forge-installer
 
 /.architectury-transformer
 /.kotlin
