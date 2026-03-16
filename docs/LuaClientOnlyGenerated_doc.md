@@ -73,6 +73,12 @@
  @param text The string to display.
  @param color The integer color of the text.
 ```
+## aris.client.create_text_renderer(font: FontResource, text: string, color: number) -> ScriptTextRenderer
+```
+ Creates a text label component using the default Minecraft font.
+ @param text The string to display.
+ @param color The integer color of the text.
+```
 ## aris.client.create_item_renderer(item: LuaItemStack) -> ScriptItemRenderer
 ```
  Creates a component that renders a Minecraft item stack.
@@ -89,6 +95,19 @@
  Loads an image resource (alias overload).
  @param name Unused parameter (legacy or alias).
  @param path The relative path to the image file.
+```
+## aris.client.load_font(path: string, size: number) -> FontResource
+```
+ Loads a font resource
+ @param path The relative path to the font file
+ @param size Expected size to render
+```
+## aris.client.load_font(path: string, size: number, oversample: number) -> FontResource
+```
+ Loads a font resource
+ @param path The relative path to the font file
+ @param size Expected size to render
+ @param oversample The depth of resolution sampling.(4.0f is recommended and this is the default)
 ```
 ## aris.client.create_component() -> BaseComponent
 ```
@@ -387,6 +406,42 @@
 ## ScriptItemRenderer:get_item() -> LuaItemStack
 ```
  The Minecraft item to render, wrapped for Lua access.
+```
+
+
+## ScriptTextRenderer:set_font(new_value: FontResource)
+```
+ Font to use
+```
+
+
+## ScriptTextRenderer:get_font() -> FontResource
+```
+ Font to use
+```
+
+
+## ScriptTextRenderer:set_text(new_value: string)
+```
+ The text string to display.
+```
+
+
+## ScriptTextRenderer:get_text() -> string
+```
+ The text string to display.
+```
+
+
+## ScriptTextRenderer:set_color(new_value: number)
+```
+ The text color.
+```
+
+
+## ScriptTextRenderer:get_color() -> number
+```
+ The text color.
 ```
 
 
