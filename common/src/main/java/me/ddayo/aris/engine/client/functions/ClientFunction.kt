@@ -3,6 +3,7 @@ package me.ddayo.aris.engine.client.functions
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.client.gui.BaseComponent
 import me.ddayo.aris.client.gui.BaseRectComponent
+import me.ddayo.aris.client.gui.FontResource
 import me.ddayo.aris.client.gui.ImageResource
 import me.ddayo.aris.math.Area
 import me.ddayo.aris.math.AreaBuilder
@@ -107,7 +108,16 @@ object ClientFunction {
      */
     @LuaFunction("create_default_text_renderer")
     fun createDefaultTextRenderer(text: String, color: Int) =
-        ScriptDefaultTextRenderer(text, Minecraft.getInstance().font, color)
+        ScriptDefaultTextRenderer(text, color)
+
+    /**
+     * Creates a text label component using the default Minecraft font.
+     * @param text The string to display.
+     * @param color The integer color of the text.
+     */
+    @LuaFunction("create_text_renderer")
+    fun createTextRenderer(font: FontResource, text: String, color: Int) =
+        ScriptTextRenderer(font, text, color)
 
     /**
      * Creates a component that renders a Minecraft item stack.
@@ -133,6 +143,23 @@ object ClientFunction {
     fun loadImageRuntime(name: String, path: String): ImageResource {
         return ImageResource.getOrCreate(path)
     }
+
+    /**
+     * Loads a font resource
+     * @param path The relative path to the font file
+     * @param size Expected size to render
+     */
+    @LuaFunction("load_font")
+    fun loadFont(path: String, size: Float): FontResource = FontResource.getOrCreate(path, size, 4.0f)
+
+    /**
+     * Loads a font resource
+     * @param path The relative path to the font file
+     * @param size Expected size to render
+     * @param oversample The depth of resolution sampling.(4.0f is recommended and this is the default)
+     */
+    @LuaFunction("load_font")
+    fun loadFont(path: String, size: Float, oversample: Float): FontResource = FontResource.getOrCreate(path, size, oversample)
 
     /**
      * Creates a basic, empty component container.

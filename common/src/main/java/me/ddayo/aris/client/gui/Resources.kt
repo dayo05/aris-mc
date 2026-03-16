@@ -1,21 +1,27 @@
 package me.ddayo.aris.client.gui
 
+import com.mojang.blaze3d.font.GlyphProvider
 import com.mojang.blaze3d.platform.NativeImage
-import com.mojang.blaze3d.systems.RenderSystem
 import me.ddayo.aris.RegistryHelper
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.Font
+import net.minecraft.client.gui.font.FontOption
+import net.minecraft.client.gui.font.FontSet
+import net.minecraft.client.gui.font.providers.TrueTypeGlyphProviderDefinition
+import net.minecraft.client.renderer.texture.AbstractTexture
 import net.minecraft.client.renderer.texture.DynamicTexture
-import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.PackResources
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.server.packs.resources.ResourceMetadata
 import org.apache.logging.log4j.LogManager
-import org.lwjgl.BufferUtils
-import org.lwjgl.stb.STBImage
-import org.lwjgl.stb.STBTTFontinfo
-import org.lwjgl.stb.STBTruetype
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.net.URL
 import java.nio.ByteBuffer
-import kotlin.math.roundToInt
+import java.util.Optional
+import java.util.function.Predicate
+import java.util.stream.Stream
 
 
 abstract class Resource(private val uri: String) {
@@ -61,22 +67,22 @@ abstract class Resource(private val uri: String) {
         throw IllegalArgumentException("Not able to load resource: $uri")
     }
 
+    @Volatile
     lateinit var thrown: Throwable
         private set
+
+    @Volatile
     protected lateinit var bytes: ByteArray
         private set
 
-    fun suspend(): ByteArray {
+    fun await(): ByteArray {
         loader.join()
         if (::bytes.isInitialized) return bytes
         else throw thrown
     }
 
+    protected open fun afterLoadAsync() {}
     protected open fun afterLoad() {}
-
-    fun getOrNull() = if (::bytes.isInitialized) bytes
-    else if (::thrown.isInitialized) throw thrown
-    else null
 
     private val loader = Thread {
         try {
@@ -89,14 +95,26 @@ abstract class Resource(private val uri: String) {
         }
     }
 
+    @Volatile
     var isLoaded = false
         private set
 
+    @Volatile
+    var cancelled = false
+        private set
+
+    fun cancel() {
+        cancelled = true
+    }
+
     private fun finishLoad(b: ByteArray) {
+        bytes = b
+        afterLoadAsync()
         Minecraft.getInstance().execute {
-            bytes = b
-            isLoaded = true
-            afterLoad()
+            if (!cancelled) {
+                afterLoad()
+                isLoaded = true
+            }
         }
     }
 
@@ -105,198 +123,177 @@ abstract class Resource(private val uri: String) {
     }
 
     companion object {
+        val renderableResources = mutableListOf<RenderableResource.RenderableResourceCompanion<*>>()
         fun clearResource() {
-            ImageResource.clearResource()
+            renderableResources.forEach {
+                it.clearResource()
+            }
             FontResource.clearResource()
         }
     }
 }
 
-class FontResource(uri: String) : Resource(uri) {
-    class STBFontInstance(private val buf: ByteBuffer) : NativeInstance<STBTTFontinfo>() {
-        override lateinit var nativeInstance: STBTTFontinfo
-
-        override fun allocateInternal() {
-            nativeInstance = STBTTFontinfo.create()
-            STBTruetype.stbtt_InitFont(nativeInstance, buf)
-        }
-
-        override fun freeInternal() {
-            nativeInstance.free()
-        }
+abstract class RenderableResource<T : RenderableResource<T>>(
+    uri: String,
+    val companion: RenderableResourceCompanion<T>
+) : Resource(uri) {
+    companion object {
+        val DUMMY = RegistryHelper.getResourceLocation("dummy")
     }
 
-    companion object {
-        private var currentId = 0
-        private val resourceMap = mutableMapOf<String, FontResource>()
-        fun getOrCreate(uri: String) = resourceMap.getOrPut(uri) { FontResource(uri) }
-        fun free(uri: String) = resourceMap[uri]?.info?.free()?.also { resourceMap.remove(uri) }
+    abstract class RenderableResourceCompanion<T : RenderableResource<T>>(private val of: String) {
+        init {
+            renderableResources.add(this)
+        }
+        var currentId = 0
+            private set
+        fun getNewIdentifier() = RegistryHelper.getResourceLocation("private/$of/${++currentId}")
+        private val resourceMap = mutableMapOf<String, T>()
+        fun getOrCreate(uri: String) = resourceMap.getOrPut(uri) { construct(uri) }
+        abstract fun construct(uri: String): T
 
         fun clearResource() {
-            resourceMap.forEach { it.value.info.free() }
+            val tm = Minecraft.getInstance().textureManager
+            resourceMap.values.forEach {
+                it.cancel()
+                it.dispose()
+                if (it.location != null && tm.getTexture(it.location) != null)
+                    tm.release(it.location)
+            }
             resourceMap.clear()
         }
     }
 
-    private val cid = currentId++
+    protected var location: ResourceLocation? = null
+        private set
+
+    @Volatile
+    var width: Int = -1
+        protected set
+
+    @Volatile
+    var height: Int = -1
+        protected set
+
+    override fun afterLoad() {
+        location = companion.getNewIdentifier()
+        Minecraft.getInstance().textureManager.register(
+            location, loadAsTexture()
+        )
+        location
+    }
+
+    protected open fun dispose() {}
+
+    protected abstract fun loadAsTexture(): AbstractTexture
+
+    fun bindTexture() {
+        RenderUtil.renderer.currentTexture = location ?: DUMMY
+    }
+}
+
+class ImageResource private constructor(uri: String) :
+    RenderableResource<ImageResource>(uri, ImageResource) {
+    companion object : RenderableResourceCompanion<ImageResource>("image") {
+        override fun construct(uri: String) = ImageResource(uri)
+    }
 
     override val resourceType: ResourceType
-        get() = ResourceType.Fonts
+        get() = ResourceType.Images
 
-    lateinit var info: STBFontInstance
-    override fun afterLoad() {
-        val byteBuf = BufferUtils.createByteBuffer(bytes.size)
-        byteBuf.put(bytes)
-        byteBuf.flip()
-        info = STBFontInstance(byteBuf)
+    @Volatile
+    private lateinit var ni: NativeImage
+
+    override fun afterLoadAsync() {
+        val dbuf = ByteBuffer.allocateDirect(bytes.size)
+        dbuf.put(bytes)
+        dbuf.flip()
+
+        ni = NativeImage.read(dbuf)
+        width = ni.width
+        height = ni.height
+    }
+
+    override fun loadAsTexture(): AbstractTexture {
+        return DynamicTexture(ni)
+            .apply {
+                setFilter(false, false)
+            }
     }
 
     init {
         startLoading()
     }
-
-    private var _ascent = createIntArray()
-    private var _descent = createIntArray()
-    private var _lineGap = createIntArray()
-
-    public val ascent: Int
-        get() = this._ascent[0]
-    public val descent: Int
-        get() = this._descent[0]
-
-    public fun getScale(height: Int): Float {
-        info.claim {
-            return STBTruetype.stbtt_ScaleForMappingEmToPixels(it, height.toFloat())
-        }
-    }
-
-    fun calculateWidth(text: String, height: Int): Int {
-        info.claim { fontInfo ->
-            val scale = STBTruetype.stbtt_ScaleForMappingEmToPixels(fontInfo, height.toFloat())
-            var x = 0
-            for (k in text.withIndex()) {
-                val ax = createIntArray()
-                val lsb = createIntArray()
-                STBTruetype.stbtt_GetCodepointHMetrics(fontInfo, k.value.code, ax, lsb)
-
-                x += (ax[0] * scale).roundToInt()
-                x += if (k.index != text.length - 1)
-                    (STBTruetype.stbtt_GetCodepointKernAdvance(
-                        fontInfo,
-                        k.value.code,
-                        text[k.index + 1].code
-                    ) * scale).roundToInt()
-                else (STBTruetype.stbtt_GetCodepointKernAdvance(fontInfo, k.value.code, 0) * scale).roundToInt()
-            }
-
-            return x
-        }
-    }
-
-    fun getBitmap(text: String, height: Int): ByteBuffer {
-        info.claim { fontInfo ->
-            val width = calculateWidth(text, height)
-            STBTruetype.stbtt_GetFontVMetrics(fontInfo, _ascent, _descent, _lineGap)
-
-            val buf = BufferUtils.createByteBuffer(width * height * 2)
-            val scale = STBTruetype.stbtt_ScaleForMappingEmToPixels(fontInfo, height.toFloat())
-
-            _ascent[0] = (ascent * scale).roundToInt()
-            _descent[0] = (descent * scale).roundToInt()
-
-            var x = 0
-            for (k in text.withIndex()) {
-                val ax = createIntArray()
-                val lsb = createIntArray()
-                STBTruetype.stbtt_GetCodepointHMetrics(fontInfo, k.value.code, ax, lsb)
-
-                val c_x1 = createIntArray()
-                val c_x2 = createIntArray()
-                val c_y1 = createIntArray()
-                val c_y2 = createIntArray()
-
-                STBTruetype.stbtt_GetCodepointBitmapBox(fontInfo, k.value.code, scale, scale, c_x1, c_y1, c_x2, c_y2)
-
-                val y = ascent + c_y1[0]
-                buf.position(x + (lsb[0] * scale).roundToInt() + (y * width))
-                STBTruetype.stbtt_MakeCodepointBitmap(
-                    fontInfo,
-                    buf,
-                    c_x2[0] - c_x1[0],
-                    c_y2[0] - c_y1[0],
-                    width,
-                    scale,
-                    scale,
-                    k.value.code
-                )
-
-                if (k.index != text.length - 1)
-                    x += (ax[0] * scale).roundToInt() + (STBTruetype.stbtt_GetCodepointKernAdvance(
-                        fontInfo,
-                        k.value.code,
-                        text[k.index + 1].code
-                    ) * scale).roundToInt()
-            }
-            buf.position(width * height * 2)
-            buf.flip()
-            return buf
-        }
-    }
-
-    private fun createIntArray() = arrayOf(0).toIntArray()
 }
 
-class ImageResource(uri: String) : Resource(uri) {
+class FontResource private constructor(uri: String, val size: Float, val oversample: Float, private val cid: Int) : Resource(uri) {
     companion object {
-        private var currentId = 0
-        fun getNewIdentifier() = RegistryHelper.getResourceLocation("private/images/${currentId++}")
-        private val resourceMap = mutableMapOf<String, ImageResource>()
-        fun getOrCreate(uri: String) = resourceMap.getOrPut(uri) { ImageResource(uri) }
+        private var cid = 0
+        private val resourceMap = mutableMapOf<String, FontResource>()
+        fun getOrCreate(uri: String, size: Float, oversample: Float) = resourceMap.getOrPut("$uri|$size|$oversample") { FontResource(uri, size, oversample, cid++) }
 
         fun clearResource() {
-            val tm = Minecraft.getInstance().textureManager
-            resourceMap.forEach {
-                if (it.value::rl.isInitialized && tm.getTexture(it.value.rl) != null)
-                    tm.release(it.value.rl)
+            resourceMap.values.forEach {
+                it.cancel()
+                it.set?.close()
             }
             resourceMap.clear()
         }
     }
 
     override val resourceType: ResourceType
-        get() = ResourceType.Images
-    private lateinit var rl: ResourceLocation
+        get() = ResourceType.Fonts
 
-    var width: Int = -1
-        private set
-    var height: Int = -1
-        private set
+    @Volatile
+    private var glyph: GlyphProvider? = null
 
-    fun loadAsTexture(): ResourceLocation? {
-        if (::rl.isInitialized) return rl
-        return getOrNull()?.let {
-            val dbuf = ByteBuffer.allocateDirect(it.size)
-            dbuf.put(it)
-            dbuf.flip()
-            rl = getNewIdentifier()
+    override fun afterLoadAsync() {
+        val definition = TrueTypeGlyphProviderDefinition(
+            ResourceLocation.withDefaultNamespace("dummy"),
+            size,
+            oversample,
+            TrueTypeGlyphProviderDefinition.Shift(0f, 0f),
+            ""
+        )
 
-            val ni = NativeImage.read(dbuf)
-            width = ni.width
-            height = ni.height
-            Minecraft.getInstance().textureManager.register(rl, DynamicTexture(ni)
-                .apply {
-                    setFilter(false, false)
-                })
-            rl
-        }
+        glyph = definition.unpack().left().get().load(object : ResourceManager {
+            override fun getNamespaces() = emptySet<String>()
+            override fun getResourceStack(resourceLocation: ResourceLocation?) =
+                emptyList<net.minecraft.server.packs.resources.Resource>()
+
+            override fun listResources(
+                string: String?,
+                predicate: Predicate<ResourceLocation?>?
+            ) = emptyMap<ResourceLocation, net.minecraft.server.packs.resources.Resource>()
+
+            override fun listResourceStacks(
+                string: String?,
+                predicate: Predicate<ResourceLocation?>?
+            ) = emptyMap<ResourceLocation, List<net.minecraft.server.packs.resources.Resource>>()
+
+            override fun listPacks() = Stream.empty<PackResources>()
+            override fun getResource(resourceLocation: ResourceLocation?): Optional<net.minecraft.server.packs.resources.Resource> {
+                return Optional.of(
+                    net.minecraft.server.packs.resources.Resource(
+                        null,
+                        { ByteArrayInputStream(bytes) },
+                        ResourceMetadata.EMPTY_SUPPLIER
+                    )
+                )
+            }
+        })
     }
 
-    fun bindTexture() {
-        loadAsTexture()?.let {
-            // Minecraft.getInstance().textureManager.bindForSetup(it)
-            RenderUtil.renderer.currentTexture = it
+    override fun afterLoad() {
+        set = FontSet(Minecraft.getInstance().textureManager, RegistryHelper.getResourceLocation("font_$cid")).apply {
+            reload(listOf(GlyphProvider.Conditional(glyph, FontOption.Filter.ALWAYS_PASS)), emptySet())
         }
+        font = Font({ set }, false)
     }
+
+    private var set: FontSet? = null
+    var font: Font = Minecraft.getInstance().font
+        private set
 
     init {
         startLoading()

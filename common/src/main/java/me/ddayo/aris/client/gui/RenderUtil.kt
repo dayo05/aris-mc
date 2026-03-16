@@ -26,7 +26,7 @@ open class RenderUtilImpl : RenderUtil() {
         currentTexture = RegistryHelper.getResourceLocation("textures/$x")
     }
 
-    override fun _useTexture(x: ImageResource) {
+    override fun _useTexture(x: RenderableResource<*>) {
         x.bindTexture()
     }
 
@@ -230,7 +230,7 @@ abstract class RenderUtil {
         unbindTexture()
     }
 
-    fun useTexture(x: ImageResource, f: () -> Unit) {
+    fun useTexture(x: RenderableResource<*>, f: () -> Unit) {
         _useTexture(x)
         f()
         unbindTexture()
@@ -247,7 +247,7 @@ abstract class RenderUtil {
     }
 
     protected abstract fun _useTexture(x: String)
-    protected abstract fun _useTexture(x: ImageResource)
+    protected abstract fun _useTexture(x: RenderableResource<*>)
     protected open fun _useTexture(x: Int) {
         throw NotImplementedError("_useTexture(Int) not implemented")
     }
