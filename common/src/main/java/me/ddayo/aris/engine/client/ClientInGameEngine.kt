@@ -1,20 +1,14 @@
 package me.ddayo.aris.engine.client
 
-import com.mojang.blaze3d.systems.RenderSystem
 import me.ddayo.aris.client.KeyBindingHelper
-import me.ddayo.aris.client.gui.HudRenderer
-import me.ddayo.aris.client.gui.RenderUtil
 import me.ddayo.aris.engine.AbstractPersistantEngineCompanion
 import me.ddayo.aris.engine.hook.LuaHook
-import me.ddayo.aris.engine.hook.LuaHookMap
 import me.ddayo.aris.lua.glue.ClientInGameOnlyGenerated
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.util.ListExtensions.mutableForEach
 import net.minecraft.client.KeyMapping
-import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.world.item.ItemStack
 import party.iroiro.luajava.Lua
-import party.iroiro.luajava.luajit.LuaJit
 import java.io.File
 
 class ClientInGameEngine private constructor(lua: Lua) : ClientMainEngine(lua) {

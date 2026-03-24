@@ -1,6 +1,5 @@
 package me.ddayo.aris.client.gui.element
 
-import com.mojang.blaze3d.systems.RenderSystem
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaMultiReturn
 import me.ddayo.aris.engine.client.ClientMainEngine
@@ -11,8 +10,6 @@ import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.luagen.LuaProvider
-import net.minecraft.client.renderer.GameRenderer
-import net.minecraft.client.renderer.RenderType
 
 @LuaProvider(ClientMainEngine.PROVIDER)
 class ScriptImageRenderer(
@@ -101,7 +98,7 @@ class ScriptImageRenderer(
                         height = resource.height.toDouble()
                 }
 
-                _render(0.0, 0.0, 1.0, 1.0, th1, th2, tv1, tv2)
+                render(0.0, 0.0, 1.0, 1.0, th1, th2, tv1, tv2)
             }
         } else {
             // Image not loaded, TODO

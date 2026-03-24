@@ -99,6 +99,7 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
             LogManager.getLogger().warn("Current screen already exists.")
 
         attachedScreen = object : Screen(Component.empty()), IKeyboardHandlerElement {
+            val renderer = RenderUtil.renderer
             override fun render(guiGraphics: GuiGraphics, i: Int, j: Int, f: Float) {
                 super.render(guiGraphics, i, j, f)
                 /*
@@ -108,7 +109,7 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
                 }
                  */
 
-                RenderUtil.renderer.loadMatrix(guiGraphics) {
+                renderer.loadMatrix(guiGraphics) {
                     this@ScreenRenderer.render(this, i.toDouble(), j.toDouble(), f)
                 }
             }

@@ -17,6 +17,7 @@ import net.minecraft.server.packs.resources.ResourceMetadata
 import org.apache.logging.log4j.LogManager
 import java.io.ByteArrayInputStream
 import java.io.File
+import java.net.URI
 import java.net.URL
 import java.nio.ByteBuffer
 import java.util.Optional
@@ -51,7 +52,7 @@ abstract class Resource(private val uri: String) {
             return
         }
         if (uri.startsWith("http:") || uri.startsWith("https:")) {
-            finishLoad(URL(uri).readBytes())
+            finishLoad(URI(uri).toURL().readBytes())
             LogManager.getLogger().info("Network resource loaded!")
             return
         }
@@ -187,9 +188,7 @@ abstract class RenderableResource<T : RenderableResource<T>>(
 
     protected abstract fun loadAsTexture(): AbstractTexture
 
-    fun bindTexture() {
-        RenderUtil.renderer.currentTexture = location ?: DUMMY
-    }
+    open val texture get() = location ?: DUMMY
 }
 
 class ImageResource private constructor(uri: String) :

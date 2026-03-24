@@ -21,9 +21,11 @@ class HudRenderer: BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGenerated
     companion object {
         val enabledHud = mutableListOf<HudRenderer>()
 
+        val hudRenderer = RenderUtil.renderer
+
         fun renderHud(graphics: GuiGraphics, delta: Float) {
             RenderSystem.enableBlend()
-            RenderUtil.renderer.loadMatrix(graphics) {
+            hudRenderer.loadMatrix(graphics) {
                 fixScale(graphics.guiWidth(), graphics.guiHeight(), 1920, 1080) {
                     enabledHud.mutableForEach {
                         it.render(this, 0.0, 0.0, delta)
