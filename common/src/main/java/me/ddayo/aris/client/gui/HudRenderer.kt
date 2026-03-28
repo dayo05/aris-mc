@@ -5,6 +5,7 @@ import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.client.ClientMainEngine
+import me.ddayo.aris.lua.glue.ClientInGameOnlyGenerated
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
@@ -13,11 +14,8 @@ import me.ddayo.aris.util.ListExtensions.mutableForEach
 import net.minecraft.client.gui.GuiGraphics
 import org.apache.logging.log4j.LogManager
 
-/*
-TODO: This may replaced into IN_GAME_ONLY
- */
-@LuaProvider(ClientMainEngine.PROVIDER)
-class HudRenderer: BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGenerated.HudRenderer_LuaGenerated {
+@LuaProvider(ClientInGameEngine.PROVIDER)
+class HudRenderer: BaseRectComponent(), ILuaStaticDecl by ClientInGameOnlyGenerated.HudRenderer_LuaGenerated {
     companion object {
         val enabledHud = mutableListOf<HudRenderer>()
 
