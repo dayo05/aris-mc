@@ -341,59 +341,72 @@
 ```
 
 
-## BaseRectComponent:set_width(new_value: number)
+## ScriptMouseHandlerRenderer:set_mouse_up_hook(fn: function)
 ```
- The visual width of the component.
- Setting this updates [xScale] based on [fixedWidth].
+ Sets the Lua function to be called when a mouse button is released (mouse up) within the component's area.
+
+ The Lua function will receive the following arguments:
+ 1. `mx` (Double): The X coordinate of the mouse cursor.
+ 2. `my` (Double): The Y coordinate of the mouse cursor.
+ 3. `button` (Int): The index of the mouse button pressed.
+
+ @param fn The Lua function to serve as the callback.
 ```
 
 
-## BaseRectComponent:get_width() -> number
+## ScriptMouseHandlerRenderer:clear_mouse_up_hook()
 ```
- The visual width of the component.
- Setting this updates [xScale] based on [fixedWidth].
-```
-
-
-## BaseRectComponent:set_height(new_value: number)
-```
- The visual height of the component.
- Setting this updates [yScale] based on [fixedHeight].
+ Removes the currently assigned mouse up hook, disabling the callback.
 ```
 
 
-## BaseRectComponent:get_height() -> number
+## ScriptMouseHandlerRenderer:set_mouse_down_hook(fn: function)
 ```
- The visual height of the component.
- Setting this updates [yScale] based on [fixedHeight].
+ Sets the Lua function to be called when a mouse button is pressed (mouse down) within the component's area.
+
+ The Lua function will receive the following arguments:
+ 1. `mx` (Double): The X coordinate of the mouse cursor.
+ 2. `my` (Double): The Y coordinate of the mouse cursor.
+ 3. `button` (Int): The index of the mouse button pressed.
+
+ @param fn The Lua function to serve as the callback.
 ```
 
 
-## BaseRectComponent:set_fixed_width(new_value: number)
+## ScriptMouseHandlerRenderer:clear_mouse_down_hook()
 ```
- The internal reference width (e.g., texture width).
- Changing this recalculates [xScale] to maintain visual [width].
-```
-
-
-## BaseRectComponent:get_fixed_width() -> number
-```
- The internal reference width (e.g., texture width).
- Changing this recalculates [xScale] to maintain visual [width].
+ Removes the currently assigned mouse down hook, disabling the callback.
 ```
 
 
-## BaseRectComponent:set_fixed_height(new_value: number)
+## ScriptMouseHandlerRenderer:set_mouse_drag_hook(fn: function)
 ```
- The internal reference height (e.g., texture height).
- Changing this recalculates [yScale] to maintain visual [height].
+ Sets the Lua function to be called when the mouse is dragged within the component's area.
+
+ The Lua function will receive the following arguments:
+ 1. `mx` (Double): The X coordinate of the mouse cursor.
+ 2. `my` (Double): The Y coordinate of the mouse cursor.
+ 3. `button` (Int): The index of the mouse button being held.
+
+ @param fn The Lua function to serve as the callback.
 ```
 
 
-## BaseRectComponent:get_fixed_height() -> number
+## ScriptMouseHandlerRenderer:clear_mouse_drag_hook()
 ```
- The internal reference height (e.g., texture height).
- Changing this recalculates [yScale] to maintain visual [height].
+ Removes the currently assigned mouse drag hook, disabling the callback.
+```
+
+
+## ScriptMouseHandlerRenderer:set_area(new_value: Area)
+```
+ The area within which clicks are detected.
+```
+
+
+## ScriptMouseHandlerRenderer:get_area() -> Area
+```
+ The area within which clicks are detected.
 ```
 
 
@@ -469,84 +482,109 @@
 ```
 
 
-## ScriptMouseHandlerRenderer:set_mouse_up_hook(fn: function)
+## BaseRectComponent:set_width(new_value: number)
 ```
- Sets the Lua function to be called when a mouse button is released (mouse up) within the component's area.
-
- The Lua function will receive the following arguments:
- 1. `mx` (Double): The X coordinate of the mouse cursor.
- 2. `my` (Double): The Y coordinate of the mouse cursor.
- 3. `button` (Int): The index of the mouse button pressed.
-
- @param fn The Lua function to serve as the callback.
+ The visual width of the component.
+ Setting this updates [xScale] based on [fixedWidth].
 ```
 
 
-## ScriptMouseHandlerRenderer:clear_mouse_up_hook()
+## BaseRectComponent:get_width() -> number
 ```
- Removes the currently assigned mouse up hook, disabling the callback.
-```
-
-
-## ScriptMouseHandlerRenderer:set_mouse_down_hook(fn: function)
-```
- Sets the Lua function to be called when a mouse button is pressed (mouse down) within the component's area.
-
- The Lua function will receive the following arguments:
- 1. `mx` (Double): The X coordinate of the mouse cursor.
- 2. `my` (Double): The Y coordinate of the mouse cursor.
- 3. `button` (Int): The index of the mouse button pressed.
-
- @param fn The Lua function to serve as the callback.
+ The visual width of the component.
+ Setting this updates [xScale] based on [fixedWidth].
 ```
 
 
-## ScriptMouseHandlerRenderer:clear_mouse_down_hook()
+## BaseRectComponent:set_height(new_value: number)
 ```
- Removes the currently assigned mouse down hook, disabling the callback.
-```
-
-
-## ScriptMouseHandlerRenderer:set_mouse_drag_hook(fn: function)
-```
- Sets the Lua function to be called when the mouse is dragged within the component's area.
-
- The Lua function will receive the following arguments:
- 1. `mx` (Double): The X coordinate of the mouse cursor.
- 2. `my` (Double): The Y coordinate of the mouse cursor.
- 3. `button` (Int): The index of the mouse button being held.
-
- @param fn The Lua function to serve as the callback.
+ The visual height of the component.
+ Setting this updates [yScale] based on [fixedHeight].
 ```
 
 
-## ScriptMouseHandlerRenderer:clear_mouse_drag_hook()
+## BaseRectComponent:get_height() -> number
 ```
- Removes the currently assigned mouse drag hook, disabling the callback.
-```
-
-
-## ScriptMouseHandlerRenderer:set_area(new_value: Area)
-```
- The area within which clicks are detected.
+ The visual height of the component.
+ Setting this updates [yScale] based on [fixedHeight].
 ```
 
 
-## ScriptMouseHandlerRenderer:get_area() -> Area
+## BaseRectComponent:set_fixed_width(new_value: number)
 ```
- The area within which clicks are detected.
-```
-
-
-## HudRenderer:open_hud()
-```
- Registers this renderer to the in-game HUD engine, making it visible on the HUD.
+ The internal reference width (e.g., texture width).
+ Changing this recalculates [xScale] to maintain visual [width].
 ```
 
 
-## HudRenderer:close_hud()
+## BaseRectComponent:get_fixed_width() -> number
 ```
- Unregisters this renderer from the in-game HUD engine.
+ The internal reference width (e.g., texture width).
+ Changing this recalculates [xScale] to maintain visual [width].
+```
+
+
+## BaseRectComponent:set_fixed_height(new_value: number)
+```
+ The internal reference height (e.g., texture height).
+ Changing this recalculates [yScale] to maintain visual [height].
+```
+
+
+## BaseRectComponent:get_fixed_height() -> number
+```
+ The internal reference height (e.g., texture height).
+ Changing this recalculates [yScale] to maintain visual [height].
+```
+
+
+## ScriptImageRenderer:get_uv1() -> LuaMultiReturn
+```
+ Returns the UV coordinates of the first corner.
+ @return MultiReturn(u, v)
+```
+
+
+## ScriptImageRenderer:get_uv2() -> LuaMultiReturn
+```
+ Returns the UV coordinates of the second corner.
+ @return MultiReturn(u, v)
+```
+
+
+## ScriptImageRenderer:set_uv1(u: number, v: number)
+```
+ Sets the UV coordinates for the first corner.
+```
+
+
+## ScriptImageRenderer:set_uv2(u: number, v: number)
+```
+ Sets the UV coordinates for the second corner.
+```
+
+
+## ScriptImageRenderer:crop_uv1(u: number, v: number)
+```
+ Crops the image UV from the top-left (UV1) side, adjusting position and size to match visual changes.
+```
+
+
+## ScriptImageRenderer:crop_uv2(u: number, v: number)
+```
+ Crops the image UV from the bottom-right (UV2) side, adjusting size to match.
+```
+
+
+## ScriptImageRenderer:set_image(new_value: ImageResource)
+```
+ The image resource to be rendered.
+```
+
+
+## ScriptImageRenderer:get_image() -> ImageResource
+```
+ The image resource to be rendered.
 ```
 
 
@@ -609,56 +647,6 @@
 ```
  The full color value packed into a Long (ARGB format).
  Setting this updates [r], [g], [b], and [a].
-```
-
-
-## ScriptImageRenderer:get_uv1() -> LuaMultiReturn
-```
- Returns the UV coordinates of the first corner.
- @return MultiReturn(u, v)
-```
-
-
-## ScriptImageRenderer:get_uv2() -> LuaMultiReturn
-```
- Returns the UV coordinates of the second corner.
- @return MultiReturn(u, v)
-```
-
-
-## ScriptImageRenderer:set_uv1(u: number, v: number)
-```
- Sets the UV coordinates for the first corner.
-```
-
-
-## ScriptImageRenderer:set_uv2(u: number, v: number)
-```
- Sets the UV coordinates for the second corner.
-```
-
-
-## ScriptImageRenderer:crop_uv1(u: number, v: number)
-```
- Crops the image UV from the top-left (UV1) side, adjusting position and size to match visual changes.
-```
-
-
-## ScriptImageRenderer:crop_uv2(u: number, v: number)
-```
- Crops the image UV from the bottom-right (UV2) side, adjusting size to match.
-```
-
-
-## ScriptImageRenderer:set_image(new_value: ImageResource)
-```
- The image resource to be rendered.
-```
-
-
-## ScriptImageRenderer:get_image() -> ImageResource
-```
- The image resource to be rendered.
 ```
 
 

@@ -34,6 +34,29 @@
  플레이어 리스트에서 for문을 돌리는 것과 유사합니다.
  @param fn callback
 ```
+## aris.game.networking.register_c2s_packet_handler(id: string, func: function)
+```
+ 패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
+ @param id 패킷 id
+ @param func 실행할 함수
+```
+## aris.game.networking.send_s2c_packet(player: LuaServerPlayer, packet: PacketDeclaration.Builder)
+```
+ 클라이언트로 주어진 패킷을 전송합니다.
+ @param player 타겟 플레이어
+ @param packet 패킷
+```
+## aris.game.networking.create_s2c_packet_builder(of: string) -> PacketDeclaration.Builder
+```
+ 클라이언트로 전송할 패킷을 설정하는 빌더(builder)를 만듭니다.
+ @param of 전송할 패킷의 id
+```
+## aris.game.hook.register_endpoint(of: string, func: function)
+```
+ 명령어를 입력했을때 실행할 함수를 지정합니다.
+ @param of 명령어 id
+ @param func 실행할 함수
+```
 ## aris.game.hook.add_on_use_item(item: string, func: function)
 ```
  추가한 아이템을 사용했을때 실행할 함수를 추가합니다.
@@ -59,12 +82,6 @@
  플레이어가 데미지를 입었을 때 실행할 함수
  @param f 실행할 함수
 ```
-## aris.game.hook.register_endpoint(of: string, func: function)
-```
- 명령어를 입력했을때 실행할 함수를 지정합니다.
- @param of 명령어 id
- @param func 실행할 함수
-```
 ## aris.game.hook.add_c2s_packet_handler(id: string, func: function)
 ```
  패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
@@ -80,27 +97,12 @@
 ```
  매 틱마다 실행할 함수를 초기화합니다.
 ```
-## aris.game.networking.register_c2s_packet_handler(id: string, func: function)
+## aris.game.command.register_endpoint(of: string, func: function)
 ```
- 패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
- @param id 패킷 id
+ 명령어를 입력했을때 실행할 함수를 지정합니다.
+ @param of 명령어 id
  @param func 실행할 함수
 ```
-## aris.game.networking.send_s2c_packet(player: LuaServerPlayer, packet: PacketDeclaration.Builder)
-```
- 클라이언트로 주어진 패킷을 전송합니다.
- @param player 타겟 플레이어
- @param packet 패킷
-```
-## aris.game.networking.create_s2c_packet_builder(of: string) -> PacketDeclaration.Builder
-```
- 클라이언트로 전송할 패킷을 설정하는 빌더(builder)를 만듭니다.
- @param of 전송할 패킷의 id
-```
-## aris.game.world.get_world(world: string) -> LuaServerWorld
-## get_overworld() -> LuaServerWorld
-## get_nether() -> LuaServerWorld
-## get_end() -> LuaServerWorld
 ## aris.game.nbt.from_table(table: any) -> LuaNBTCompound
 ```
  Converts Lua Table into NBT Compound
@@ -141,12 +143,10 @@
  @param string nbt string to convert into nbt
  @return nbt object of provided string
 ```
-## aris.game.command.register_endpoint(of: string, func: function)
-```
- 명령어를 입력했을때 실행할 함수를 지정합니다.
- @param of 명령어 id
- @param func 실행할 함수
-```
+## aris.game.world.get_world(world: string) -> LuaServerWorld
+## get_overworld() -> LuaServerWorld
+## get_nether() -> LuaServerWorld
+## get_end() -> LuaServerWorld
 
 
 ## Builder:append_int(id: string, of: number)
@@ -173,66 +173,6 @@
 ```
 
 
-
-
-## LuaDamageSource:set_amount(new_value: number)
-
-
-## LuaDamageSource:get_amount() -> number
-
-
-## LuaDamageSource:get_causing() -> LuaEntity
-
-
-## LuaDamageSource:get_direct() -> LuaEntity
-
-
-## LuaDamageSource:get_isDirect() -> boolean
-
-
-## LuaDamageSource:get_id() -> string
-
-
-## LuaMobEffectInstance:set_duration(new_value: number)
-```
- Duration(tick)
-```
-
-
-## LuaMobEffectInstance:get_duration() -> number
-```
- Duration(tick)
-```
-
-
-## LuaMobEffectInstance:set_amplifier(new_value: number)
-
-
-## LuaMobEffectInstance:get_amplifier() -> number
-
-
-## LuaMobEffectInstance:set_ambient(new_value: boolean)
-```
- 거품 표시 여부
-```
-
-
-## LuaMobEffectInstance:get_ambient() -> boolean
-```
- 거품 표시 여부
-```
-
-
-## LuaMobEffectInstance:set_visible(new_value: boolean)
-
-
-## LuaMobEffectInstance:get_visible() -> boolean
-
-
-## LuaMobEffectInstance:set_showIcon(new_value: boolean)
-
-
-## LuaMobEffectInstance:get_showIcon() -> boolean
 
 
 ## LuaItemStack:set_count(new_value: number)
@@ -300,6 +240,66 @@
 ```
 
 
+## LuaMobEffectInstance:set_duration(new_value: number)
+```
+ Duration(tick)
+```
+
+
+## LuaMobEffectInstance:get_duration() -> number
+```
+ Duration(tick)
+```
+
+
+## LuaMobEffectInstance:set_amplifier(new_value: number)
+
+
+## LuaMobEffectInstance:get_amplifier() -> number
+
+
+## LuaMobEffectInstance:set_ambient(new_value: boolean)
+```
+ 거품 표시 여부
+```
+
+
+## LuaMobEffectInstance:get_ambient() -> boolean
+```
+ 거품 표시 여부
+```
+
+
+## LuaMobEffectInstance:set_visible(new_value: boolean)
+
+
+## LuaMobEffectInstance:get_visible() -> boolean
+
+
+## LuaMobEffectInstance:set_showIcon(new_value: boolean)
+
+
+## LuaMobEffectInstance:get_showIcon() -> boolean
+
+
+
+
+## LuaDamageSource:set_amount(new_value: number)
+
+
+## LuaDamageSource:get_amount() -> number
+
+
+## LuaDamageSource:get_causing() -> LuaEntity
+
+
+## LuaDamageSource:get_direct() -> LuaEntity
+
+
+## LuaDamageSource:get_isDirect() -> boolean
+
+
+## LuaDamageSource:get_id() -> string
 
 
 ## LuaEntity:add_damage(damage: number)
