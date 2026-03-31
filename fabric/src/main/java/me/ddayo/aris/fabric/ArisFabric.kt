@@ -54,7 +54,7 @@ class ArisFabric: ModInitializer {
         UseItemCallback.EVENT.register { player, world, hand ->
             val stack = player.getItemInHand(hand)
             InGameEngine.INSTANCE?.let {
-                if (!world.isClientSide) {
+                if (!world.isClientSide && hand == net.minecraft.world.InteractionHand.MAIN_HAND) {
                     val sp = LuaServerPlayer(player as ServerPlayer)
                     val lis = LuaItemStack(stack)
                     EntityHooks.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()].callAsTask(sp, lis)

@@ -14,10 +14,14 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.npc.InventoryCarrier
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.phys.AABB
 import kotlin.math.cos
+import kotlin.math.min
 import kotlin.math.sin
 
 
@@ -38,6 +42,9 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
     @LuaProperty("name")
     val name get() = inner.name.string
 
+    /**
+     * 엔티티의 타입 ID를 가져옵니다. (예: "minecraft:zombie")
+     */
     @LuaProperty
     val type get() = BuiltInRegistries.ENTITY_TYPE.getKey(inner.type).toString()
 
@@ -57,6 +64,9 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
             inner.customName = Component.literal(value)
         }
 
+    /**
+     * 엔티티의 타입 객체를 가져옵니다.
+     */
     @LuaProperty("entity_type")
     val entityType get() = LuaEntityType(inner.type)
 
@@ -110,6 +120,9 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
         inner.hurt(inner.damageSources().generic(), damage.toFloat())
     }
 
+    /**
+     * 엔티티에 속도를 설정합니다.
+     */
     @LuaFunction("add_velocity")
     fun addVelocity(x: Double, y: Double, z: Double) {
         inner.let {
@@ -119,6 +132,9 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
         }
     }
 
+    /**
+     * 엔티티가 바라보는 방향을 기준으로 속도를 설정합니다.
+     */
     @LuaFunction("add_velocity_relative")
     fun addVelocityRelative(x: Double, y: Double, z: Double) {
         val yawRad = Math.toRadians(inner.yRot.toDouble())
@@ -185,6 +201,12 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
         moveTo(newX, newY, newZ)
     }
 
+    /**
+     * 주변 엔티티를 순회합니다.
+     * @param fn 각 엔티티에 대해 실행할 콜백
+     * @param radius 탐색 반경
+     * @param includeSelf 자기 자신을 포함할지 여부
+     */
     @LuaFunction("iter_entities_nearby")
     fun getEntitiesNearby(fn: LuaFunc, radius: Double, includeSelf: Boolean) = coroutine<Unit> {
         val level = inner.level()
@@ -200,26 +222,44 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
 @LuaProvider(InGameEngine.PROVIDER)
 open class LuaLivingEntity(val living: LivingEntity) : LuaEntity(living),
     ILuaStaticDecl by InGameGenerated.LuaLivingEntity_LuaGenerated {
+    /**
+     * 엔티티에 상태 효과를 추가합니다.
+     */
     @LuaFunction(name = "add_effect")
     fun addEffect(effect: LuaMobEffectInstance) {
         living.addEffect(effect.build())
     }
 
+    /**
+     * 엔티티의 모든 상태 효과를 제거합니다.
+     */
     @LuaFunction(name = "clear_effect")
     fun clearEffect() {
         living.removeAllEffects()
     }
 
+    /**
+     * 엔티티의 특정 상태 효과를 제거합니다.
+     * @param of 효과 ID (예: "minecraft:speed")
+     */
     @LuaFunction(name = "remove_effect")
     fun removeEffect(of: String) {
         living.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.parse(of)).get())
     }
 
+    /**
+     * 엔티티의 특정 상태 효과를 제거합니다.
+     * @param ns 네임스페이스
+     * @param of 효과 이름
+     */
     @LuaFunction(name = "remove_effect")
     fun removeEffect(ns: String, of: String) {
         living.removeEffect(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.tryBuild(ns, of)!!).get())
     }
 
+    /**
+     * 엔티티의 pitch(상하 회전)를 가져오거나 설정합니다.
+     */
     @LuaProperty
     var pitch
         get() = living.xRot
@@ -227,10 +267,184 @@ open class LuaLivingEntity(val living: LivingEntity) : LuaEntity(living),
             living.xRot = value
         }
 
+    /**
+     * 엔티티의 yaw(좌우 회전)를 가져오거나 설정합니다.
+     */
     @LuaProperty
     var yaw
         get() = living.yRot
         set(value) {
             living.yRot = value
         }
+
+    /**
+     * 엔티티의 모든 아이템을 순회합니다. (장비 슬롯 + 인벤토리)
+     * action이 true를 반환하면 순회를 중단합니다.
+     */
+    protected open fun forEachItem(action: (ItemStack) -> Boolean) {
+        // 장비 슬롯
+        for (slot in EquipmentSlot.entries) {
+            if (action(living.getItemBySlot(slot))) return
+        }
+        // InventoryCarrier 인터페이스 (마을 주민, 피글린, 알레이 등)
+        if (living is InventoryCarrier) {
+            val inv = (living as InventoryCarrier).inventory
+            for (i in 0 until inv.containerSize) {
+                if (action(inv.getItem(i))) return
+            }
+        }
+    }
+
+    companion object {
+        private fun parseEquipmentSlot(slot: String): EquipmentSlot? = when (slot.lowercase()) {
+            "mainhand", "main_hand" -> EquipmentSlot.MAINHAND
+            "offhand", "off_hand" -> EquipmentSlot.OFFHAND
+            "head", "helmet" -> EquipmentSlot.HEAD
+            "chest", "chestplate" -> EquipmentSlot.CHEST
+            "legs", "leggings" -> EquipmentSlot.LEGS
+            "feet", "boots" -> EquipmentSlot.FEET
+            else -> null
+        }
+    }
+
+    /**
+     * 장비 슬롯의 아이템을 가져옵니다.
+     * 슬롯: mainhand, offhand, head, chest, legs, feet
+     */
+    @LuaFunction(name = "get_equipment")
+    fun getEquipment(slot: String): LuaItemStack? {
+        val equipSlot = parseEquipmentSlot(slot) ?: return null
+        return LuaItemStack(living.getItemBySlot(equipSlot))
+    }
+
+    /**
+     * 장비 슬롯에 아이템을 설정합니다.
+     * 슬롯: mainhand, offhand, head, chest, legs, feet
+     */
+    @LuaFunction(name = "set_equipment")
+    fun setEquipment(slot: String, item: LuaItemStack) {
+        val equipSlot = parseEquipmentSlot(slot) ?: return
+        living.setItemSlot(equipSlot, item.inner)
+    }
+
+    /**
+     * 장비 슬롯의 아이템을 제거합니다.
+     * 슬롯: mainhand, offhand, head, chest, legs, feet
+     */
+    @LuaFunction(name = "clear_equipment")
+    fun clearEquipment(slot: String) {
+        val equipSlot = parseEquipmentSlot(slot) ?: return
+        living.setItemSlot(equipSlot, ItemStack.EMPTY)
+    }
+
+    /**
+     * 슬롯 번호로 아이템을 가져옵니다.
+     * @param slot 슬롯 번호
+     */
+    @LuaFunction("get_slot")
+    open fun getSlot(slot: Int): LuaItemStack {
+        return LuaItemStack(living.getSlot(slot).get())
+    }
+
+    /**
+     * 슬롯 번호로 아이템을 설정합니다.
+     * @param slot 슬롯 번호
+     * @param item 설정할 아이템
+     */
+    @LuaFunction("set_slot")
+    open fun setSlot(slot: Int, item: LuaItemStack) {
+        living.getSlot(slot).set(item.inner)
+    }
+
+    /**
+     * 엔티티에 아이템을 추가합니다. 이미 같은 아이템이 있으면 수량을 합칩니다.
+     * @param item 추가할 아이템
+     * @return 성공 여부
+     */
+    @LuaFunction("give_item")
+    open fun giveItem(item: LuaItemStack): Boolean {
+        val stack = item.inner.copy()
+        // 기존 슬롯에서 같은 아이템이 있으면 합치기
+        forEachItem { existing ->
+            if (!existing.isEmpty && ItemStack.isSameItemSameComponents(existing, stack)) {
+                val canAdd = min(stack.count, existing.maxStackSize - existing.count)
+                if (canAdd > 0) {
+                    existing.grow(canAdd)
+                    stack.shrink(canAdd)
+                }
+            }
+            stack.isEmpty
+        }
+        if (stack.isEmpty) return true
+        // 장비 슬롯에 빈 곳 찾기
+        for (slot in EquipmentSlot.entries) {
+            if (living.getItemBySlot(slot).isEmpty) {
+                living.setItemSlot(slot, stack)
+                return true
+            }
+        }
+        // InventoryCarrier 인벤토리에 빈 곳 찾기
+        if (living is InventoryCarrier) {
+            val inv = (living as InventoryCarrier).inventory
+            for (i in 0 until inv.containerSize) {
+                if (inv.getItem(i).isEmpty) {
+                    inv.setItem(i, stack)
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    /**
+     * 아이템 ID와 수량으로 엔티티에 아이템을 추가합니다.
+     * @param id 아이템 ID (예: "minecraft:diamond")
+     * @param count 수량
+     * @return 성공 여부
+     */
+    @LuaFunction("give_item")
+    open fun giveItem(id: String, count: Int): Boolean {
+        val holder = BuiltInRegistries.ITEM.get(ResourceLocation.parse(id)).get()
+        return giveItem(LuaItemStack(ItemStack(holder, count)))
+    }
+
+    /**
+     * 엔티티의 모든 아이템을 제거합니다.
+     */
+    @LuaFunction("clear_inventory")
+    open fun clearInventory() {
+        forEachItem { stack ->
+            stack.count = 0
+            false
+        }
+    }
+
+    /**
+     * 엔티티의 슬롯에서 특정 아이템을 제거합니다. 수량이 부족하면 제거하지 않고 false를 반환합니다.
+     * @param id 아이템 ID (예: "minecraft:diamond")
+     * @param count 제거할 수량
+     * @return 성공 여부
+     */
+    @LuaFunction("remove_item")
+    open fun removeItem(id: String, count: Int): Boolean {
+        val targetItem = BuiltInRegistries.ITEM.get(ResourceLocation.parse(id)).get().value()
+        // 먼저 충분한 수량이 있는지 확인
+        var available = 0
+        forEachItem { stack ->
+            if (stack.item == targetItem) available += stack.count
+            false
+        }
+        if (available < count) return false
+        // 충분하므로 제거
+        var remaining = count
+        forEachItem { stack ->
+            if (remaining > 0 && stack.item == targetItem) {
+                val toRemove = min(remaining, stack.count)
+                stack.shrink(toRemove)
+                remaining -= toRemove
+            }
+            remaining <= 0
+        }
+        return true
+    }
 }

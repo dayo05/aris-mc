@@ -3,11 +3,16 @@ package me.ddayo.aris.engine.hook
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.wrapper.LuaDamageSource
 import me.ddayo.aris.engine.wrapper.LuaEntity.Companion.toLuaValue
+import me.ddayo.aris.engine.wrapper.LuaItemMoveEvent
+import me.ddayo.aris.engine.wrapper.LuaItemStack
+import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.ItemStack
 
 @LuaProvider(InGameEngine.PROVIDER, library = "aris.game.hook")
 object EntityHooks {
@@ -75,5 +80,47 @@ object EntityHooks {
         val incr = LuaDamageSource(damage, amount)
         onEntityDamagedHook.call(incr, target.toLuaValue())
         return incr.amount
+    }
+
+    val onItemMoveHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(onItemMoveHook)
+    }
+
+    /**
+     * 아이템 이동 시 실행할 함수를 추가합니다.
+     * 컨테이너 클릭, 아이템 드롭, 아이템 줍기 등을 감지합니다.
+     * event:cancel()을 호출하면 이동을 취소합니다.
+     * @param f 실행할 함수 (LuaItemMoveEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_item_move")
+    fun onItemMove(f: LuaFunc) {
+        onItemMoveHook.add(f)
+    }
+
+    /**
+     * 아이템 이동 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_item_move")
+    fun clearOnItemMove() {
+        onItemMoveHook.clear()
+    }
+
+    fun executeOnContainerClick(player: ServerPlayer, item: ItemStack): Boolean {
+        val event = LuaItemMoveEvent(LuaServerPlayer(player), LuaItemStack(item), "container_click")
+        onItemMoveHook.call(event)
+        return event.cancelled
+    }
+
+    fun executeOnItemDrop(player: ServerPlayer, item: ItemStack): Boolean {
+        val event = LuaItemMoveEvent(LuaServerPlayer(player), LuaItemStack(item), "drop")
+        onItemMoveHook.call(event)
+        return event.cancelled
+    }
+
+    fun executeOnItemPickup(player: ServerPlayer, item: ItemStack): Boolean {
+        val event = LuaItemMoveEvent(LuaServerPlayer(player), LuaItemStack(item), "pickup")
+        onItemMoveHook.call(event)
+        return event.cancelled
     }
 }

@@ -23,6 +23,7 @@ object ArisNeoForgeServerEventSubscriber {
     @SubscribeEvent
     fun onItemUse(event: PlayerInteractEvent.RightClickItem) {
         val player = event.entity as? ServerPlayer ?: return
+        if (event.hand != net.minecraft.world.InteractionHand.MAIN_HAND) return
         val stack = player.getItemInHand(event.hand)
         val sp = LuaServerPlayer(player)
         val lis = LuaItemStack(stack)
