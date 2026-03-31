@@ -19,11 +19,6 @@
 ## aris.game.client.get_player_z() -> number
 ## aris.game.client.get_player_pitch() -> number
 ## aris.game.client.get_player_yaw() -> number
-## aris.game.client.add_tick_hook(f: function)
-```
- 매 틱마다 실행할 함수를 추가합니다.
- @param f 실행할 함수
-```
 ## aris.game.client.item_used_duration() -> number
 ```
  플레이어가 얼마나 오랫동안 아이템을 사용했는지(charging)
@@ -49,12 +44,6 @@
 ```
  서버로부터 전송받은 아이템 데이터를 가져옵니다.
 ```
-## aris.game.client.add_on_key_pressed(key: string, function: function)
-```
- 새로 추가한 조작키를 실행할때 실행될 함수를 지정합니다.
- @param key 누를 키
- @param function 실행할 함수
-```
 ## aris.game.client.is_key_pressed(key: number) -> boolean
 ```
  특정 키가 눌린 상태인지 검사합니다.
@@ -71,12 +60,6 @@
 ```
  서버로 전송할 패킷을 설정하는 빌더(builder)를 만듭니다.
  @param of 전송할 패킷의 id
-```
-## aris.game.client.networking.register_s2c_packet_handler(id: string, func: function)
-```
- 패킷이 서버로부터 전송됐을때 실행할 함수를 지정합니다.
- @param id 패킷 id
- @param func 실행할 함수
 ```
 ## aris.game.client.hook.add_s2c_packet_handler(id: string, func: function)
 ```

@@ -1,24 +1,3 @@
-## aris.game.add_on_use_item(item: string, func: function)
-```
- 추가한 아이템을 사용했을때 실행할 함수를 추가합니다.
- @param item 아이템 id
- @param func 실행할 함수
-```
-## aris.game.clear_on_use_item(item: string)
-```
- add_on_use_item을 통해 등록한 함수들을 초기화합니다.
- @param item 초기화할 아이템
-```
-## aris.game.add_on_right_click_hook(f: function)
-```
- 플레이어가 임의의 위치를 우클릭시 실행할 함수
- @param f 실행할 함수
-```
-## aris.game.add_tick_hook(f: function)
-```
- 매 틱마다 실행할 함수를 추가합니다.
- @param f 실행할 함수
-```
 ## aris.game.dispatch_command(command: string)
 ```
  서버 콘솔에서 커멘드를 실행합니다.
@@ -33,12 +12,6 @@
  모든 플레이어를 한번씩 callback으로 넘겨줍니다.
  플레이어 리스트에서 for문을 돌리는 것과 유사합니다.
  @param fn callback
-```
-## aris.game.networking.register_c2s_packet_handler(id: string, func: function)
-```
- 패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
- @param id 패킷 id
- @param func 실행할 함수
 ```
 ## aris.game.networking.send_s2c_packet(player: LuaServerPlayer, packet: PacketDeclaration.Builder)
 ```
@@ -61,7 +34,7 @@
 ```
  추가한 아이템을 사용했을때 실행할 함수를 추가합니다.
  @param item 아이템 id
- @param func 실행할 함수
+ @param func 실행할 함수 (LuaUseItemEvent를 인자로 받음)
 ```
 ## aris.game.hook.clear_on_use_item(item: string)
 ```
@@ -71,7 +44,7 @@
 ## aris.game.hook.add_on_right_click(f: function)
 ```
  플레이어가 임의의 위치를 우클릭시 실행할 함수
- @param f 실행할 함수
+ @param f 실행할 함수 (LuaRightClickEvent를 인자로 받음)
 ```
 ## aris.game.hook.clear_on_right_click()
 ```
@@ -79,8 +52,19 @@
 ```
 ## aris.game.hook.add_on_entity_damaged(f: function)
 ```
- 플레이어가 데미지를 입었을 때 실행할 함수
- @param f 실행할 함수
+ 엔티티가 데미지를 입었을 때 실행할 함수
+ @param f 실행할 함수 (LuaEntityDamagedEvent를 인자로 받음)
+```
+## aris.game.hook.add_on_item_move(f: function)
+```
+ 아이템 이동 시 실행할 함수를 추가합니다.
+ 컨테이너 클릭, 아이템 드롭, 아이템 줍기 등을 감지합니다.
+ event:cancel()을 호출하면 이동을 취소합니다.
+ @param f 실행할 함수 (LuaItemMoveEvent를 인자로 받음)
+```
+## aris.game.hook.clear_on_item_move()
+```
+ 아이템 이동 훅을 초기화합니다.
 ```
 ## aris.game.hook.add_c2s_packet_handler(id: string, func: function)
 ```
@@ -96,12 +80,6 @@
 ## aris.game.hook.clear_tick(f: function)
 ```
  매 틱마다 실행할 함수를 초기화합니다.
-```
-## aris.game.command.register_endpoint(of: string, func: function)
-```
- 명령어를 입력했을때 실행할 함수를 지정합니다.
- @param of 명령어 id
- @param func 실행할 함수
 ```
 ## aris.game.nbt.from_table(table: any) -> LuaNBTCompound
 ```
@@ -196,6 +174,36 @@
 ## LuaItemStack:get_name() -> string
 ```
  해당 아이템의 기본 이름을 가져옵니다.
+```
+
+
+## LuaItemStack:set_data(new_value: LuaNBTCompound)
+```
+ 해당 아이템의 custom NBT data를 읽고 씁니다.
+```
+
+
+## LuaItemStack:get_data() -> LuaNBTCompound
+```
+ 해당 아이템의 custom NBT data를 읽고 씁니다.
+```
+
+
+## LuaUseItemEvent:get_player() -> LuaServerPlayer
+```
+ 아이템을 사용한 플레이어
+```
+
+
+## LuaUseItemEvent:get_item() -> LuaItemStack
+```
+ 사용한 아이템
+```
+
+
+## LuaRightClickEvent:get_player() -> LuaServerPlayer
+```
+ 우클릭한 플레이어
 ```
 
 
@@ -309,9 +317,15 @@
 
 
 ## LuaEntity:add_velocity(x: number, y: number, z: number)
+```
+ 엔티티에 속도를 설정합니다.
+```
 
 
 ## LuaEntity:add_velocity_relative(x: number, y: number, z: number)
+```
+ 엔티티가 바라보는 방향을 기준으로 속도를 설정합니다.
+```
 
 
 ## LuaEntity:move_delta(x: number, y: number, z: number)
@@ -342,6 +356,12 @@
 
 
 ## LuaEntity:iter_entities_nearby(fn: function, radius: number, includeSelf: boolean) -> 
+```
+ 주변 엔티티를 순회합니다.
+ @param fn 각 엔티티에 대해 실행할 콜백
+ @param radius 탐색 반경
+ @param includeSelf 자기 자신을 포함할지 여부
+```
 
 
 ## LuaEntity:get_name() -> string
@@ -351,6 +371,9 @@
 
 
 ## LuaEntity:get_type() -> string
+```
+ 엔티티의 타입 ID를 가져옵니다. (예: "minecraft:zombie")
+```
 
 
 ## LuaEntity:get_display_name() -> string
@@ -372,6 +395,9 @@
 
 
 ## LuaEntity:get_entity_type() -> LuaEntityType
+```
+ 엔티티의 타입 객체를 가져옵니다.
+```
 
 
 ## LuaEntity:set_x(new_value: number)
@@ -422,26 +448,155 @@
 ```
 
 
+## LuaItemMoveEvent:cancel()
+```
+ 이벤트를 취소합니다.
+```
+
+
+## LuaItemMoveEvent:get_player() -> LuaServerPlayer
+```
+ 이벤트를 발생시킨 플레이어
+```
+
+
+## LuaItemMoveEvent:get_item() -> LuaItemStack
+```
+ 이동 대상 아이템
+```
+
+
+## LuaItemMoveEvent:get_type() -> string
+```
+ 이동 유형: "container_click", "drop", "pickup"
+```
+
+
+## LuaEntityDamagedEvent:get_damage() -> LuaDamageSource
+```
+ 데미지 정보. amount를 수정하면 데미지가 변경됩니다.
+```
+
+
+## LuaEntityDamagedEvent:get_target() -> LuaEntity
+```
+ 데미지를 받은 엔티티
+```
+
+
 ## LuaLivingEntity:add_effect(effect: LuaMobEffectInstance)
+```
+ 엔티티에 상태 효과를 추가합니다.
+```
 
 
 ## LuaLivingEntity:clear_effect()
+```
+ 엔티티의 모든 상태 효과를 제거합니다.
+```
 
 
 ## LuaLivingEntity:remove_effect(of: string)
+```
+ 엔티티의 특정 상태 효과를 제거합니다.
+ @param of 효과 ID (예: "minecraft:speed")
+```
 ## LuaLivingEntity:remove_effect(ns: string, of: string)
+```
+ 엔티티의 특정 상태 효과를 제거합니다.
+ @param ns 네임스페이스
+ @param of 효과 이름
+```
+
+
+## LuaLivingEntity:get_equipment(slot: string) -> LuaItemStack
+```
+ 장비 슬롯의 아이템을 가져옵니다.
+ 슬롯: mainhand, offhand, head, chest, legs, feet
+```
+
+
+## LuaLivingEntity:set_equipment(slot: string, item: LuaItemStack)
+```
+ 장비 슬롯에 아이템을 설정합니다.
+ 슬롯: mainhand, offhand, head, chest, legs, feet
+```
+
+
+## LuaLivingEntity:clear_equipment(slot: string)
+```
+ 장비 슬롯의 아이템을 제거합니다.
+ 슬롯: mainhand, offhand, head, chest, legs, feet
+```
+
+
+## LuaLivingEntity:get_slot(slot: number) -> LuaItemStack
+```
+ 슬롯 번호로 아이템을 가져옵니다.
+ @param slot 슬롯 번호
+```
+
+
+## LuaLivingEntity:set_slot(slot: number, item: LuaItemStack)
+```
+ 슬롯 번호로 아이템을 설정합니다.
+ @param slot 슬롯 번호
+ @param item 설정할 아이템
+```
+
+
+## LuaLivingEntity:give_item(item: LuaItemStack) -> boolean
+```
+ 엔티티에 아이템을 추가합니다. 이미 같은 아이템이 있으면 수량을 합칩니다.
+ @param item 추가할 아이템
+ @return 성공 여부
+```
+## LuaLivingEntity:give_item(id: string, count: number) -> boolean
+```
+ 아이템 ID와 수량으로 엔티티에 아이템을 추가합니다.
+ @param id 아이템 ID (예: "minecraft:diamond")
+ @param count 수량
+ @return 성공 여부
+```
+
+
+## LuaLivingEntity:clear_inventory()
+```
+ 엔티티의 모든 아이템을 제거합니다.
+```
+
+
+## LuaLivingEntity:remove_item(id: string, count: number) -> boolean
+```
+ 엔티티의 슬롯에서 특정 아이템을 제거합니다. 수량이 부족하면 제거하지 않고 false를 반환합니다.
+ @param id 아이템 ID (예: "minecraft:diamond")
+ @param count 제거할 수량
+ @return 성공 여부
+```
 
 
 ## LuaLivingEntity:set_pitch(new_value: number)
+```
+ 엔티티의 pitch(상하 회전)를 가져오거나 설정합니다.
+```
 
 
 ## LuaLivingEntity:get_pitch() -> number
+```
+ 엔티티의 pitch(상하 회전)를 가져오거나 설정합니다.
+```
 
 
 ## LuaLivingEntity:set_yaw(new_value: number)
+```
+ 엔티티의 yaw(좌우 회전)를 가져오거나 설정합니다.
+```
 
 
 ## LuaLivingEntity:get_yaw() -> number
+```
+ 엔티티의 yaw(좌우 회전)를 가져오거나 설정합니다.
+```
 
 
 ## LuaPlayerEntity:get_main_hand_item() -> LuaItemStack
