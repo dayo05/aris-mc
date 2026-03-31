@@ -3,10 +3,8 @@ package me.ddayo.aris.engine.client.functions
 import com.mojang.blaze3d.platform.InputConstants
 import me.ddayo.aris.client.gui.HudRenderer
 import me.ddayo.aris.engine.client.ClientInGameEngine
-import me.ddayo.aris.engine.hook.client.ClientInGameHooks
 import me.ddayo.aris.engine.wrapper.LuaEntity
 import me.ddayo.aris.engine.wrapper.LuaItemStack
-import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import me.ddayo.aris.luagen.RetrieveEngine
@@ -16,7 +14,6 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.projectile.ProjectileUtil
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.phys.AABB
-import org.apache.logging.log4j.LogManager
 
 
 @LuaProvider(ClientInGameEngine.PROVIDER, library = "aris.game.client")
@@ -61,17 +58,6 @@ object ClientInGameFunction {
     @LuaFunction("get_player_yaw")
     fun getPlayerYaw() = mc.player!!.yRot
 
-    fun warnTickFunction() = LogManager.getLogger().warn("Use aris.game.client.hook.* instead.")
-    /**
-     * 매 틱마다 실행할 함수를 추가합니다.
-     * @param f 실행할 함수
-     */
-    @LuaFunction("add_tick_hook")
-    fun addTickHook(f: LuaFunc) {
-        warnTickFunction()
-        ClientInGameHooks.addTickHook(f)
-    }
-
     /**
      * 플레이어가 얼마나 오랫동안 아이템을 사용했는지(charging)
      * @return 플레이어가 차징한 시간(tick)
@@ -111,17 +97,6 @@ object ClientInGameFunction {
      */
     @LuaFunction("remove_item_data")
     fun getItemData(@RetrieveEngine engine: ClientInGameEngine, of: String) = LuaItemStack(engine.clientItemStackData[of] ?: ItemStack.EMPTY)
-
-    /**
-     * 새로 추가한 조작키를 실행할때 실행될 함수를 지정합니다.
-     * @param key 누를 키
-     * @param function 실행할 함수
-     */
-    @LuaFunction("add_on_key_pressed")
-    fun onKeyPressed(@RetrieveEngine engine: ClientInGameEngine, key: String, function: LuaFunc) {
-        warnTickFunction()
-        ClientInGameHooks.onKeyPressed(engine, key, function)
-    }
 
     /**
      * 특정 키가 눌린 상태인지 검사합니다.

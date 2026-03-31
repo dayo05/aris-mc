@@ -2,67 +2,21 @@ package me.ddayo.aris.engine
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.RegistryHelper
-import me.ddayo.aris.engine.hook.EntityHooks
 import me.ddayo.aris.engine.wrapper.LuaEntity
 import me.ddayo.aris.engine.wrapper.LuaEntityType
 import me.ddayo.aris.engine.wrapper.LuaMobEffectInstance
 import me.ddayo.aris.engine.wrapper.LuaServerWorld
-import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
-import me.ddayo.aris.luagen.RetrieveEngine
 import me.ddayo.aris.math.Point3
 import net.minecraft.core.BlockPos
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntitySpawnReason
-import org.apache.logging.log4j.LogManager
 
 
 @LuaProvider(InGameEngine.PROVIDER, library = "aris.game")
 object InGameFunction {
-    fun warnHookFn() = LogManager.getLogger().warn("Use aris.game.hook.* instead")
-    /**
-     * 추가한 아이템을 사용했을때 실행할 함수를 추가합니다.
-     * @param item 아이템 id
-     * @param func 실행할 함수
-     */
-    @LuaFunction("add_on_use_item")
-    fun onUseItemHook(item: String, func: LuaFunc) {
-        warnHookFn()
-        EntityHooks.onUseItemHook(item, func)
-    }
-
-    /**
-     * add_on_use_item을 통해 등록한 함수들을 초기화합니다.
-     * @param item 초기화할 아이템
-     */
-    @LuaFunction("clear_on_use_item")
-    fun clearOnUseItem(item: String) {
-        warnHookFn()
-        EntityHooks.clearOnUseItem(item)
-    }
-
-    /**
-     * 플레이어가 임의의 위치를 우클릭시 실행할 함수
-     * @param f 실행할 함수
-     */
-    @LuaFunction("add_on_right_click_hook")
-    fun onRightClick(f: LuaFunc) {
-        warnHookFn()
-        EntityHooks.rightClickHook.add(f)
-    }
-
-    /**
-     * 매 틱마다 실행할 함수를 추가합니다.
-     * @param f 실행할 함수
-     */
-    @LuaFunction("add_tick_hook")
-    fun addTickHook(f: LuaFunc) {
-        warnHookFn()
-        InGameEngine.tickHook.add(f)
-    }
-
     /**
      * 서버 콘솔에서 커멘드를 실행합니다.
      * @param command 실행할 명령어

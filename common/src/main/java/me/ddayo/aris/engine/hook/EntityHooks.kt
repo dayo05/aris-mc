@@ -1,11 +1,8 @@
 package me.ddayo.aris.engine.hook
 
 import me.ddayo.aris.engine.InGameEngine
-import me.ddayo.aris.engine.wrapper.LuaDamageSource
+import me.ddayo.aris.engine.wrapper.*
 import me.ddayo.aris.engine.wrapper.LuaEntity.Companion.toLuaValue
-import me.ddayo.aris.engine.wrapper.LuaItemMoveEvent
-import me.ddayo.aris.engine.wrapper.LuaItemStack
-import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
@@ -24,7 +21,7 @@ object EntityHooks {
     /**
      * 추가한 아이템을 사용했을때 실행할 함수를 추가합니다.
      * @param item 아이템 id
-     * @param func 실행할 함수
+     * @param func 실행할 함수 (LuaUseItemEvent를 인자로 받음)
      */
     @LuaFunction("add_on_use_item")
     fun onUseItemHook(item: String, func: LuaFunc) {
@@ -40,6 +37,11 @@ object EntityHooks {
         itemUseHook[item].clear()
     }
 
+    fun executeOnUseItem(itemId: String, player: ServerPlayer, item: ItemStack) {
+        val event = LuaUseItemEvent(LuaServerPlayer(player), LuaItemStack(item))
+        itemUseHook[itemId].callAsTask(event)
+    }
+
     val rightClickHook = LuaHook()
     init {
         InGameEngine.hooks.add(rightClickHook)
@@ -47,7 +49,7 @@ object EntityHooks {
 
     /**
      * 플레이어가 임의의 위치를 우클릭시 실행할 함수
-     * @param f 실행할 함수
+     * @param f 실행할 함수 (LuaRightClickEvent를 인자로 받음)
      */
     @LuaFunction("add_on_right_click")
     fun onRightClick(f: LuaFunc) {
@@ -62,14 +64,19 @@ object EntityHooks {
         rightClickHook.clear()
     }
 
+    fun executeOnRightClick(player: ServerPlayer) {
+        val event = LuaRightClickEvent(LuaServerPlayer(player))
+        rightClickHook.callAsTask(event)
+    }
+
     val onEntityDamagedHook = LuaHook()
     init {
         InGameEngine.hooks.add(onEntityDamagedHook)
     }
 
     /**
-     * 플레이어가 데미지를 입었을 때 실행할 함수
-     * @param f 실행할 함수
+     * 엔티티가 데미지를 입었을 때 실행할 함수
+     * @param f 실행할 함수 (LuaEntityDamagedEvent를 인자로 받음)
      */
     @LuaFunction("add_on_entity_damaged")
     fun onEntityGotDamaged(f: LuaFunc) {
@@ -77,9 +84,9 @@ object EntityHooks {
     }
 
     fun executeOnEntityGotDamage(damage: DamageSource, amount: Float, target: LivingEntity): Float {
-        val incr = LuaDamageSource(damage, amount)
-        onEntityDamagedHook.call(incr, target.toLuaValue())
-        return incr.amount
+        val event = LuaEntityDamagedEvent(LuaDamageSource(damage, amount), target.toLuaValue())
+        onEntityDamagedHook.call(event)
+        return event.damageSourceWrapper.amount
     }
 
     val onItemMoveHook = LuaHook()

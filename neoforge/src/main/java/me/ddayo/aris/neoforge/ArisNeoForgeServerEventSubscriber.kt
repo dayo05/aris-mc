@@ -2,8 +2,6 @@ package me.ddayo.aris.neoforge
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.hook.EntityHooks
-import me.ddayo.aris.engine.wrapper.LuaItemStack
-import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.server.level.ServerPlayer
 import net.neoforged.bus.api.SubscribeEvent
@@ -25,9 +23,8 @@ object ArisNeoForgeServerEventSubscriber {
         val player = event.entity as? ServerPlayer ?: return
         if (event.hand != net.minecraft.world.InteractionHand.MAIN_HAND) return
         val stack = player.getItemInHand(event.hand)
-        val sp = LuaServerPlayer(player)
-        val lis = LuaItemStack(stack)
-        EntityHooks.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()].callAsTask(sp, lis)
+        EntityHooks.executeOnUseItem(BuiltInRegistries.ITEM.getKey(stack.item).toString(), player, stack)
+        EntityHooks.executeOnRightClick(player)
     }
 
     @SubscribeEvent

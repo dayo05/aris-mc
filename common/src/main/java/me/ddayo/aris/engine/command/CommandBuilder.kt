@@ -6,11 +6,9 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
-import me.ddayo.aris.Aris
 import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaFunc
-import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
 import me.ddayo.aris.engine.hook.CommandHooks
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
@@ -21,22 +19,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.resources.ResourceLocation
-import org.apache.logging.log4j.LogManager
 
-
-@LuaProvider(InGameEngine.PROVIDER, library = "aris.game.command")
-object CommandInGameFunctions {
-    /**
-     * 명령어를 입력했을때 실행할 함수를 지정합니다.
-     * @param of 명령어 id
-     * @param func 실행할 함수
-     */
-    @LuaFunction("register_endpoint")
-    fun registerEndpoint(of: String, func: LuaFunc) {
-        LogManager.getLogger().warn("Use aris.game.hook.add_command_endpoint instead")
-        CommandHooks.registerEndpoint(of, func)
-    }
-}
 
 @LuaProvider(InitEngine.PROVIDER, library = "aris.init.command")
 object CommandBuilderFunctions {

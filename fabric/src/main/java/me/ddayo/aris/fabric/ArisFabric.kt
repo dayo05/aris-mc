@@ -5,9 +5,6 @@ import me.ddayo.aris.engine.EngineInitializer
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
 import me.ddayo.aris.engine.hook.EntityHooks
-import me.ddayo.aris.engine.wrapper.LuaItemStack
-import me.ddayo.aris.engine.wrapper.LuaPlayerEntity
-import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -55,11 +52,9 @@ class ArisFabric: ModInitializer {
             val stack = player.getItemInHand(hand)
             InGameEngine.INSTANCE?.let {
                 if (!world.isClientSide && hand == net.minecraft.world.InteractionHand.MAIN_HAND) {
-                    val sp = LuaServerPlayer(player as ServerPlayer)
-                    val lis = LuaItemStack(stack)
-                    EntityHooks.itemUseHook[BuiltInRegistries.ITEM.getKey(stack.item).toString()].callAsTask(sp, lis)
-
-                    EntityHooks.rightClickHook.callAsTask(LuaPlayerEntity(player))
+                    val sp = player as ServerPlayer
+                    EntityHooks.executeOnUseItem(BuiltInRegistries.ITEM.getKey(stack.item).toString(), sp, stack)
+                    EntityHooks.executeOnRightClick(sp)
                 }
             }
 

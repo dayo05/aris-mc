@@ -1,15 +1,10 @@
 package me.ddayo.aris.engine.networking
 
 import dev.architectury.injectables.annotations.ExpectPlatform
-import me.ddayo.aris.Aris
 import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.engine.client.ClientInGameEngine
-import me.ddayo.aris.engine.hook.client.ClientNetworkingHooks
-import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
-import net.minecraft.resources.ResourceLocation
-import org.apache.logging.log4j.LogManager
 
 @LuaProvider(ClientInGameEngine.PROVIDER, library = "aris.game.client.networking")
 object C2SPacketSenderHandler {
@@ -34,16 +29,3 @@ object C2SPacketSenderHandler {
     }
 }
 
-@LuaProvider(ClientInGameEngine.PROVIDER, library = "aris.game.client.networking")
-object S2CPacketReceiverHandlerLegacy {
-    /**
-     * 패킷이 서버로부터 전송됐을때 실행할 함수를 지정합니다.
-     * @param id 패킷 id
-     * @param func 실행할 함수
-     */
-    @LuaFunction("register_s2c_packet_handler")
-    fun registerHandler(id: String, func: LuaFunc) {
-        LogManager.getLogger().warn("Use aris.game.client.hook.add_s2c_packet_handler")
-        ClientNetworkingHooks.registerHandler(id, func)
-    }
-}
