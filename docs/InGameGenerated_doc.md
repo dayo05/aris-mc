@@ -615,6 +615,13 @@
 ## LuaServerPlayer:send_message(msg: Component)
 
 
+## LuaServerPlayer:is_op() -> boolean
+```
+ 플레이어가 OP 권한을 가지고 있는지 확인합니다.
+ @return OP인 경우 true, 아닌 경우 false
+```
+
+
 ## LuaServerPlayer:iter_player_nearby(fn: function, lnt: number, includeSelf: boolean) -> 
 ```
  플레이어로부터 유클리드 거리(직선거리) 기준 특정 거리 이내인 플레이어를 탐색합니다.
