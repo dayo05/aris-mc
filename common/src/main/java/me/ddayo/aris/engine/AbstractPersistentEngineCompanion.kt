@@ -7,7 +7,7 @@ import party.iroiro.luajava.luajit.LuaJit
 import java.io.File
 import kotlin.io.nameWithoutExtension
 
-abstract class AbstractPersistantEngineCompanion<T : MCBaseEngine> {
+abstract class AbstractPersistentEngineCompanion<T : MCBaseEngine> {
     var INSTANCE: T? = null
         private set
 

@@ -58,6 +58,15 @@ class LuaServerPlayer(player: ServerPlayer) : LuaPlayerEntity(player), Coroutine
     }
 
     /**
+     * 플레이어가 OP 권한을 가지고 있는지 확인합니다.
+     * @return OP인 경우 true, 아닌 경우 false
+     */
+    @LuaFunction("is_op")
+    fun isOp(): Boolean {
+        return Aris.server.playerList.isOp(player.gameProfile)
+    }
+
+    /**
      * 플레이어로부터 유클리드 거리(직선거리) 기준 특정 거리 이내인 플레이어를 탐색합니다.
      * @param fn callback
      * @param lnt 플레이어로부터의 거리

@@ -6,7 +6,7 @@ import party.iroiro.luajava.Lua
 import java.io.File
 
 class InGameEngine(lua: Lua) : MCBaseEngine(lua) {
-    companion object: AbstractPersistantEngineCompanion<InGameEngine>() {
+    companion object: AbstractPersistentEngineCompanion<InGameEngine>() {
         const val PROVIDER = "InGameGenerated"
         override val searchPath = "robots/game"
 

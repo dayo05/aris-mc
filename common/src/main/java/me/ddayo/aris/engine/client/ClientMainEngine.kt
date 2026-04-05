@@ -1,20 +1,17 @@
 package me.ddayo.aris.engine.client
 
-import me.ddayo.aris.engine.AbstractPersistantEngineCompanion
+import me.ddayo.aris.engine.AbstractPersistentEngineCompanion
 import me.ddayo.aris.engine.MCBaseEngine
-import me.ddayo.aris.engine.hook.LuaHook
-import me.ddayo.aris.engine.hook.LuaHookMap
 import me.ddayo.aris.lua.glue.InGameGenerated
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import party.iroiro.luajava.Lua
-import party.iroiro.luajava.luajit.LuaJit
 import java.io.File
 
 @Environment(EnvType.CLIENT)
 open class ClientMainEngine protected constructor(lua: Lua) : MCBaseEngine(lua) {
-    companion object: AbstractPersistantEngineCompanion<ClientMainEngine>() {
+    companion object: AbstractPersistentEngineCompanion<ClientMainEngine>() {
         const val PROVIDER = "LuaClientOnlyGenerated"
         override val searchPath = "robots/client"
 
