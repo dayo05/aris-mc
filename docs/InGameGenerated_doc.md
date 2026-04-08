@@ -50,6 +50,15 @@
 ```
  플레이어가 임의의 위치를 우클릭시 실행할 훅 초기화
 ```
+## aris.game.hook.add_on_left_click(f: function)
+```
+ 플레이어가 임의의 위치를 좌클릭시 실행할 함수
+ @param f 실행할 함수 (LuaLeftClickEvent를 인자로 받음)
+```
+## aris.game.hook.clear_on_left_click()
+```
+ 플레이어가 임의의 위치를 좌클릭시 실행할 훅 초기화
+```
 ## aris.game.hook.add_on_entity_damaged(f: function)
 ```
  엔티티가 데미지를 입었을 때 실행할 함수
@@ -245,6 +254,12 @@
  Place block with this NBT at provided position
  If exists then it replaces
  @return is successful
+```
+
+
+## LuaLeftClickEvent:get_player() -> LuaServerPlayer
+```
+ 좌클릭한 플레이어
 ```
 
 
@@ -602,6 +617,18 @@
 ## LuaPlayerEntity:get_main_hand_item() -> LuaItemStack
 ```
  플레이어의 오른손의 아이템을 가져옵니다.
+```
+
+
+## LuaPlayerEntity:get_is_sneaking() -> boolean
+```
+ 플레이어가 웅크리고 있는지 여부를 가져옵니다.
+```
+
+
+## LuaPlayerEntity:get_is_running() -> boolean
+```
+ 플레이어가 달리고 있는지 여부를 가져옵니다.
 ```
 
 
