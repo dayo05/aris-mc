@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import org.apache.logging.log4j.LogManager
 
@@ -51,7 +52,7 @@ class ArisFabric: ModInitializer {
         UseItemCallback.EVENT.register { player, world, hand ->
             val stack = player.getItemInHand(hand)
             InGameEngine.INSTANCE?.let {
-                if (!world.isClientSide && hand == net.minecraft.world.InteractionHand.MAIN_HAND) {
+                if (!world.isClientSide && hand == InteractionHand.MAIN_HAND) {
                     val sp = player as ServerPlayer
                     EntityHooks.executeOnUseItem(BuiltInRegistries.ITEM.getKey(stack.item).toString(), sp, stack)
                     EntityHooks.executeOnRightClick(sp)

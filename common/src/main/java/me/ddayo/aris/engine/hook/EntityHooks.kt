@@ -69,6 +69,33 @@ object EntityHooks {
         rightClickHook.callAsTask(event)
     }
 
+    val leftClickHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(leftClickHook)
+    }
+
+    /**
+     * 플레이어가 임의의 위치를 좌클릭시 실행할 함수
+     * @param f 실행할 함수 (LuaLeftClickEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_left_click")
+    fun onLeftClick(f: LuaFunc) {
+        leftClickHook.add(f)
+    }
+
+    /**
+     * 플레이어가 임의의 위치를 좌클릭시 실행할 훅 초기화
+     */
+    @LuaFunction("clear_on_left_click")
+    fun clearOnLeftClick() {
+        leftClickHook.clear()
+    }
+
+    fun executeOnLeftClick(player: ServerPlayer) {
+        val event = LuaLeftClickEvent(LuaServerPlayer(player))
+        leftClickHook.callAsTask(event)
+    }
+
     val onEntityDamagedHook = LuaHook()
     init {
         InGameEngine.hooks.add(onEntityDamagedHook)

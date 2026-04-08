@@ -17,6 +17,18 @@ open class LuaPlayerEntity(val player: Player) : LuaLivingEntity(player), ILuaSt
     open val mainHandItem
         get() = LuaItemStack(player.mainHandItem)
 
+    /**
+     * 플레이어가 웅크리고 있는지 여부를 가져옵니다.
+     */
+    @LuaProperty("is_sneaking")
+    val isSneaking get() = player.isShiftKeyDown
+
+    /**
+     * 플레이어가 달리고 있는지 여부를 가져옵니다.
+     */
+    @LuaProperty("is_running")
+    val isRunning get() = player.isSprinting
+
     override fun forEachItem(action: (ItemStack) -> Boolean) {
         for (i in 0 until player.inventory.containerSize) {
             if (action(player.inventory.getItem(i))) return
