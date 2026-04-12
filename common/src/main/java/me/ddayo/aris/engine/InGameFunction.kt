@@ -25,7 +25,7 @@ object InGameFunction {
     fun dispatchCommand(command: String) {
         val server = Aris.server
         val dispatcher = server.commands.dispatcher
-        val results = dispatcher.parse(command, server.createCommandSourceStack())
+        val results = dispatcher.parse(command, server.createCommandSourceStack().withSuppressedOutput())
         server.commands.performCommand(results, command)
     }
 
