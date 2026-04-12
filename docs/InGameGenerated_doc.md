@@ -1,3 +1,9 @@
+## aris.game.iter_players(fn: function) -> 
+```
+ 모든 플레이어를 한번씩 callback으로 넘겨줍니다.
+ 플레이어 리스트에서 for문을 돌리는 것과 유사합니다.
+ @param fn callback
+```
 ## aris.game.dispatch_command(command: string)
 ```
  서버 콘솔에서 커멘드를 실행합니다.
@@ -7,28 +13,26 @@
 ## aris.game.create_effect_builder(ns: string, of: string) -> LuaMobEffectInstance
 ## aris.game.summon_entity(entityType: LuaEntityType, world: LuaServerWorld, pos: Point3) -> LuaEntity
 ## aris.game.entity_type_of(str: string) -> LuaEntityType
-## aris.game.iter_players(fn: function) -> 
+## aris.game.hook.add_c2s_packet_handler(id: string, func: function)
 ```
- 모든 플레이어를 한번씩 callback으로 넘겨줍니다.
- 플레이어 리스트에서 for문을 돌리는 것과 유사합니다.
- @param fn callback
-```
-## aris.game.networking.send_s2c_packet(player: LuaServerPlayer, packet: PacketDeclaration.Builder)
-```
- 클라이언트로 주어진 패킷을 전송합니다.
- @param player 타겟 플레이어
- @param packet 패킷
-```
-## aris.game.networking.create_s2c_packet_builder(of: string) -> PacketDeclaration.Builder
-```
- 클라이언트로 전송할 패킷을 설정하는 빌더(builder)를 만듭니다.
- @param of 전송할 패킷의 id
+ 패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
+ @param id 패킷 id
+ @param func 실행할 함수
 ```
 ## aris.game.hook.register_endpoint(of: string, func: function)
 ```
  명령어를 입력했을때 실행할 함수를 지정합니다.
  @param of 명령어 id
  @param func 실행할 함수
+```
+## aris.game.hook.add_tick(f: function)
+```
+ 매 틱마다 실행할 함수를 추가합니다.
+ @param f 실행할 함수
+```
+## aris.game.hook.clear_tick(f: function)
+```
+ 매 틱마다 실행할 함수를 초기화합니다.
 ```
 ## aris.game.hook.add_on_use_item(item: string, func: function)
 ```
@@ -75,21 +79,6 @@
 ```
  아이템 이동 훅을 초기화합니다.
 ```
-## aris.game.hook.add_c2s_packet_handler(id: string, func: function)
-```
- 패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
- @param id 패킷 id
- @param func 실행할 함수
-```
-## aris.game.hook.add_tick(f: function)
-```
- 매 틱마다 실행할 함수를 추가합니다.
- @param f 실행할 함수
-```
-## aris.game.hook.clear_tick(f: function)
-```
- 매 틱마다 실행할 함수를 초기화합니다.
-```
 ## aris.game.nbt.from_table(table: any) -> LuaNBTCompound
 ```
  Converts Lua Table into NBT Compound
@@ -134,32 +123,37 @@
 ## get_overworld() -> LuaServerWorld
 ## get_nether() -> LuaServerWorld
 ## get_end() -> LuaServerWorld
-
-
-## Builder:append_int(id: string, of: number)
+## aris.game.networking.send_s2c_packet(player: LuaServerPlayer, packet: PacketDeclaration.Builder)
 ```
- 정수 인자를 패킷에 추가합니다.
- @param id 패킷에 첨부할 정수의 이름
- @param of 추가할 정수
+ 클라이언트로 주어진 패킷을 전송합니다.
+ @param player 타겟 플레이어
+ @param packet 패킷
 ```
-
-
-## Builder:append_string(id: string, of: string)
+## aris.game.networking.create_s2c_packet_builder(of: string) -> PacketDeclaration.Builder
 ```
- 문자열 인자를 패킷에 추가합니다.
- @param id 패킷에 첨부할 문자열의 이름
- @param of 추가할 문자열
+ 클라이언트로 전송할 패킷을 설정하는 빌더(builder)를 만듭니다.
+ @param of 전송할 패킷의 id
 ```
 
 
-## Builder:append_float(id: string, of: number)
-```
- 실수 인자를 패킷에 추가합니다.
- @param id 패킷에 첨부할 실수의 이름
- @param of 추가할 실수
-```
 
 
+## LuaDamageSource:set_amount(new_value: number)
+
+
+## LuaDamageSource:get_amount() -> number
+
+
+## LuaDamageSource:get_causing() -> LuaEntity
+
+
+## LuaDamageSource:get_direct() -> LuaEntity
+
+
+## LuaDamageSource:get_isDirect() -> boolean
+
+
+## LuaDamageSource:get_id() -> string
 
 
 ## LuaItemStack:set_count(new_value: number)
@@ -195,24 +189,6 @@
 ## LuaItemStack:get_data() -> LuaNBTCompound
 ```
  해당 아이템의 custom NBT data를 읽고 씁니다.
-```
-
-
-## LuaUseItemEvent:get_player() -> LuaServerPlayer
-```
- 아이템을 사용한 플레이어
-```
-
-
-## LuaUseItemEvent:get_item() -> LuaItemStack
-```
- 사용한 아이템
-```
-
-
-## LuaRightClickEvent:get_player() -> LuaServerPlayer
-```
- 우클릭한 플레이어
 ```
 
 
@@ -257,72 +233,16 @@
 ```
 
 
-## LuaLeftClickEvent:get_player() -> LuaServerPlayer
+## LuaEntityDamagedEvent:get_damage() -> LuaDamageSource
 ```
- 좌클릭한 플레이어
-```
-
-
-## LuaMobEffectInstance:set_duration(new_value: number)
-```
- Duration(tick)
+ 데미지 정보. amount를 수정하면 데미지가 변경됩니다.
 ```
 
 
-## LuaMobEffectInstance:get_duration() -> number
+## LuaEntityDamagedEvent:get_target() -> LuaEntity
 ```
- Duration(tick)
+ 데미지를 받은 엔티티
 ```
-
-
-## LuaMobEffectInstance:set_amplifier(new_value: number)
-
-
-## LuaMobEffectInstance:get_amplifier() -> number
-
-
-## LuaMobEffectInstance:set_ambient(new_value: boolean)
-```
- 거품 표시 여부
-```
-
-
-## LuaMobEffectInstance:get_ambient() -> boolean
-```
- 거품 표시 여부
-```
-
-
-## LuaMobEffectInstance:set_visible(new_value: boolean)
-
-
-## LuaMobEffectInstance:get_visible() -> boolean
-
-
-## LuaMobEffectInstance:set_showIcon(new_value: boolean)
-
-
-## LuaMobEffectInstance:get_showIcon() -> boolean
-
-
-
-
-## LuaDamageSource:set_amount(new_value: number)
-
-
-## LuaDamageSource:get_amount() -> number
-
-
-## LuaDamageSource:get_causing() -> LuaEntity
-
-
-## LuaDamageSource:get_direct() -> LuaEntity
-
-
-## LuaDamageSource:get_isDirect() -> boolean
-
-
-## LuaDamageSource:get_id() -> string
 
 
 ## LuaEntity:add_damage(damage: number)
@@ -463,6 +383,56 @@
 ```
 
 
+## LuaMobEffectInstance:set_duration(new_value: number)
+```
+ Duration(tick)
+```
+
+
+## LuaMobEffectInstance:get_duration() -> number
+```
+ Duration(tick)
+```
+
+
+## LuaMobEffectInstance:set_amplifier(new_value: number)
+
+
+## LuaMobEffectInstance:get_amplifier() -> number
+
+
+## LuaMobEffectInstance:set_ambient(new_value: boolean)
+```
+ 거품 표시 여부
+```
+
+
+## LuaMobEffectInstance:get_ambient() -> boolean
+```
+ 거품 표시 여부
+```
+
+
+## LuaMobEffectInstance:set_visible(new_value: boolean)
+
+
+## LuaMobEffectInstance:get_visible() -> boolean
+
+
+## LuaMobEffectInstance:set_showIcon(new_value: boolean)
+
+
+## LuaMobEffectInstance:get_showIcon() -> boolean
+
+
+## LuaRightClickEvent:get_player() -> LuaServerPlayer
+```
+ 우클릭한 플레이어
+```
+
+
+
+
 ## LuaItemMoveEvent:cancel()
 ```
  이벤트를 취소합니다.
@@ -487,15 +457,45 @@
 ```
 
 
-## LuaEntityDamagedEvent:get_damage() -> LuaDamageSource
+## LuaLeftClickEvent:get_player() -> LuaServerPlayer
 ```
- 데미지 정보. amount를 수정하면 데미지가 변경됩니다.
+ 좌클릭한 플레이어
 ```
 
 
-## LuaEntityDamagedEvent:get_target() -> LuaEntity
+## LuaUseItemEvent:get_player() -> LuaServerPlayer
 ```
- 데미지를 받은 엔티티
+ 아이템을 사용한 플레이어
+```
+
+
+## LuaUseItemEvent:get_item() -> LuaItemStack
+```
+ 사용한 아이템
+```
+
+
+## Builder:append_int(id: string, of: number)
+```
+ 정수 인자를 패킷에 추가합니다.
+ @param id 패킷에 첨부할 정수의 이름
+ @param of 추가할 정수
+```
+
+
+## Builder:append_string(id: string, of: string)
+```
+ 문자열 인자를 패킷에 추가합니다.
+ @param id 패킷에 첨부할 문자열의 이름
+ @param of 추가할 문자열
+```
+
+
+## Builder:append_float(id: string, of: number)
+```
+ 실수 인자를 패킷에 추가합니다.
+ @param id 패킷에 첨부할 실수의 이름
+ @param of 추가할 실수
 ```
 
 

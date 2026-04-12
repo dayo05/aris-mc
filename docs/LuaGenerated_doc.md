@@ -3,16 +3,6 @@
 ## aris.log_warn(msg: string)
 ## aris.log_error(msg: string)
 ## aris.check_version(v: string)
-## aris.math.create_point(x: number, y: number) -> Point
-```
- Create point object (x, y)
- @return Point(x, y)
-```
-## aris.math.create_point(x: number, y: number, z: number) -> Point3
-```
- Create point object (x, y, z)
- @return Point3(x, y, z)
-```
 ## aris.math.create_rect_area(x: number, y: number, width: number, height: number) -> Area
 ```
  @param x x of left-top point
@@ -25,6 +15,37 @@
 ```
  @return createRect(min(p1.x, p2.x), min(p1.y, p2.y), abs(p1.x - p2.x), abs(p1.y - p2.y))
 ```
+## aris.math.create_point(x: number, y: number) -> Point
+```
+ Create point object (x, y)
+ @return Point(x, y)
+```
+## aris.math.create_point(x: number, y: number, z: number) -> Point3
+```
+ Create point object (x, y, z)
+ @return Point3(x, y, z)
+```
+
+
+## AreaBuilder:append(p: Point)
+```
+ Append the point that constructs node of the area
+```
+
+
+## AreaBuilder:build() -> Area
+
+
+## Area:is_in(p: Point) -> boolean
+
+
+## Area:times(x: number) -> Area
+
+
+## Area:center() -> Point
+
+
+## Area:into_string() -> string
 
 
 ## Point3:minus(other: Point3) -> Point
@@ -85,24 +106,3 @@
 
 
 ## Point:get_y() -> number
-
-
-## AreaBuilder:append(p: Point)
-```
- Append the point that constructs node of the area
-```
-
-
-## AreaBuilder:build() -> Area
-
-
-## Area:is_in(p: Point) -> boolean
-
-
-## Area:times(x: number) -> Area
-
-
-## Area:center() -> Point
-
-
-## Area:into_string() -> string

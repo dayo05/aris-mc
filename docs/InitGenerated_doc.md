@@ -4,36 +4,6 @@
  @param key 추가할 아이템 id
 ```
 ## aris.init.create_particle(key: string)
-## aris.init.networking.create_c2s_packet(_id: string) -> C2SPacketDeclaration
-```
- 패킷을 새로 생성합니다.
- @param _id 패킷 id
- @return 생성된 패킷 정의 Builder
-```
-## aris.init.networking.create_s2c_packet(_id: string) -> S2CPacketDeclaration
-```
- 패킷을 새로 생성합니다.
- @param _id 패킷 id
- @return 생성된 패킷 정의 Builder
-```
-## aris.init.networking.integer_arg(of: string) -> AbstractPackableData
-```
- 정수 인자를 패킷에 추가합니다.
- @param of 패킷에 첨부할 정수의 이름
- @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
-```
-## aris.init.networking.float_arg(of: string) -> AbstractPackableData
-```
- 실수 인자를 패킷에 추가합니다.
- @param of 패킷에 첨부할 실수의 이름
- @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
-```
-## aris.init.networking.string_arg(of: string) -> AbstractPackableData
-```
- 문자열 인자를 패킷에 추가합니다.
- @param of 패킷에 첨부할 문자열의 이름
- @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
-```
 ## aris.init.command.sub_command(of: string) -> AbstractCommandHandler
 ```
  하위 커멘드를 추가합니다.
@@ -103,12 +73,35 @@
  @param string nbt string to convert into nbt
  @return nbt object of provided string
 ```
-
-
-## PacketDeclaration:append(packet: AbstractPackableData)
+## aris.init.networking.create_s2c_packet(_id: string) -> S2CPacketDeclaration
 ```
- 패킷에 인자를 추가합니다.
- @param packet 추가할 패킷 인자
+ 패킷을 새로 생성합니다.
+ @param _id 패킷 id
+ @return 생성된 패킷 정의 Builder
+```
+## aris.init.networking.integer_arg(of: string) -> AbstractPackableData
+```
+ 정수 인자를 패킷에 추가합니다.
+ @param of 패킷에 첨부할 정수의 이름
+ @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
+```
+## aris.init.networking.float_arg(of: string) -> AbstractPackableData
+```
+ 실수 인자를 패킷에 추가합니다.
+ @param of 패킷에 첨부할 실수의 이름
+ @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
+```
+## aris.init.networking.string_arg(of: string) -> AbstractPackableData
+```
+ 문자열 인자를 패킷에 추가합니다.
+ @param of 패킷에 첨부할 문자열의 이름
+ @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
+```
+## aris.init.networking.create_c2s_packet(_id: string) -> C2SPacketDeclaration
+```
+ 패킷을 새로 생성합니다.
+ @param _id 패킷 id
+ @return 생성된 패킷 정의 Builder
 ```
 
 
@@ -160,6 +153,13 @@
  Place block with this NBT at provided position
  If exists then it replaces
  @return is successful
+```
+
+
+## PacketDeclaration:append(packet: AbstractPackableData)
+```
+ 패킷에 인자를 추가합니다.
+ @param packet 추가할 패킷 인자
 ```
 
 

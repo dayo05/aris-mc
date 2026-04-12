@@ -341,75 +341,6 @@
 ```
 
 
-## ScriptMouseHandlerRenderer:set_mouse_up_hook(fn: function)
-```
- Sets the Lua function to be called when a mouse button is released (mouse up) within the component's area.
-
- The Lua function will receive the following arguments:
- 1. `mx` (Double): The X coordinate of the mouse cursor.
- 2. `my` (Double): The Y coordinate of the mouse cursor.
- 3. `button` (Int): The index of the mouse button pressed.
-
- @param fn The Lua function to serve as the callback.
-```
-
-
-## ScriptMouseHandlerRenderer:clear_mouse_up_hook()
-```
- Removes the currently assigned mouse up hook, disabling the callback.
-```
-
-
-## ScriptMouseHandlerRenderer:set_mouse_down_hook(fn: function)
-```
- Sets the Lua function to be called when a mouse button is pressed (mouse down) within the component's area.
-
- The Lua function will receive the following arguments:
- 1. `mx` (Double): The X coordinate of the mouse cursor.
- 2. `my` (Double): The Y coordinate of the mouse cursor.
- 3. `button` (Int): The index of the mouse button pressed.
-
- @param fn The Lua function to serve as the callback.
-```
-
-
-## ScriptMouseHandlerRenderer:clear_mouse_down_hook()
-```
- Removes the currently assigned mouse down hook, disabling the callback.
-```
-
-
-## ScriptMouseHandlerRenderer:set_mouse_drag_hook(fn: function)
-```
- Sets the Lua function to be called when the mouse is dragged within the component's area.
-
- The Lua function will receive the following arguments:
- 1. `mx` (Double): The X coordinate of the mouse cursor.
- 2. `my` (Double): The Y coordinate of the mouse cursor.
- 3. `button` (Int): The index of the mouse button being held.
-
- @param fn The Lua function to serve as the callback.
-```
-
-
-## ScriptMouseHandlerRenderer:clear_mouse_drag_hook()
-```
- Removes the currently assigned mouse drag hook, disabling the callback.
-```
-
-
-## ScriptMouseHandlerRenderer:set_area(new_value: Area)
-```
- The area within which clicks are detected.
-```
-
-
-## ScriptMouseHandlerRenderer:get_area() -> Area
-```
- The area within which clicks are detected.
-```
-
-
 ## ScriptItemRenderer:set_item(new_value: LuaItemStack)
 ```
  The Minecraft item to render, wrapped for Lua access.
@@ -479,6 +410,75 @@
 ## ScriptDefaultTextRenderer:get_color() -> number
 ```
  The text color.
+```
+
+
+## ScriptMouseHandlerRenderer:set_mouse_up_hook(fn: function)
+```
+ Sets the Lua function to be called when a mouse button is released (mouse up) within the component's area.
+
+ The Lua function will receive the following arguments:
+ 1. `mx` (Double): The X coordinate of the mouse cursor.
+ 2. `my` (Double): The Y coordinate of the mouse cursor.
+ 3. `button` (Int): The index of the mouse button pressed.
+
+ @param fn The Lua function to serve as the callback.
+```
+
+
+## ScriptMouseHandlerRenderer:clear_mouse_up_hook()
+```
+ Removes the currently assigned mouse up hook, disabling the callback.
+```
+
+
+## ScriptMouseHandlerRenderer:set_mouse_down_hook(fn: function)
+```
+ Sets the Lua function to be called when a mouse button is pressed (mouse down) within the component's area.
+
+ The Lua function will receive the following arguments:
+ 1. `mx` (Double): The X coordinate of the mouse cursor.
+ 2. `my` (Double): The Y coordinate of the mouse cursor.
+ 3. `button` (Int): The index of the mouse button pressed.
+
+ @param fn The Lua function to serve as the callback.
+```
+
+
+## ScriptMouseHandlerRenderer:clear_mouse_down_hook()
+```
+ Removes the currently assigned mouse down hook, disabling the callback.
+```
+
+
+## ScriptMouseHandlerRenderer:set_mouse_drag_hook(fn: function)
+```
+ Sets the Lua function to be called when the mouse is dragged within the component's area.
+
+ The Lua function will receive the following arguments:
+ 1. `mx` (Double): The X coordinate of the mouse cursor.
+ 2. `my` (Double): The Y coordinate of the mouse cursor.
+ 3. `button` (Int): The index of the mouse button being held.
+
+ @param fn The Lua function to serve as the callback.
+```
+
+
+## ScriptMouseHandlerRenderer:clear_mouse_drag_hook()
+```
+ Removes the currently assigned mouse drag hook, disabling the callback.
+```
+
+
+## ScriptMouseHandlerRenderer:set_area(new_value: Area)
+```
+ The area within which clicks are detected.
+```
+
+
+## ScriptMouseHandlerRenderer:get_area() -> Area
+```
+ The area within which clicks are detected.
 ```
 
 
