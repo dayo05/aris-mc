@@ -3,6 +3,45 @@
 ## aris.log_warn(msg: string)
 ## aris.log_error(msg: string)
 ## aris.check_version(v: string)
+## aris.read_file(path: string) -> string
+```
+ Read the entire contents of a file as a UTF-8 string.
+ Path is resolved relative to the base directory
+ (gamedir on client, server working directory on a dedicated server).
+```
+## aris.write_file(path: string, content: string)
+```
+ Write a UTF-8 string to a file, overwriting any existing content. Parent directories are created as needed.
+```
+## aris.append_file(path: string, content: string)
+```
+ Append a UTF-8 string to a file. Parent directories are created as needed.
+```
+## aris.is_file_exists(path: string) -> boolean
+```
+ Returns true if the path exists on disk.
+```
+## aris.is_directory(path: string) -> boolean
+```
+ Returns true if the path exists and is a directory.
+```
+## aris.delete_file(path: string) -> boolean
+```
+ Delete a file or (recursively) a directory. Returns true on success.
+```
+## aris.create_directory(path: string) -> boolean
+```
+ Create a directory, including any required parent directories. Returns true if created.
+```
+## aris.list_files(path: string) -> any
+```
+ List the immediate children of a directory. Returns a Lua table (1-indexed) of file names.
+ Returns an empty table if the path is not a directory or is not readable.
+```
+## aris.file_size(path: string) -> number
+```
+ Get the size of a file in bytes. Returns -1 if the file does not exist.
+```
 ## aris.math.create_rect_area(x: number, y: number, width: number, height: number) -> Area
 ```
  @param x x of left-top point
@@ -24,6 +63,18 @@
 ```
  Create point object (x, y, z)
  @return Point3(x, y, z)
+```
+## aris.parse.from_json(content: string) -> any
+```
+ Parse a JSON string into a Lua table.
+```
+## aris.parse.from_yaml(content: string) -> any
+```
+ Parse a YAML string into a Lua table.
+```
+## aris.parse.from_toml(content: string) -> any
+```
+ Parse a TOML string into a Lua table.
 ```
 
 
