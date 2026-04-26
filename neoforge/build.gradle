@@ -44,6 +44,13 @@ dependencies {
     compileOnly 'party.iroiro.luajava:luajit:4.0.2'
     shadowCommon 'party.iroiro.luajava:luajit:4.0.2'
     forgeRuntimeLibrary 'party.iroiro.luajava:luajit:4.0.2'
+
+    implementation "org.yaml:snakeyaml:2.3"
+    shadowCommon "org.yaml:snakeyaml:2.3"
+    forgeRuntimeLibrary "org.yaml:snakeyaml:2.3"
+    implementation "com.moandjiezana.toml:toml4j:0.7.2"
+    shadowCommon "com.moandjiezana.toml:toml4j:0.7.2"
+    forgeRuntimeLibrary "com.moandjiezana.toml:toml4j:0.7.2"
 }
 
 processResources {
