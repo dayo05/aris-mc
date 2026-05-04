@@ -50,6 +50,7 @@ object InGameFunction {
             false
         )!!
 
+        world.inner.tryAddFreshEntityWithPassengers(entity)
         return LuaEntity(entity)
     }
 

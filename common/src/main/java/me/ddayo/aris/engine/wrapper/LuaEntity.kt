@@ -217,6 +217,14 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
             true
         }
     }
+
+    /**
+     * 엔티티를 월드에서 즉시 제거합니다. (사망 애니메이션 없음, 드롭 없음)
+     */
+    @LuaFunction("remove")
+    fun remove() {
+        inner.discard()
+    }
 }
 
 @LuaProvider(InGameEngine.PROVIDER)
