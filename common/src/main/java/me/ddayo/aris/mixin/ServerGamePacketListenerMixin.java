@@ -19,7 +19,7 @@ public class ServerGamePacketListenerMixin {
     @Inject(method = "handleAnimate", at = @At("HEAD"))
     private void onHandleAnimate(ServerboundSwingPacket packet, CallbackInfo ci) {
         if (packet.getHand() == InteractionHand.MAIN_HAND) {
-            player.server.execute(() -> EntityHooks.INSTANCE.executeOnLeftClick(player));
+            EntityHooks.INSTANCE.executeOnLeftClick(player);
         }
     }
 }
