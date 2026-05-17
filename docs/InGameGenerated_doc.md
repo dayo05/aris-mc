@@ -13,27 +13,6 @@
 ## aris.game.create_effect_builder(ns: string, of: string) -> LuaMobEffectInstance
 ## aris.game.summon_entity(entityType: LuaEntityType, world: LuaServerWorld, pos: Point3) -> LuaEntity
 ## aris.game.entity_type_of(str: string) -> LuaEntityType
-## aris.game.hook.add_c2s_packet_handler(id: string, func: function)
-```
- 패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
- @param id 패킷 id
- @param func 실행할 함수
-```
-## aris.game.hook.register_endpoint(of: string, func: function)
-```
- 명령어를 입력했을때 실행할 함수를 지정합니다.
- @param of 명령어 id
- @param func 실행할 함수
-```
-## aris.game.hook.add_tick(f: function)
-```
- 매 틱마다 실행할 함수를 추가합니다.
- @param f 실행할 함수
-```
-## aris.game.hook.clear_tick(f: function)
-```
- 매 틱마다 실행할 함수를 초기화합니다.
-```
 ## aris.game.hook.add_on_use_item(item: string, func: function)
 ```
  추가한 아이템을 사용했을때 실행할 함수를 추가합니다.
@@ -79,6 +58,49 @@
 ```
  아이템 이동 훅을 초기화합니다.
 ```
+## aris.game.hook.add_tick(f: function)
+```
+ 매 틱마다 실행할 함수를 추가합니다.
+ @param f 실행할 함수
+```
+## aris.game.hook.clear_tick(f: function)
+```
+ 매 틱마다 실행할 함수를 초기화합니다.
+```
+## aris.game.hook.on_player_join_server(f: function)
+```
+ 플레이어가 서버에 접속했을 때 실행할 함수를 추가합니다.
+
+ 엔진이 리로드(`/aris reload`)되면 새 엔진에서 이 함수가 다시 실행됩니다.
+ 이때 리로드 시점에 이미 접속해 있던 모든 플레이어에 대해서도 호출되므로,
+ 스크립트 입장에서 리로드는 새로 시작하는 것과 동일하게 취급됩니다.
+ @param f 실행할 함수 (접속한 LuaServerPlayer를 인자로 받음)
+```
+## aris.game.hook.on_player_leave_server(f: function)
+```
+ 플레이어가 서버에서 나갔을 때 실행할 함수를 추가합니다.
+
+ 엔진이 리로드(`/aris reload`)되면 폐기되는 엔진에서 이 함수가 실행됩니다.
+ 이때 리로드 시점에 이미 접속해 있던 모든 플레이어에 대해서도 호출되므로,
+ 스크립트가 정리(cleanup) 작업을 수행할 수 있습니다.
+ @param f 실행할 함수 (나간 LuaServerPlayer를 인자로 받음)
+```
+## aris.game.hook.register_endpoint(of: string, func: function)
+```
+ 명령어를 입력했을때 실행할 함수를 지정합니다.
+ @param of 명령어 id
+ @param func 실행할 함수
+```
+## aris.game.hook.add_c2s_packet_handler(id: string, func: function)
+```
+ 패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
+ @param id 패킷 id
+ @param func 실행할 함수
+```
+## aris.game.world.get_world(world: string) -> LuaServerWorld
+## get_overworld() -> LuaServerWorld
+## get_nether() -> LuaServerWorld
+## get_end() -> LuaServerWorld
 ## aris.game.nbt.from_table(table: any) -> LuaNBTCompound
 ```
  Converts Lua Table into NBT Compound
@@ -119,10 +141,6 @@
  @param string nbt string to convert into nbt
  @return nbt object of provided string
 ```
-## aris.game.world.get_world(world: string) -> LuaServerWorld
-## get_overworld() -> LuaServerWorld
-## get_nether() -> LuaServerWorld
-## get_end() -> LuaServerWorld
 ## aris.game.networking.send_s2c_packet(player: LuaServerPlayer, packet: PacketDeclaration.Builder)
 ```
  클라이언트로 주어진 패킷을 전송합니다.
@@ -136,24 +154,46 @@
 ```
 
 
+## LuaMobEffectInstance:set_duration(new_value: number)
+```
+ Duration(tick)
+```
 
 
-## LuaDamageSource:set_amount(new_value: number)
+## LuaMobEffectInstance:get_duration() -> number
+```
+ Duration(tick)
+```
 
 
-## LuaDamageSource:get_amount() -> number
+## LuaMobEffectInstance:set_amplifier(new_value: number)
 
 
-## LuaDamageSource:get_causing() -> LuaEntity
+## LuaMobEffectInstance:get_amplifier() -> number
 
 
-## LuaDamageSource:get_direct() -> LuaEntity
+## LuaMobEffectInstance:set_ambient(new_value: boolean)
+```
+ 거품 표시 여부
+```
 
 
-## LuaDamageSource:get_isDirect() -> boolean
+## LuaMobEffectInstance:get_ambient() -> boolean
+```
+ 거품 표시 여부
+```
 
 
-## LuaDamageSource:get_id() -> string
+## LuaMobEffectInstance:set_visible(new_value: boolean)
+
+
+## LuaMobEffectInstance:get_visible() -> boolean
+
+
+## LuaMobEffectInstance:set_showIcon(new_value: boolean)
+
+
+## LuaMobEffectInstance:get_showIcon() -> boolean
 
 
 ## LuaItemStack:set_count(new_value: number)
@@ -192,47 +232,6 @@
 ```
 
 
-## LuaNBTCompound:into_string() -> string
-```
- Convert NBT into JSON string
-```
-
-
-## LuaNBTCompound:into_table() -> any
-```
- Convert NBT into Lua Table
-```
-
-
-## LuaNBTCompound:into_item_stack() -> LuaItemStack
-```
- Convert NBT into item stack
-```
-
-
-## LuaNBTCompound:apply_entity(entity: LuaEntity)
-```
- Apply(overwrite) current NBT into entity
-```
-
-
-## LuaNBTCompound:spawn_entity(level: LuaServerWorld) -> LuaEntity
-```
- Spawn entity with this NBT
-```
-
-
-## LuaNBTCompound:place_block_entity(level: LuaServerWorld) -> boolean
-
-
-## LuaNBTCompound:place_block_state(level: LuaServerWorld, x: number, y: number, z: number) -> boolean
-```
- Place block with this NBT at provided position
- If exists then it replaces
- @return is successful
-```
-
-
 ## LuaEntityDamagedEvent:get_damage() -> LuaDamageSource
 ```
  데미지 정보. amount를 수정하면 데미지가 변경됩니다.
@@ -242,6 +241,28 @@
 ## LuaEntityDamagedEvent:get_target() -> LuaEntity
 ```
  데미지를 받은 엔티티
+```
+
+
+## LuaUseItemEvent:get_player() -> LuaServerPlayer
+```
+ 아이템을 사용한 플레이어
+```
+
+
+## LuaUseItemEvent:get_item() -> LuaItemStack
+```
+ 사용한 아이템
+```
+
+
+
+
+
+
+## LuaLeftClickEvent:get_player() -> LuaServerPlayer
+```
+ 좌클릭한 플레이어
 ```
 
 
@@ -389,54 +410,69 @@
 ```
 
 
-## LuaMobEffectInstance:set_duration(new_value: number)
+## LuaDamageSource:set_amount(new_value: number)
+
+
+## LuaDamageSource:get_amount() -> number
+
+
+## LuaDamageSource:get_causing() -> LuaEntity
+
+
+## LuaDamageSource:get_direct() -> LuaEntity
+
+
+## LuaDamageSource:get_isDirect() -> boolean
+
+
+## LuaDamageSource:get_id() -> string
+
+
+## LuaNBTCompound:into_string() -> string
 ```
- Duration(tick)
-```
-
-
-## LuaMobEffectInstance:get_duration() -> number
-```
- Duration(tick)
-```
-
-
-## LuaMobEffectInstance:set_amplifier(new_value: number)
-
-
-## LuaMobEffectInstance:get_amplifier() -> number
-
-
-## LuaMobEffectInstance:set_ambient(new_value: boolean)
-```
- 거품 표시 여부
-```
-
-
-## LuaMobEffectInstance:get_ambient() -> boolean
-```
- 거품 표시 여부
+ Convert NBT into JSON string
 ```
 
 
-## LuaMobEffectInstance:set_visible(new_value: boolean)
+## LuaNBTCompound:into_table() -> any
+```
+ Convert NBT into Lua Table
+```
 
 
-## LuaMobEffectInstance:get_visible() -> boolean
+## LuaNBTCompound:into_item_stack() -> LuaItemStack
+```
+ Convert NBT into item stack
+```
 
 
-## LuaMobEffectInstance:set_showIcon(new_value: boolean)
+## LuaNBTCompound:apply_entity(entity: LuaEntity)
+```
+ Apply(overwrite) current NBT into entity
+```
 
 
-## LuaMobEffectInstance:get_showIcon() -> boolean
+## LuaNBTCompound:spawn_entity(level: LuaServerWorld) -> LuaEntity
+```
+ Spawn entity with this NBT
+```
+
+
+## LuaNBTCompound:place_block_entity(level: LuaServerWorld) -> boolean
+
+
+## LuaNBTCompound:place_block_state(level: LuaServerWorld, x: number, y: number, z: number) -> boolean
+```
+ Place block with this NBT at provided position
+ If exists then it replaces
+ @return is successful
+```
 
 
 ## LuaRightClickEvent:get_player() -> LuaServerPlayer
 ```
  우클릭한 플레이어
 ```
-
-
 
 
 ## LuaItemMoveEvent:cancel()
@@ -460,24 +496,6 @@
 ## LuaItemMoveEvent:get_type() -> string
 ```
  이동 유형: "container_click", "drop", "pickup"
-```
-
-
-## LuaLeftClickEvent:get_player() -> LuaServerPlayer
-```
- 좌클릭한 플레이어
-```
-
-
-## LuaUseItemEvent:get_player() -> LuaServerPlayer
-```
- 아이템을 사용한 플레이어
-```
-
-
-## LuaUseItemEvent:get_item() -> LuaItemStack
-```
- 사용한 아이템
 ```
 
 

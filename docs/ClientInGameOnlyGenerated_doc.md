@@ -69,6 +69,18 @@
 ```
 
 
+## HudRenderer:open_hud()
+```
+ Registers this renderer to the in-game HUD engine, making it visible on the HUD.
+```
+
+
+## HudRenderer:close_hud()
+```
+ Unregisters this renderer from the in-game HUD engine.
+```
+
+
 ## Builder:append_int(id: string, of: number)
 ```
  정수 인자를 패킷에 추가합니다.
@@ -90,16 +102,4 @@
  실수 인자를 패킷에 추가합니다.
  @param id 패킷에 첨부할 실수의 이름
  @param of 추가할 실수
-```
-
-
-## HudRenderer:open_hud()
-```
- Registers this renderer to the in-game HUD engine, making it visible on the HUD.
-```
-
-
-## HudRenderer:close_hud()
-```
- Unregisters this renderer from the in-game HUD engine.
 ```

@@ -1,18 +1,3 @@
-## aris.game.client.hook.add_tick_hook(f: function)
-```
- 매 틱마다 실행할 함수를 추가합니다.
- @param f 실행할 함수
-```
-## aris.game.client.hook.clear_tick_hook(f: function)
-```
- 매 틱마다 실행할 함수를 초기화합니다.
-```
-## aris.game.client.hook.on_key_pressed(key: string, function: function)
-```
- 새로 추가한 조작키를 실행할때 실행될 함수를 지정합니다.
- @param key 누를 키
- @param function 실행할 함수
-```
 ## aris.client.create_area_builder() -> AreaBuilder
 ```
  Creates a new [AreaBuilder] instance to construct complex areas.
@@ -127,12 +112,29 @@
  @param of The name of the key binding to find.
  @return A [LuaKeyBinding] wrapper if found, or null.
 ```
+## aris.game.client.hook.add_tick_hook(f: function)
+```
+ 매 틱마다 실행할 함수를 추가합니다.
+ @param f 실행할 함수
+```
+## aris.game.client.hook.clear_tick_hook(f: function)
+```
+ 매 틱마다 실행할 함수를 초기화합니다.
+```
+## aris.game.client.hook.on_key_pressed(key: string, function: function)
+```
+ 새로 추가한 조작키를 실행할때 실행될 함수를 지정합니다.
+ @param key 누를 키
+ @param function 실행할 함수
+```
+## aris.game.client.hook.on_player_leave_server(f: function)
+```
+ 클라이언트가 서버에서 나갔을 때 실행할 함수를 추가합니다.
 
-
-## LuaKeyBinding:consume() -> boolean
-
-
-## LuaKeyBinding:get_is_down() -> boolean
+ 엔진이 리로드되면 폐기되는 엔진에서 이 함수가 실행되므로,
+ 스크립트가 정리(cleanup) 작업을 수행할 수 있습니다.
+ @param f 실행할 함수
+```
 
 
 ## BaseComponent:add_child(child: BaseComponent)
@@ -341,75 +343,65 @@
 ```
 
 
-## ScriptItemRenderer:set_item(new_value: LuaItemStack)
+## LuaKeyBinding:consume() -> boolean
+
+
+## LuaKeyBinding:get_is_down() -> boolean
+
+
+## BaseRectComponent:set_width(new_value: number)
 ```
- The Minecraft item to render, wrapped for Lua access.
+ The visual width of the component.
+ Setting this updates [xScale] based on [fixedWidth].
 ```
 
 
-## ScriptItemRenderer:get_item() -> LuaItemStack
+## BaseRectComponent:get_width() -> number
 ```
- The Minecraft item to render, wrapped for Lua access.
-```
-
-
-## ScriptTextRenderer:set_font(new_value: FontResource)
-```
- Font to use
+ The visual width of the component.
+ Setting this updates [xScale] based on [fixedWidth].
 ```
 
 
-## ScriptTextRenderer:get_font() -> FontResource
+## BaseRectComponent:set_height(new_value: number)
 ```
- Font to use
-```
-
-
-## ScriptTextRenderer:set_text(new_value: string)
-```
- The text string to display.
+ The visual height of the component.
+ Setting this updates [yScale] based on [fixedHeight].
 ```
 
 
-## ScriptTextRenderer:get_text() -> string
+## BaseRectComponent:get_height() -> number
 ```
- The text string to display.
-```
-
-
-## ScriptTextRenderer:set_color(new_value: number)
-```
- The text color.
+ The visual height of the component.
+ Setting this updates [yScale] based on [fixedHeight].
 ```
 
 
-## ScriptTextRenderer:get_color() -> number
+## BaseRectComponent:set_fixed_width(new_value: number)
 ```
- The text color.
-```
-
-
-## ScriptDefaultTextRenderer:set_text(new_value: string)
-```
- The text string to display.
+ The internal reference width (e.g., texture width).
+ Changing this recalculates [xScale] to maintain visual [width].
 ```
 
 
-## ScriptDefaultTextRenderer:get_text() -> string
+## BaseRectComponent:get_fixed_width() -> number
 ```
- The text string to display.
-```
-
-
-## ScriptDefaultTextRenderer:set_color(new_value: number)
-```
- The text color.
+ The internal reference width (e.g., texture width).
+ Changing this recalculates [xScale] to maintain visual [width].
 ```
 
 
-## ScriptDefaultTextRenderer:get_color() -> number
+## BaseRectComponent:set_fixed_height(new_value: number)
 ```
- The text color.
+ The internal reference height (e.g., texture height).
+ Changing this recalculates [yScale] to maintain visual [height].
+```
+
+
+## BaseRectComponent:get_fixed_height() -> number
+```
+ The internal reference height (e.g., texture height).
+ Changing this recalculates [yScale] to maintain visual [height].
 ```
 
 
@@ -482,59 +474,152 @@
 ```
 
 
-## BaseRectComponent:set_width(new_value: number)
+## ScriptTextRenderer:set_font(new_value: FontResource)
 ```
- The visual width of the component.
- Setting this updates [xScale] based on [fixedWidth].
-```
-
-
-## BaseRectComponent:get_width() -> number
-```
- The visual width of the component.
- Setting this updates [xScale] based on [fixedWidth].
+ Font to use
 ```
 
 
-## BaseRectComponent:set_height(new_value: number)
+## ScriptTextRenderer:get_font() -> FontResource
 ```
- The visual height of the component.
- Setting this updates [yScale] based on [fixedHeight].
-```
-
-
-## BaseRectComponent:get_height() -> number
-```
- The visual height of the component.
- Setting this updates [yScale] based on [fixedHeight].
+ Font to use
 ```
 
 
-## BaseRectComponent:set_fixed_width(new_value: number)
+## ScriptTextRenderer:set_text(new_value: string)
 ```
- The internal reference width (e.g., texture width).
- Changing this recalculates [xScale] to maintain visual [width].
-```
-
-
-## BaseRectComponent:get_fixed_width() -> number
-```
- The internal reference width (e.g., texture width).
- Changing this recalculates [xScale] to maintain visual [width].
+ The text string to display.
 ```
 
 
-## BaseRectComponent:set_fixed_height(new_value: number)
+## ScriptTextRenderer:get_text() -> string
 ```
- The internal reference height (e.g., texture height).
- Changing this recalculates [yScale] to maintain visual [height].
+ The text string to display.
 ```
 
 
-## BaseRectComponent:get_fixed_height() -> number
+## ScriptTextRenderer:set_color(new_value: number)
 ```
- The internal reference height (e.g., texture height).
- Changing this recalculates [yScale] to maintain visual [height].
+ The text color.
+```
+
+
+## ScriptTextRenderer:get_color() -> number
+```
+ The text color.
+```
+
+
+## ScriptDefaultTextRenderer:set_text(new_value: string)
+```
+ The text string to display.
+```
+
+
+## ScriptDefaultTextRenderer:get_text() -> string
+```
+ The text string to display.
+```
+
+
+## ScriptDefaultTextRenderer:set_color(new_value: number)
+```
+ The text color.
+```
+
+
+## ScriptDefaultTextRenderer:get_color() -> number
+```
+ The text color.
+```
+
+
+## ScriptItemRenderer:set_item(new_value: LuaItemStack)
+```
+ The Minecraft item to render, wrapped for Lua access.
+```
+
+
+## ScriptItemRenderer:get_item() -> LuaItemStack
+```
+ The Minecraft item to render, wrapped for Lua access.
+```
+
+
+## ScreenRenderer:set_key_down_hook(fn: function)
+```
+ Sets the Lua function to be called when a keyboard key is pressed (key down).
+
+ The Lua function will receive the following arguments:
+ 1. `keyCode` (Int): The unique ID of the key (GLFW key constant, e.g., 256 for ESC).
+ 2. `scanCode` (Int): The platform-specific hardware scancode of the key.
+ 3. `modifiers` (Int): A bitmask representing modifier keys held down (Shift, Ctrl, Alt, etc.).
+
+ @param fn The Lua function to serve as the callback.
+```
+
+
+## ScreenRenderer:clear_key_down_hook()
+```
+ Removes the currently assigned key down hook, disabling the callback.
+```
+
+
+## ScreenRenderer:set_key_up_hook(fn: function)
+```
+ Sets the Lua function to be called when a keyboard key is released (key up).
+
+ The Lua function will receive the following arguments:
+ 1. `keyCode` (Int): The unique ID of the key (GLFW key constant).
+ 2. `scanCode` (Int): The platform-specific hardware scancode of the key.
+ 3. `modifiers` (Int): A bitmask representing modifier keys held down (Shift, Ctrl, Alt, etc.).
+
+ @param fn The Lua function to serve as the callback.
+```
+
+
+## ScreenRenderer:clear_key_up_hook()
+```
+ Removes the currently assigned key up hook, disabling the callback.
+```
+
+
+## ScreenRenderer:open()
+```
+ Opens this component as the current Minecraft screen (GUI).
+ Replaces the current screen.
+```
+
+
+## ScreenRenderer:close()
+```
+ Closes the current screen if it is this component.
+```
+
+
+## ScreenRenderer:set_can_exit_with_esc(new_value: boolean)
+```
+ Determines if the screen can be closed by pressing the Escape key.
+```
+
+
+## ScreenRenderer:get_can_exit_with_esc() -> boolean
+```
+ Determines if the screen can be closed by pressing the Escape key.
+```
+
+
+## ScreenRenderer:get_window_width() -> number
+```
+ The actual width of the game window.
+ This property is read-only in Lua.
+```
+
+
+## ScreenRenderer:get_window_height() -> number
+```
+ The actual height of the game window.
+ This property is read-only in Lua.
 ```
 
 
@@ -647,81 +732,4 @@
 ```
  The full color value packed into a Long (ARGB format).
  Setting this updates [r], [g], [b], and [a].
-```
-
-
-## ScreenRenderer:set_key_down_hook(fn: function)
-```
- Sets the Lua function to be called when a keyboard key is pressed (key down).
-
- The Lua function will receive the following arguments:
- 1. `keyCode` (Int): The unique ID of the key (GLFW key constant, e.g., 256 for ESC).
- 2. `scanCode` (Int): The platform-specific hardware scancode of the key.
- 3. `modifiers` (Int): A bitmask representing modifier keys held down (Shift, Ctrl, Alt, etc.).
-
- @param fn The Lua function to serve as the callback.
-```
-
-
-## ScreenRenderer:clear_key_down_hook()
-```
- Removes the currently assigned key down hook, disabling the callback.
-```
-
-
-## ScreenRenderer:set_key_up_hook(fn: function)
-```
- Sets the Lua function to be called when a keyboard key is released (key up).
-
- The Lua function will receive the following arguments:
- 1. `keyCode` (Int): The unique ID of the key (GLFW key constant).
- 2. `scanCode` (Int): The platform-specific hardware scancode of the key.
- 3. `modifiers` (Int): A bitmask representing modifier keys held down (Shift, Ctrl, Alt, etc.).
-
- @param fn The Lua function to serve as the callback.
-```
-
-
-## ScreenRenderer:clear_key_up_hook()
-```
- Removes the currently assigned key up hook, disabling the callback.
-```
-
-
-## ScreenRenderer:open()
-```
- Opens this component as the current Minecraft screen (GUI).
- Replaces the current screen.
-```
-
-
-## ScreenRenderer:close()
-```
- Closes the current screen if it is this component.
-```
-
-
-## ScreenRenderer:set_can_exit_with_esc(new_value: boolean)
-```
- Determines if the screen can be closed by pressing the Escape key.
-```
-
-
-## ScreenRenderer:get_can_exit_with_esc() -> boolean
-```
- Determines if the screen can be closed by pressing the Escape key.
-```
-
-
-## ScreenRenderer:get_window_width() -> number
-```
- The actual width of the game window.
- This property is read-only in Lua.
-```
-
-
-## ScreenRenderer:get_window_height() -> number
-```
- The actual height of the game window.
- This property is read-only in Lua.
 ```
