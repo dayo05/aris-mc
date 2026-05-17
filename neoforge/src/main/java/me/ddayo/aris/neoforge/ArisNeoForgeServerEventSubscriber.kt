@@ -2,11 +2,13 @@ package me.ddayo.aris.neoforge
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.hook.EntityHooks
+import me.ddayo.aris.engine.hook.GameHooks
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.server.level.ServerPlayer
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.event.RegisterCommandsEvent
+import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 import net.neoforged.neoforge.event.server.ServerStartingEvent
 import net.neoforged.neoforge.event.tick.ServerTickEvent
@@ -35,5 +37,17 @@ object ArisNeoForgeServerEventSubscriber {
     @SubscribeEvent
     fun onServerTick(event: ServerTickEvent.Post) {
         Aris.onServerTick()
+    }
+
+    @SubscribeEvent
+    fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent) {
+        val player = event.entity as? ServerPlayer ?: return
+        GameHooks.executeOnPlayerJoin(player)
+    }
+
+    @SubscribeEvent
+    fun onPlayerLoggedOut(event: PlayerEvent.PlayerLoggedOutEvent) {
+        val player = event.entity as? ServerPlayer ?: return
+        GameHooks.executeOnPlayerLeave(player)
     }
 }

@@ -16,6 +16,7 @@ abstract class AbstractPersistentEngineCompanion<T : MCBaseEngine> {
     val disposeHook = mutableListOf<() -> Unit>()
 
     fun disposeEngine() {
+        INSTANCE?.fireDisposeCallbacks()
         disposeHook.forEach { it() }
         hooks.forEach { it.clear() }
         hookMaps.forEach { it.clear() }

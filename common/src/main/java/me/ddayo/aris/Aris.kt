@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
 import me.ddayo.aris.engine.command.CommandBuilderFunctions
+import me.ddayo.aris.engine.hook.GameHooks
 import me.ddayo.aris.networking.NetworkPayloadManager
 import me.ddayo.aris.networking.NetworkingExtensions.sendDataPacket
 import me.ddayo.aris.networking.NetworkingExtensions.sendReloadPacket
@@ -61,6 +62,9 @@ object Aris {
             engine.loop()
             engine.removeAllFinished()
         }
+        // The init engine is not used past this point, so it is "disposed" once
+        // initialization finishes.
+        engine.fireDisposeCallbacks()
 
         NetworkPayloadManager.init()
     }
@@ -82,11 +86,18 @@ object Aris {
     }
 
     fun reloadEngine() {
-        InGameEngine.INSTANCE?.run {
-            InGameEngine.disposeEngine()
-            InGameEngine.createEngine(LuaJit())
-            InGameEngine.INSTANCE!!.loop()
-        }
+        val engine = InGameEngine.INSTANCE ?: return
+        val players = server.playerList.players
+        // Players already connected "leave" the outgoing engine so its scripts
+        // can clean up, then "join" the freshly loaded one. From a script's
+        // point of view a reload is indistinguishable from a fresh start, so
+        // the join/leave hooks must observe the current player set.
+        players.forEach { GameHooks.executeOnPlayerLeave(it) }
+        engine.loop()
+        InGameEngine.disposeEngine()
+        InGameEngine.createEngine(LuaJit())
+        InGameEngine.INSTANCE!!.loop()
+        players.forEach { GameHooks.executeOnPlayerJoin(it) }
     }
 
     fun registerCommand(dispatcher: CommandDispatcher<CommandSourceStack>, registry: CommandBuildContext) {

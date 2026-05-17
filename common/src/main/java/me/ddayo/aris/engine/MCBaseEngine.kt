@@ -1,6 +1,7 @@
 package me.ddayo.aris.engine
 
 import me.ddayo.aris.luagen.LuaEngine
+import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.lua.glue.LuaGenerated
 import org.apache.logging.log4j.LogManager
 import party.iroiro.luajava.Lua
@@ -47,5 +48,35 @@ open class MCBaseEngine(lua: Lua) : LuaEngine(lua, errorMessageHandler = { LogMa
     override fun createTask(code: String, name: String, repeat: Boolean): LuaCodeTask {
         processedTasks.add(name)
         return super.createTask(code, name, repeat)
+    }
+
+    private val disposeCallbacks = mutableListOf<LuaFunc>()
+    private var disposeCallbacksFired = false
+
+    /**
+     * Register a Lua function to run when this engine is disposed. Backs the
+     * `aris.hook.on_engine_dispose` Lua binding.
+     */
+    fun addDisposeCallback(f: LuaFunc) {
+        disposeCallbacks.add(f)
+    }
+
+    /**
+     * Run every registered dispose callback. Idempotent: subsequent calls are
+     * no-ops, so it is safe to invoke from overlapping dispose paths. The
+     * callbacks run synchronously (not as tasks) because the engine is being
+     * torn down and would never loop queued tasks again.
+     */
+    fun fireDisposeCallbacks() {
+        if (disposeCallbacksFired) return
+        disposeCallbacksFired = true
+        disposeCallbacks.forEach {
+            try {
+                it.call()
+            } catch (e: Exception) {
+                LogManager.getLogger().error("Error while running on_engine_dispose callback", e)
+            }
+        }
+        disposeCallbacks.clear()
     }
 }

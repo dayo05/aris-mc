@@ -5,11 +5,13 @@ import me.ddayo.aris.engine.EngineInitializer
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
 import me.ddayo.aris.engine.hook.EntityHooks
+import me.ddayo.aris.engine.hook.GameHooks
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
 import net.fabricmc.fabric.api.event.player.UseItemCallback
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.server.level.ServerPlayer
@@ -47,6 +49,13 @@ class ArisFabric: ModInitializer {
         }
         ServerTickEvents.START_SERVER_TICK.register {
             Aris.onServerTick()
+        }
+
+        ServerPlayConnectionEvents.JOIN.register { handler, _, _ ->
+            GameHooks.executeOnPlayerJoin(handler.player)
+        }
+        ServerPlayConnectionEvents.DISCONNECT.register { handler, _ ->
+            GameHooks.executeOnPlayerLeave(handler.player)
         }
 
         UseItemCallback.EVENT.register { player, world, hand ->
