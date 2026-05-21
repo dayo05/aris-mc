@@ -86,6 +86,26 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
     @LuaFunction(name = "clear_key_up_hook")
     fun clearKeyUpHook() { keyUpHook = null }
 
+    private var closeHook: (() -> Unit)? = null
+
+    /**
+     * Sets the Lua function to be called when the screen is closed.
+     *
+     * The Lua function receives no arguments.
+     *
+     * @param fn The Lua function to serve as the callback.
+     */
+    @LuaFunction(name = "set_close_hook")
+    fun setCloseHook(fn: LuaFunc) {
+        closeHook = { fn.call() }
+    }
+
+    /**
+     * Removes the currently assigned close hook, disabling the callback.
+     */
+    @LuaFunction(name = "clear_close_hook")
+    fun clearCloseHook() { closeHook = null }
+
 
     /* May dependent to Minecraft */
 
@@ -129,9 +149,14 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
                 if(onKeyDown(keyCode, scanCode, modifier)) true
                 else super.keyPressed(keyCode, scanCode, modifier)
 
+            override fun charTyped(c: Char, modifier: Int) =
+                if(onCharTyped(c, modifier)) true
+                else super<Screen>.charTyped(c, modifier)
+
             override fun onClose() {
                 super.onClose()
                 attachedScreen = null
+                closeHook?.invoke()
             }
 
             override fun init() {

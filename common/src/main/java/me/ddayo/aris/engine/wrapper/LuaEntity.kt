@@ -266,6 +266,22 @@ open class LuaLivingEntity(val living: LivingEntity) : LuaEntity(living),
     }
 
     /**
+     * 엔티티의 현재 체력을 가져오거나 설정합니다.
+     */
+    @LuaProperty("health")
+    var health
+        get() = living.health
+        set(value) {
+            living.health = value
+        }
+
+    /**
+     * 엔티티의 최대 체력을 가져옵니다.
+     */
+    @LuaProperty("max_health")
+    val maxHealth get() = living.maxHealth
+
+    /**
      * 엔티티의 pitch(상하 회전)를 가져오거나 설정합니다.
      */
     @LuaProperty

@@ -5,6 +5,7 @@ import me.ddayo.aris.client.gui.HudRenderer
 import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.wrapper.LuaEntity
 import me.ddayo.aris.engine.wrapper.LuaItemStack
+import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import me.ddayo.aris.luagen.RetrieveEngine
@@ -106,6 +107,36 @@ object ClientInGameFunction {
     @LuaFunction("is_key_pressed")
     fun isKeyPressed(key: Int): Boolean {
         return InputConstants.isKeyDown(Minecraft.getInstance().window.window, key)
+    }
+
+    /**
+     * 현재 플레이어 인벤토리의 슬롯 개수를 가져옵니다.
+     */
+    @LuaFunction("get_inventory_size")
+    fun getInventorySize() = mc.player!!.inventory.containerSize
+
+    /**
+     * 현재 플레이어 인벤토리의 특정 슬롯에 있는 아이템을 가져옵니다.
+     * @param slot 슬롯 번호 (0부터 시작)
+     */
+    @LuaFunction("get_inventory_item")
+    fun getInventoryItem(slot: Int) = LuaItemStack(mc.player!!.inventory.getItem(slot))
+
+    /**
+     * 현재 선택된(들고 있는) 핫바 슬롯 번호를 가져옵니다.
+     */
+    @LuaFunction("get_selected_slot")
+    fun getSelectedSlot() = mc.player!!.inventory.selected
+
+    /**
+     * 현재 플레이어 인벤토리의 모든 슬롯을 순회합니다.
+     * @param fn 각 슬롯에 대해 실행할 콜백 (slot: Int, item: ItemStack) -> void
+     */
+    @LuaFunction("iter_inventory")
+    fun iterInventory(fn: LuaFunc) {
+        val inventory = mc.player!!.inventory
+        for (i in 0 until inventory.containerSize)
+            fn.call(i, LuaItemStack(inventory.getItem(i)))
     }
 
     @LuaFunction("target_crosshair_entity")

@@ -120,6 +120,23 @@ object ClientFunction {
         ScriptTextRenderer(font, text, color)
 
     /**
+     * Creates an editable single-line text input component.
+     * @param font The [FontResource] used to render the text.
+     * @param text The initial text content.
+     * @param color The integer color of the text.
+     */
+    @LuaFunction("create_text_input_renderer")
+    fun createTextInputRenderer(font: FontResource, text: String, color: Int) =
+        ScriptTextInputRenderer(font, text, color)
+
+    /**
+     * Creates a toggleable checkbox component.
+     * @param checked The initial checked state.
+     */
+    @LuaFunction("create_checkbox_renderer")
+    fun createCheckboxRenderer(checked: Boolean) = ScriptCheckboxRenderer(checked)
+
+    /**
      * Creates a component that renders a Minecraft item stack.
      * @param item The item stack to render.
      */

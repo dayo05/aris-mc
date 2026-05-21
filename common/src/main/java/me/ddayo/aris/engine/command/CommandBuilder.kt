@@ -3,6 +3,7 @@ package me.ddayo.aris.engine.command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.DoubleArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
+import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
@@ -75,6 +76,35 @@ object CommandBuilderFunctions {
             builder.inner[rl] = LuaServerPlayer(EntityArgument.getPlayer(ctx, of))
         }
     }
+
+    /**
+     * 문자열 인수를 추가합니다.
+     * @of 추가할 문자열 인수 이름
+     * @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+     */
+    @LuaFunction("string_arg")
+    fun stringArg(of: String) = object : AbstractCommandHandler() {
+        val rl = RegistryHelper.getResourceLocation(of)
+        override fun retrieve() = Commands.argument(of, StringArgumentType.string())
+        override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
+            builder.inner[rl] = LuaServerPlayer(EntityArgument.getPlayer(ctx, of))
+        }
+    }
+
+    /**
+     * Word 인수를 추가합니다.
+     * @of 추가할 word 인수 이름
+     * @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+     */
+    @LuaFunction("word_arg")
+    fun wordArg(of: String) = object : AbstractCommandHandler() {
+        val rl = RegistryHelper.getResourceLocation(of)
+        override fun retrieve() = Commands.argument(of, StringArgumentType.word())
+        override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
+            builder.inner[rl] = LuaServerPlayer(EntityArgument.getPlayer(ctx, of))
+        }
+    }
+
 
     val commands = mutableMapOf<ResourceLocation, AbstractCommandHandler>()
 

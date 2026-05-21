@@ -9,12 +9,15 @@ import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
 import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.hook.LuaHook
+import me.ddayo.aris.engine.wrapper.LuaItemStack
 import me.ddayo.aris.lua.glue.InGameGenerated
 import me.ddayo.aris.lua.glue.InitGenerated
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.ItemStack
 import org.apache.logging.log4j.LogManager
 
 /**
@@ -61,6 +64,20 @@ object PacketBuilderFunctions {
         override fun process(buf: FriendlyByteBuf) = buf.readUtf()
         override fun intoPacket(buf: FriendlyByteBuf, data: String) {
             buf.writeUtf(data)
+        }
+    }
+
+    /**
+     * 아이템 스택 인자를 패킷에 추가합니다. (S2C/C2S 모두 지원)
+     * @param of 패킷에 첨부할 아이템 스택의 이름
+     * @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
+     */
+    @LuaFunction("itemstack_arg")
+    fun itemStackArg(of: String) = object: AbstractPackableData<LuaItemStack>(RegistryHelper.getResourceLocation(of)) {
+        override fun process(buf: FriendlyByteBuf) =
+            LuaItemStack(ItemStack.OPTIONAL_STREAM_CODEC.decode(buf as RegistryFriendlyByteBuf))
+        override fun intoPacket(buf: FriendlyByteBuf, data: LuaItemStack) {
+            ItemStack.OPTIONAL_STREAM_CODEC.encode(buf as RegistryFriendlyByteBuf, data.inner)
         }
     }
 }
@@ -135,6 +152,16 @@ abstract class PacketDeclaration(val id: ResourceLocation): ILuaStaticDecl by In
          */
         @LuaFunction("append_float")
         fun appendFloat(id: String, of: Double) {
+            append(id, of)
+        }
+
+        /**
+         * 아이템 스택 인자를 패킷에 추가합니다.
+         * @param id 패킷에 첨부할 아이템 스택의 이름
+         * @param of 추가할 아이템 스택
+         */
+        @LuaFunction("append_itemstack")
+        fun appendItemStack(id: String, of: LuaItemStack) {
             append(id, of)
         }
 

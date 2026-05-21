@@ -256,6 +256,16 @@ open class BaseComponent : ILuaStaticDecl by LuaClientOnlyGenerated.BaseComponen
         return false
     }
 
+    fun onCharTyped(codePoint: Char, modifier: Int): Boolean {
+        if (!isVisible || !isActive) return false
+        if (this is IKeyboardHandlerElement)
+            if(charTyped(codePoint, modifier)) return true
+        addedWidgets.mutableForEach {
+            if(it.onCharTyped(codePoint, modifier)) return true
+        }
+        return false
+    }
+
     private fun getLocalMouseStep(mx: Double, my: Double): Pair<Double, Double> {
         val dx = mx - x
         val dy = my - y
