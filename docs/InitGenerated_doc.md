@@ -68,6 +68,18 @@
  @of 추가할 플레이어 인수 이름
  @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
 ```
+## aris.init.command.string_arg(of: string) -> AbstractCommandHandler
+```
+ 문자열 인수를 추가합니다.
+ @of 추가할 문자열 인수 이름
+ @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+```
+## aris.init.command.word_arg(of: string) -> AbstractCommandHandler
+```
+ Word 인수를 추가합니다.
+ @of 추가할 word 인수 이름
+ @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+```
 ## aris.init.command.create_command(of: string) -> AbstractCommandHandler
 ```
  새로운 명령어를 추가합니다.
@@ -101,6 +113,12 @@
 ```
  문자열 인자를 패킷에 추가합니다.
  @param of 패킷에 첨부할 문자열의 이름
+ @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
+```
+## aris.init.networking.itemstack_arg(of: string) -> AbstractPackableData
+```
+ 아이템 스택 인자를 패킷에 추가합니다. (S2C/C2S 모두 지원)
+ @param of 패킷에 첨부할 아이템 스택의 이름
  @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
 ```
 

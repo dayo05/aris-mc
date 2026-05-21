@@ -64,6 +64,18 @@
  @param text The string to display.
  @param color The integer color of the text.
 ```
+## aris.client.create_text_input_renderer(font: FontResource, text: string, color: number) -> ScriptTextInputRenderer
+```
+ Creates an editable single-line text input component.
+ @param font The [FontResource] used to render the text.
+ @param text The initial text content.
+ @param color The integer color of the text.
+```
+## aris.client.create_checkbox_renderer(checked: boolean) -> ScriptCheckboxRenderer
+```
+ Creates a toggleable checkbox component.
+ @param checked The initial checked state.
+```
 ## aris.client.create_item_renderer(item: LuaItemStack) -> ScriptItemRenderer
 ```
  Creates a component that renders a Minecraft item stack.
@@ -534,6 +546,255 @@
 ```
 
 
+## ScriptTextInputRenderer:set_focused(focused: boolean)
+```
+ Sets the focus state programmatically.
+```
+
+
+## ScriptTextInputRenderer:get_selected_text() -> string
+```
+ Returns the currently selected substring (empty if there is no selection).
+```
+
+
+## ScriptTextInputRenderer:set_change_hook(fn: function)
+```
+ Sets the Lua function called whenever the text content changes.
+ The callback receives the new text (String).
+```
+
+
+## ScriptTextInputRenderer:clear_change_hook()
+```
+ Removes the currently assigned change hook.
+```
+
+
+## ScriptTextInputRenderer:set_enter_hook(fn: function)
+```
+ Sets the Lua function called when Enter is pressed while focused.
+ The callback receives the current text (String).
+```
+
+
+## ScriptTextInputRenderer:clear_enter_hook()
+```
+ Removes the currently assigned enter hook.
+```
+
+
+## ScriptTextInputRenderer:set_focus_hook(fn: function)
+```
+ Sets the Lua function called when focus is gained or lost.
+ The callback receives the new focus state (Boolean).
+```
+
+
+## ScriptTextInputRenderer:clear_focus_hook()
+```
+ Removes the currently assigned focus hook.
+```
+
+
+## ScriptTextInputRenderer:set_font(new_value: FontResource)
+```
+ Font to use for rendering the text.
+```
+
+
+## ScriptTextInputRenderer:get_font() -> FontResource
+```
+ Font to use for rendering the text.
+```
+
+
+## ScriptTextInputRenderer:set_color(new_value: number)
+```
+ The color of the text (RGB, optionally ARGB).
+```
+
+
+## ScriptTextInputRenderer:get_color() -> number
+```
+ The color of the text (RGB, optionally ARGB).
+```
+
+
+## ScriptTextInputRenderer:set_text(new_value: string)
+```
+ The current text content. Setting this from Lua clamps the cursor/selection.
+```
+
+
+## ScriptTextInputRenderer:get_text() -> string
+```
+ The current text content. Setting this from Lua clamps the cursor/selection.
+```
+
+
+## ScriptTextInputRenderer:set_width(new_value: number)
+```
+ The width of the input box.
+```
+
+
+## ScriptTextInputRenderer:get_width() -> number
+```
+ The width of the input box.
+```
+
+
+## ScriptTextInputRenderer:set_height(new_value: number)
+```
+ The height of the input box.
+```
+
+
+## ScriptTextInputRenderer:get_height() -> number
+```
+ The height of the input box.
+```
+
+
+## ScriptTextInputRenderer:set_padding(new_value: number)
+```
+ Horizontal/vertical inner padding between the box border and the text.
+```
+
+
+## ScriptTextInputRenderer:get_padding() -> number
+```
+ Horizontal/vertical inner padding between the box border and the text.
+```
+
+
+## ScriptTextInputRenderer:set_border_width(new_value: number)
+```
+ Thickness of the box border. Set to 0 to disable.
+```
+
+
+## ScriptTextInputRenderer:get_border_width() -> number
+```
+ Thickness of the box border. Set to 0 to disable.
+```
+
+
+## ScriptTextInputRenderer:set_background_color(new_value: number)
+```
+ Background fill color (ARGB). Alpha 0 disables the background.
+```
+
+
+## ScriptTextInputRenderer:get_background_color() -> number
+```
+ Background fill color (ARGB). Alpha 0 disables the background.
+```
+
+
+## ScriptTextInputRenderer:set_border_color(new_value: number)
+```
+ Border color (ARGB) used when the field is not focused.
+```
+
+
+## ScriptTextInputRenderer:get_border_color() -> number
+```
+ Border color (ARGB) used when the field is not focused.
+```
+
+
+## ScriptTextInputRenderer:set_focused_border_color(new_value: number)
+```
+ Border color (ARGB) used when the field is focused.
+```
+
+
+## ScriptTextInputRenderer:get_focused_border_color() -> number
+```
+ Border color (ARGB) used when the field is focused.
+```
+
+
+## ScriptTextInputRenderer:set_selection_color(new_value: number)
+```
+ Color (ARGB) of the text selection highlight.
+```
+
+
+## ScriptTextInputRenderer:get_selection_color() -> number
+```
+ Color (ARGB) of the text selection highlight.
+```
+
+
+## ScriptTextInputRenderer:set_placeholder(new_value: string)
+```
+ Placeholder text shown while the field is empty.
+```
+
+
+## ScriptTextInputRenderer:get_placeholder() -> string
+```
+ Placeholder text shown while the field is empty.
+```
+
+
+## ScriptTextInputRenderer:set_placeholder_color(new_value: number)
+```
+ Color of the placeholder text.
+```
+
+
+## ScriptTextInputRenderer:get_placeholder_color() -> number
+```
+ Color of the placeholder text.
+```
+
+
+## ScriptTextInputRenderer:set_max_length(new_value: number)
+```
+ The maximum number of characters allowed.
+```
+
+
+## ScriptTextInputRenderer:get_max_length() -> number
+```
+ The maximum number of characters allowed.
+```
+
+
+## ScriptTextInputRenderer:set_text_scale(new_value: number)
+```
+ Scale factor applied to the rendered text (the font is otherwise drawn at its native ~9px size).
+```
+
+
+## ScriptTextInputRenderer:get_text_scale() -> number
+```
+ Scale factor applied to the rendered text (the font is otherwise drawn at its native ~9px size).
+```
+
+
+## ScriptTextInputRenderer:set_is_editable(new_value: boolean)
+```
+ Whether the field is editable. When false, the field can still be focused but ignores edits.
+```
+
+
+## ScriptTextInputRenderer:get_is_editable() -> boolean
+```
+ Whether the field is editable. When false, the field can still be focused but ignores edits.
+```
+
+
+## ScriptTextInputRenderer:get_is_focused() -> boolean
+```
+ Whether the field currently has keyboard focus. Read-only in Lua; use `set_focused`.
+```
+
+
 ## ScriptItemRenderer:set_item(new_value: LuaItemStack)
 ```
  The Minecraft item to render, wrapped for Lua access.
@@ -543,6 +804,103 @@
 ## ScriptItemRenderer:get_item() -> LuaItemStack
 ```
  The Minecraft item to render, wrapped for Lua access.
+```
+
+
+## ScriptItemRenderer:set_display_tooltip(new_value: boolean)
+```
+ Whether to render the item's tooltip when the cursor hovers over it.
+```
+
+
+## ScriptItemRenderer:get_display_tooltip() -> boolean
+```
+ Whether to render the item's tooltip when the cursor hovers over it.
+```
+
+
+## ScriptCheckboxRenderer:set_change_hook(fn: function)
+```
+ Sets the Lua function called when the checked state is toggled by a click.
+ The callback receives the new checked state (Boolean).
+```
+
+
+## ScriptCheckboxRenderer:clear_change_hook()
+```
+ Removes the currently assigned change hook.
+```
+
+
+## ScriptCheckboxRenderer:set_size(new_value: number)
+```
+ The side length of the checkbox box.
+```
+
+
+## ScriptCheckboxRenderer:get_size() -> number
+```
+ The side length of the checkbox box.
+```
+
+
+## ScriptCheckboxRenderer:set_border_width(new_value: number)
+```
+ Thickness of the box border. Set to 0 to disable.
+```
+
+
+## ScriptCheckboxRenderer:get_border_width() -> number
+```
+ Thickness of the box border. Set to 0 to disable.
+```
+
+
+## ScriptCheckboxRenderer:set_background_color(new_value: number)
+```
+ Background fill color (ARGB). Alpha 0 disables the background.
+```
+
+
+## ScriptCheckboxRenderer:get_background_color() -> number
+```
+ Background fill color (ARGB). Alpha 0 disables the background.
+```
+
+
+## ScriptCheckboxRenderer:set_border_color(new_value: number)
+```
+ Border color (ARGB).
+```
+
+
+## ScriptCheckboxRenderer:get_border_color() -> number
+```
+ Border color (ARGB).
+```
+
+
+## ScriptCheckboxRenderer:set_check_color(new_value: number)
+```
+ Color (ARGB) of the check mark drawn when checked.
+```
+
+
+## ScriptCheckboxRenderer:get_check_color() -> number
+```
+ Color (ARGB) of the check mark drawn when checked.
+```
+
+
+## ScriptCheckboxRenderer:set_is_checked(new_value: boolean)
+```
+ Whether the checkbox is currently checked.
+```
+
+
+## ScriptCheckboxRenderer:get_is_checked() -> boolean
+```
+ Whether the checkbox is currently checked.
 ```
 
 
@@ -581,6 +939,22 @@
 ## ScreenRenderer:clear_key_up_hook()
 ```
  Removes the currently assigned key up hook, disabling the callback.
+```
+
+
+## ScreenRenderer:set_close_hook(fn: function)
+```
+ Sets the Lua function to be called when the screen is closed.
+
+ The Lua function receives no arguments.
+
+ @param fn The Lua function to serve as the callback.
+```
+
+
+## ScreenRenderer:clear_close_hook()
+```
+ Removes the currently assigned close hook, disabling the callback.
 ```
 
 

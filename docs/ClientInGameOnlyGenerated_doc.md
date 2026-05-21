@@ -50,6 +50,24 @@
  이 함수는 씹힐 위험이 있으니, 사용을 지양하세요.
  @param key 눌려져있는지 확인할 키
 ```
+## aris.game.client.get_inventory_size() -> number
+```
+ 현재 플레이어 인벤토리의 슬롯 개수를 가져옵니다.
+```
+## aris.game.client.get_inventory_item(slot: number) -> LuaItemStack
+```
+ 현재 플레이어 인벤토리의 특정 슬롯에 있는 아이템을 가져옵니다.
+ @param slot 슬롯 번호 (0부터 시작)
+```
+## aris.game.client.get_selected_slot() -> number
+```
+ 현재 선택된(들고 있는) 핫바 슬롯 번호를 가져옵니다.
+```
+## aris.game.client.iter_inventory(fn: function)
+```
+ 현재 플레이어 인벤토리의 모든 슬롯을 순회합니다.
+ @param fn 각 슬롯에 대해 실행할 콜백 (slot: Int, item: ItemStack) -> void
+```
 ## aris.game.client.target_crosshair_entity(reach: number) -> LuaEntity
 ## aris.game.client.hook.add_s2c_packet_handler(id: string, func: function)
 ```
@@ -102,4 +120,12 @@
  실수 인자를 패킷에 추가합니다.
  @param id 패킷에 첨부할 실수의 이름
  @param of 추가할 실수
+```
+
+
+## Builder:append_itemstack(id: string, of: LuaItemStack)
+```
+ 아이템 스택 인자를 패킷에 추가합니다.
+ @param id 패킷에 첨부할 아이템 스택의 이름
+ @param of 추가할 아이템 스택
 ```

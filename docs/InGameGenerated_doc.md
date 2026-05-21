@@ -13,6 +13,17 @@
 ## aris.game.create_effect_builder(ns: string, of: string) -> LuaMobEffectInstance
 ## aris.game.summon_entity(entityType: LuaEntityType, world: LuaServerWorld, pos: Point3) -> LuaEntity
 ## aris.game.entity_type_of(str: string) -> LuaEntityType
+## aris.game.create_item(id: string, count: number) -> LuaItemStack
+```
+ 아이템 ID로 ItemStack을 생성합니다.
+ @param id 아이템 ID (예: "minecraft:diamond")
+ @param count 수량
+```
+## aris.game.create_item(id: string) -> LuaItemStack
+```
+ 아이템 ID로 ItemStack을 생성합니다. (수량 1)
+ @param id 아이템 ID (예: "minecraft:diamond")
+```
 ## aris.game.hook.add_on_use_item(item: string, func: function)
 ```
  추가한 아이템을 사용했을때 실행할 함수를 추가합니다.
@@ -523,6 +534,14 @@
 ```
 
 
+## Builder:append_itemstack(id: string, of: LuaItemStack)
+```
+ 아이템 스택 인자를 패킷에 추가합니다.
+ @param id 패킷에 첨부할 아이템 스택의 이름
+ @param of 추가할 아이템 스택
+```
+
+
 ## LuaLivingEntity:add_effect(effect: LuaMobEffectInstance)
 ```
  엔티티에 상태 효과를 추가합니다.
@@ -611,6 +630,24 @@
  @param id 아이템 ID (예: "minecraft:diamond")
  @param count 제거할 수량
  @return 성공 여부
+```
+
+
+## LuaLivingEntity:set_health(new_value: number)
+```
+ 엔티티의 현재 체력을 가져오거나 설정합니다.
+```
+
+
+## LuaLivingEntity:get_health() -> number
+```
+ 엔티티의 현재 체력을 가져오거나 설정합니다.
+```
+
+
+## LuaLivingEntity:get_max_health() -> number
+```
+ 엔티티의 최대 체력을 가져옵니다.
 ```
 
 
