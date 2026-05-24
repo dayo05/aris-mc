@@ -69,12 +69,6 @@
  @param fn 각 슬롯에 대해 실행할 콜백 (slot: Int, item: ItemStack) -> void
 ```
 ## aris.game.client.target_crosshair_entity(reach: number) -> LuaEntity
-## aris.game.client.hook.add_s2c_packet_handler(id: string, func: function)
-```
- 패킷이 서버로부터 전송됐을때 실행할 함수를 지정합니다.
- @param id 패킷 id
- @param func 실행할 함수
-```
 ## aris.game.client.networking.send_c2s_packet(packet: PacketDeclaration.Builder)
 ```
  서버로 주어진 패킷을 전송합니다.
@@ -85,17 +79,11 @@
  서버로 전송할 패킷을 설정하는 빌더(builder)를 만듭니다.
  @param of 전송할 패킷의 id
 ```
-
-
-## HudRenderer:open_hud()
+## aris.game.client.hook.add_s2c_packet_handler(id: string, func: function)
 ```
- Registers this renderer to the in-game HUD engine, making it visible on the HUD.
-```
-
-
-## HudRenderer:close_hud()
-```
- Unregisters this renderer from the in-game HUD engine.
+ 패킷이 서버로부터 전송됐을때 실행할 함수를 지정합니다.
+ @param id 패킷 id
+ @param func 실행할 함수
 ```
 
 
@@ -128,4 +116,16 @@
  아이템 스택 인자를 패킷에 추가합니다.
  @param id 패킷에 첨부할 아이템 스택의 이름
  @param of 추가할 아이템 스택
+```
+
+
+## HudRenderer:open_hud()
+```
+ Registers this renderer to the in-game HUD engine, making it visible on the HUD.
+```
+
+
+## HudRenderer:close_hud()
+```
+ Unregisters this renderer from the in-game HUD engine.
 ```

@@ -1,3 +1,26 @@
+## aris.game.client.hook.add_tick_hook(f: function)
+```
+ 매 틱마다 실행할 함수를 추가합니다.
+ @param f 실행할 함수
+```
+## aris.game.client.hook.clear_tick_hook(f: function)
+```
+ 매 틱마다 실행할 함수를 초기화합니다.
+```
+## aris.game.client.hook.on_key_pressed(key: string, function: function)
+```
+ 새로 추가한 조작키를 실행할때 실행될 함수를 지정합니다.
+ @param key 누를 키
+ @param function 실행할 함수
+```
+## aris.game.client.hook.on_player_leave_server(f: function)
+```
+ 클라이언트가 서버에서 나갔을 때 실행할 함수를 추가합니다.
+
+ 엔진이 리로드되면 폐기되는 엔진에서 이 함수가 실행되므로,
+ 스크립트가 정리(cleanup) 작업을 수행할 수 있습니다.
+ @param f 실행할 함수
+```
 ## aris.client.create_area_builder() -> AreaBuilder
 ```
  Creates a new [AreaBuilder] instance to construct complex areas.
@@ -124,29 +147,12 @@
  @param of The name of the key binding to find.
  @return A [LuaKeyBinding] wrapper if found, or null.
 ```
-## aris.game.client.hook.add_tick_hook(f: function)
-```
- 매 틱마다 실행할 함수를 추가합니다.
- @param f 실행할 함수
-```
-## aris.game.client.hook.clear_tick_hook(f: function)
-```
- 매 틱마다 실행할 함수를 초기화합니다.
-```
-## aris.game.client.hook.on_key_pressed(key: string, function: function)
-```
- 새로 추가한 조작키를 실행할때 실행될 함수를 지정합니다.
- @param key 누를 키
- @param function 실행할 함수
-```
-## aris.game.client.hook.on_player_leave_server(f: function)
-```
- 클라이언트가 서버에서 나갔을 때 실행할 함수를 추가합니다.
 
- 엔진이 리로드되면 폐기되는 엔진에서 이 함수가 실행되므로,
- 스크립트가 정리(cleanup) 작업을 수행할 수 있습니다.
- @param f 실행할 함수
-```
+
+## LuaKeyBinding:consume() -> boolean
+
+
+## LuaKeyBinding:get_is_down() -> boolean
 
 
 ## BaseComponent:add_child(child: BaseComponent)
@@ -355,12 +361,6 @@
 ```
 
 
-## LuaKeyBinding:consume() -> boolean
-
-
-## LuaKeyBinding:get_is_down() -> boolean
-
-
 ## BaseRectComponent:set_width(new_value: number)
 ```
  The visual width of the component.
@@ -414,6 +414,90 @@
 ```
  The internal reference height (e.g., texture height).
  Changing this recalculates [yScale] to maintain visual [height].
+```
+
+
+## ScriptItemRenderer:set_item(new_value: LuaItemStack)
+```
+ The Minecraft item to render, wrapped for Lua access.
+```
+
+
+## ScriptItemRenderer:get_item() -> LuaItemStack
+```
+ The Minecraft item to render, wrapped for Lua access.
+```
+
+
+## ScriptItemRenderer:set_display_tooltip(new_value: boolean)
+```
+ Whether to render the item's tooltip when the cursor hovers over it.
+```
+
+
+## ScriptItemRenderer:get_display_tooltip() -> boolean
+```
+ Whether to render the item's tooltip when the cursor hovers over it.
+```
+
+
+## ScriptTextRenderer:set_font(new_value: FontResource)
+```
+ Font to use
+```
+
+
+## ScriptTextRenderer:get_font() -> FontResource
+```
+ Font to use
+```
+
+
+## ScriptTextRenderer:set_text(new_value: string)
+```
+ The text string to display.
+```
+
+
+## ScriptTextRenderer:get_text() -> string
+```
+ The text string to display.
+```
+
+
+## ScriptTextRenderer:set_color(new_value: number)
+```
+ The text color.
+```
+
+
+## ScriptTextRenderer:get_color() -> number
+```
+ The text color.
+```
+
+
+## ScriptDefaultTextRenderer:set_text(new_value: string)
+```
+ The text string to display.
+```
+
+
+## ScriptDefaultTextRenderer:get_text() -> string
+```
+ The text string to display.
+```
+
+
+## ScriptDefaultTextRenderer:set_color(new_value: number)
+```
+ The text color.
+```
+
+
+## ScriptDefaultTextRenderer:get_color() -> number
+```
+ The text color.
 ```
 
 
@@ -486,63 +570,88 @@
 ```
 
 
-## ScriptTextRenderer:set_font(new_value: FontResource)
+## ScriptCheckboxRenderer:set_change_hook(fn: function)
 ```
- Font to use
-```
-
-
-## ScriptTextRenderer:get_font() -> FontResource
-```
- Font to use
+ Sets the Lua function called when the checked state is toggled by a click.
+ The callback receives the new checked state (Boolean).
 ```
 
 
-## ScriptTextRenderer:set_text(new_value: string)
+## ScriptCheckboxRenderer:clear_change_hook()
 ```
- The text string to display.
-```
-
-
-## ScriptTextRenderer:get_text() -> string
-```
- The text string to display.
+ Removes the currently assigned change hook.
 ```
 
 
-## ScriptTextRenderer:set_color(new_value: number)
+## ScriptCheckboxRenderer:set_size(new_value: number)
 ```
- The text color.
-```
-
-
-## ScriptTextRenderer:get_color() -> number
-```
- The text color.
+ The side length of the checkbox box.
 ```
 
 
-## ScriptDefaultTextRenderer:set_text(new_value: string)
+## ScriptCheckboxRenderer:get_size() -> number
 ```
- The text string to display.
-```
-
-
-## ScriptDefaultTextRenderer:get_text() -> string
-```
- The text string to display.
+ The side length of the checkbox box.
 ```
 
 
-## ScriptDefaultTextRenderer:set_color(new_value: number)
+## ScriptCheckboxRenderer:set_border_width(new_value: number)
 ```
- The text color.
+ Thickness of the box border. Set to 0 to disable.
 ```
 
 
-## ScriptDefaultTextRenderer:get_color() -> number
+## ScriptCheckboxRenderer:get_border_width() -> number
 ```
- The text color.
+ Thickness of the box border. Set to 0 to disable.
+```
+
+
+## ScriptCheckboxRenderer:set_background_color(new_value: number)
+```
+ Background fill color (ARGB). Alpha 0 disables the background.
+```
+
+
+## ScriptCheckboxRenderer:get_background_color() -> number
+```
+ Background fill color (ARGB). Alpha 0 disables the background.
+```
+
+
+## ScriptCheckboxRenderer:set_border_color(new_value: number)
+```
+ Border color (ARGB).
+```
+
+
+## ScriptCheckboxRenderer:get_border_color() -> number
+```
+ Border color (ARGB).
+```
+
+
+## ScriptCheckboxRenderer:set_check_color(new_value: number)
+```
+ Color (ARGB) of the check mark drawn when checked.
+```
+
+
+## ScriptCheckboxRenderer:get_check_color() -> number
+```
+ Color (ARGB) of the check mark drawn when checked.
+```
+
+
+## ScriptCheckboxRenderer:set_is_checked(new_value: boolean)
+```
+ Whether the checkbox is currently checked.
+```
+
+
+## ScriptCheckboxRenderer:get_is_checked() -> boolean
+```
+ Whether the checkbox is currently checked.
 ```
 
 
@@ -792,115 +901,6 @@
 ## ScriptTextInputRenderer:get_is_focused() -> boolean
 ```
  Whether the field currently has keyboard focus. Read-only in Lua; use `set_focused`.
-```
-
-
-## ScriptItemRenderer:set_item(new_value: LuaItemStack)
-```
- The Minecraft item to render, wrapped for Lua access.
-```
-
-
-## ScriptItemRenderer:get_item() -> LuaItemStack
-```
- The Minecraft item to render, wrapped for Lua access.
-```
-
-
-## ScriptItemRenderer:set_display_tooltip(new_value: boolean)
-```
- Whether to render the item's tooltip when the cursor hovers over it.
-```
-
-
-## ScriptItemRenderer:get_display_tooltip() -> boolean
-```
- Whether to render the item's tooltip when the cursor hovers over it.
-```
-
-
-## ScriptCheckboxRenderer:set_change_hook(fn: function)
-```
- Sets the Lua function called when the checked state is toggled by a click.
- The callback receives the new checked state (Boolean).
-```
-
-
-## ScriptCheckboxRenderer:clear_change_hook()
-```
- Removes the currently assigned change hook.
-```
-
-
-## ScriptCheckboxRenderer:set_size(new_value: number)
-```
- The side length of the checkbox box.
-```
-
-
-## ScriptCheckboxRenderer:get_size() -> number
-```
- The side length of the checkbox box.
-```
-
-
-## ScriptCheckboxRenderer:set_border_width(new_value: number)
-```
- Thickness of the box border. Set to 0 to disable.
-```
-
-
-## ScriptCheckboxRenderer:get_border_width() -> number
-```
- Thickness of the box border. Set to 0 to disable.
-```
-
-
-## ScriptCheckboxRenderer:set_background_color(new_value: number)
-```
- Background fill color (ARGB). Alpha 0 disables the background.
-```
-
-
-## ScriptCheckboxRenderer:get_background_color() -> number
-```
- Background fill color (ARGB). Alpha 0 disables the background.
-```
-
-
-## ScriptCheckboxRenderer:set_border_color(new_value: number)
-```
- Border color (ARGB).
-```
-
-
-## ScriptCheckboxRenderer:get_border_color() -> number
-```
- Border color (ARGB).
-```
-
-
-## ScriptCheckboxRenderer:set_check_color(new_value: number)
-```
- Color (ARGB) of the check mark drawn when checked.
-```
-
-
-## ScriptCheckboxRenderer:get_check_color() -> number
-```
- Color (ARGB) of the check mark drawn when checked.
-```
-
-
-## ScriptCheckboxRenderer:set_is_checked(new_value: boolean)
-```
- Whether the checkbox is currently checked.
-```
-
-
-## ScriptCheckboxRenderer:get_is_checked() -> boolean
-```
- Whether the checkbox is currently checked.
 ```
 
 
