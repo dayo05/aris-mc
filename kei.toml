@@ -1,0 +1,50 @@
+# Build recipe consumed by https://github.com/dayo05/kei after each push.
+# The server-side kei.toml only knows the repo URL + secrets; everything
+# below — steps, artifact globs, nix overrides — is loaded from this file.
+
+# `./gradlew build` also runs `kspKotlin` as a prerequisite, so doc
+# generation happens in the same pass.
+[[steps]]
+name = "build"
+command = "./gradlew"
+args = ["build"]
+
+# Copy KSP-generated resources into docs/ and push back if anything
+# changed. The [skip ci] marker tells kei not to re-trigger.
+[[steps]]
+name = "update-docs"
+command = "bash"
+args = [
+  "-c",
+  """
+set -euo pipefail
+SOURCE_DIR=common/build/generated/ksp/main/resources
+DEST_DIR=docs
+if [ ! -d "$SOURCE_DIR" ]; then
+  echo "source not found: $SOURCE_DIR" >&2
+  exit 1
+fi
+mkdir -p "$DEST_DIR"
+rm -rf "$DEST_DIR"/*
+cp -r "$SOURCE_DIR"/* "$DEST_DIR"/
+git add docs/
+if git diff --staged --quiet; then
+  echo "docs unchanged, skipping push"
+else
+  git -c user.name="kei-bot" -c user.email="self@ddayo.me" \\
+      commit -m "chore: update documentation [skip ci]"
+  git push origin HEAD:master
+fi
+"""
+]
+
+# Source name is `aris-<version>.jar` (no loader in filename); the suffix
+# splices the loader in so artifacts are unambiguous. The `*` matches the
+# main jar plus dev-shadow / sources.
+[[artifacts]]
+pattern = "fabric/build/libs/aris-*.jar"
+suffix = "fabric"
+
+[[artifacts]]
+pattern = "neoforge/build/libs/aris-*.jar"
+suffix = "neoforge"
