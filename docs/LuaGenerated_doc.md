@@ -42,17 +42,6 @@
 ```
  Get the size of a file in bytes. Returns -1 if the file does not exist.
 ```
-## aris.hook.on_engine_dispose(f: function)
-```
- 엔진이 폐기될 때 실행할 함수를 추가합니다.
-
- - in-game / client-main 엔진: 엔진이 dispose될 때(예: `/aris reload`, 게임 퇴장) 실행됩니다.
- - init / client-init 엔진: 초기화 단계가 끝난 직후 실행됩니다.
-
- 엔진이 폐기되는 중에 동기적으로 실행되므로 정리(cleanup) 용도로 사용하세요.
- 이 콜백 안에서는 task_yield 등으로 yield할 수 없습니다.
- @param f 실행할 함수
-```
 ## aris.parse.from_json(content: string) -> any
 ```
  Parse a JSON string into a Lua table.
@@ -64,6 +53,27 @@
 ## aris.parse.from_toml(content: string) -> any
 ```
  Parse a TOML string into a Lua table.
+```
+## aris.hook.on_engine_dispose(f: function)
+```
+ 엔진이 폐기될 때 실행할 함수를 추가합니다.
+
+ - in-game / client-main 엔진: 엔진이 dispose될 때(예: `/aris reload`, 게임 퇴장) 실행됩니다.
+ - init / client-init 엔진: 초기화 단계가 끝난 직후 실행됩니다.
+
+ 엔진이 폐기되는 중에 동기적으로 실행되므로 정리(cleanup) 용도로 사용하세요.
+ 이 콜백 안에서는 task_yield 등으로 yield할 수 없습니다.
+ @param f 실행할 함수
+```
+## aris.math.create_point(x: number, y: number) -> Point
+```
+ Create point object (x, y)
+ @return Point(x, y)
+```
+## aris.math.create_point(x: number, y: number, z: number) -> Point3
+```
+ Create point object (x, y, z)
+ @return Point3(x, y, z)
 ```
 ## aris.math.create_rect_area(x: number, y: number, width: number, height: number) -> Area
 ```
@@ -77,37 +87,6 @@
 ```
  @return createRect(min(p1.x, p2.x), min(p1.y, p2.y), abs(p1.x - p2.x), abs(p1.y - p2.y))
 ```
-## aris.math.create_point(x: number, y: number) -> Point
-```
- Create point object (x, y)
- @return Point(x, y)
-```
-## aris.math.create_point(x: number, y: number, z: number) -> Point3
-```
- Create point object (x, y, z)
- @return Point3(x, y, z)
-```
-
-
-## AreaBuilder:append(p: Point)
-```
- Append the point that constructs node of the area
-```
-
-
-## AreaBuilder:build() -> Area
-
-
-## Area:is_in(p: Point) -> boolean
-
-
-## Area:times(x: number) -> Area
-
-
-## Area:center() -> Point
-
-
-## Area:into_string() -> string
 
 
 ## Point3:minus(other: Point3) -> Point
@@ -168,3 +147,24 @@
 
 
 ## Point:get_y() -> number
+
+
+## AreaBuilder:append(p: Point)
+```
+ Append the point that constructs node of the area
+```
+
+
+## AreaBuilder:build() -> Area
+
+
+## Area:is_in(p: Point) -> boolean
+
+
+## Area:times(x: number) -> Area
+
+
+## Area:center() -> Point
+
+
+## Area:into_string() -> string
