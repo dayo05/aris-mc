@@ -87,7 +87,7 @@ object CommandBuilderFunctions {
         val rl = RegistryHelper.getResourceLocation(of)
         override fun retrieve() = Commands.argument(of, StringArgumentType.string())
         override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
-            builder.inner[rl] = LuaServerPlayer(EntityArgument.getPlayer(ctx, of))
+            builder.inner[rl] = StringArgumentType.getString(ctx, of)
         }
     }
 
@@ -101,7 +101,7 @@ object CommandBuilderFunctions {
         val rl = RegistryHelper.getResourceLocation(of)
         override fun retrieve() = Commands.argument(of, StringArgumentType.word())
         override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
-            builder.inner[rl] = LuaServerPlayer(EntityArgument.getPlayer(ctx, of))
+            builder.inner[rl] = StringArgumentType.getString(ctx, of)
         }
     }
 
