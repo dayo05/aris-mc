@@ -2,8 +2,6 @@ import groovy.json.JsonSlurper
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
-import java.time.format.DateTimeFormatter
-import java.time.LocalDateTime
 
 buildscript {
     ext.kotlin_version = '2.3.0'
@@ -40,16 +38,7 @@ subprojects {
     }
 }
 
-def sharedModVersion = {
-    if (gradle.parent == null && rootProject.findProperty("env") != "slave") {
-        def baseVersion = rootProject.mod_version // 'gradle.properties' 등에서 가져온 기본 버전
-        def timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd_HHmm"))
-
-        // 최종 버전 문자열을 반환합니다.
-        return "${baseVersion}-${timestamp}"
-    }
-    else return rootProject.mod_version
-}()
+def sharedModVersion = rootProject.mod_version
 
 allprojects {
     apply plugin: "java"
