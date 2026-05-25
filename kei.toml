@@ -22,7 +22,7 @@ args = [
 set -euo pipefail
 TARGET="${KEI_MAVEN_REPO:-$HOME/.m2/repository}"
 VERSION="$(sed -n 's/^mod_version=//p' gradle.properties | tr -d '[:space:]')"
-./gradlew publishToMavenLocal -Dmaven.repo.local="$TARGET"
+./gradlew publishToMavenLocal :aris.luagen:publishToMavenLocal :aris.luagen:ap:publishToMavenLocal -Dmaven.repo.local="$TARGET"
 case "$VERSION" in
   *-SNAPSHOT) echo "version $VERSION is already a SNAPSHOT; skipping second publish" ;;
   *) ./gradlew publishToMavenLocal "-Pmod_version=${VERSION}-SNAPSHOT" -Dmaven.repo.local="$TARGET" ;;
