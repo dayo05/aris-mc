@@ -11,6 +11,15 @@ args = ["build"]
 
 # Copy KSP-generated resources into docs/ and push back if anything
 # changed. The [skip ci] marker tells kei not to re-trigger.
+# Publishes me.ddayo:aris-<loader>:<version> into the kei-managed Maven
+# repo. `$KEI_MAVEN_REPO` is exported by the kei service when it is built
+# with the `maven` feature; if missing, the step still runs but the repo
+# falls back to gradle's default ~/.m2/repository (harmless).
+[[steps]]
+name = "publish-maven"
+command = "bash"
+args = ["-c", "./gradlew publishToMavenLocal -Dmaven.repo.local=\"${KEI_MAVEN_REPO:-$HOME/.m2/repository}\""]
+
 [[steps]]
 name = "update-docs"
 command = "bash"
