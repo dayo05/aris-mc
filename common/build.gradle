@@ -17,11 +17,11 @@ dependencies {
 
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    implementation "me.ddayo:aris.luagen"
+    implementation "me.ddayo:aris.luagen:1.0-SNAPSHOT"
     implementation "party.iroiro.luajava:luajit:4.0.0"
     implementation "org.yaml:snakeyaml:2.3"
     implementation "com.moandjiezana.toml:toml4j:0.7.2"
-    ksp "me.ddayo:ap"
+    ksp "me.ddayo:ap:1.0-SNAPSHOT"
 }
 
 ksp {
