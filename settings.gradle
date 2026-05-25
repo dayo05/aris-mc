@@ -19,6 +19,4 @@ include("common")
 include("fabric")
 include("neoforge")
 
-includeBuild("aris.luagen")
-
 rootProject.name = "aris"
