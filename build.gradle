@@ -64,10 +64,6 @@ allprojects {
     java {
         withSourcesJar()
     }
-
-    jar.doFirst {
-        delete fileTree(layout.buildDirectory.dir('libs'))
-    }
 }
 repositories {
     mavenCentral()

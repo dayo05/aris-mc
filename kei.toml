@@ -9,16 +9,26 @@ name = "build"
 command = "./gradlew"
 args = ["build"]
 
-# Copy KSP-generated resources into docs/ and push back if anything
-# changed. The [skip ci] marker tells kei not to re-trigger.
-# Publishes me.ddayo:aris-<loader>:<version> into the kei-managed Maven
-# repo. `$KEI_MAVEN_REPO` is exported by the kei service when it is built
-# with the `maven` feature; if missing, the step still runs but the repo
-# falls back to gradle's default ~/.m2/repository (harmless).
+# Publishes me.ddayo:aris-<loader> into the kei-managed Maven repo as
+# BOTH `<version>` (immutable — pinning) and `<version>-SNAPSHOT`
+# (mutable — gradle auto-refreshes downstream builds). When mod_version
+# already ends in -SNAPSHOT, the second publish is skipped.
 [[steps]]
 name = "publish-maven"
 command = "bash"
-args = ["-c", "./gradlew publishToMavenLocal -Dmaven.repo.local=\"${KEI_MAVEN_REPO:-$HOME/.m2/repository}\""]
+args = [
+  "-c",
+  """
+set -euo pipefail
+TARGET="${KEI_MAVEN_REPO:-$HOME/.m2/repository}"
+VERSION="$(awk -F= '/^mod_version=/{gsub(/[[:space:]]/,"",$2); print $2}' gradle.properties)"
+./gradlew publishToMavenLocal -Dmaven.repo.local="$TARGET"
+case "$VERSION" in
+  *-SNAPSHOT) echo "version $VERSION is already a SNAPSHOT; skipping second publish" ;;
+  *) ./gradlew publishToMavenLocal "-Pmod_version=${VERSION}-SNAPSHOT" -Dmaven.repo.local="$TARGET" ;;
+esac
+""",
+]
 
 [[steps]]
 name = "update-docs"
