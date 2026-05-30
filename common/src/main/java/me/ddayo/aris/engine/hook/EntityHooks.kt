@@ -1,6 +1,5 @@
 package me.ddayo.aris.engine.hook
 
-import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.wrapper.*
 import me.ddayo.aris.engine.wrapper.LuaEntity.Companion.toLuaValue
@@ -11,40 +10,10 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ItemStack
-import org.apache.logging.log4j.LogManager
-import java.util.function.Supplier
 
 @LuaProvider(InGameEngine.PROVIDER, library = "aris.game.hook")
 object EntityHooks {
-    private val logger = LogManager.getLogger()
-
-    /**
-     * Run [block] on the server thread. If already on it, runs immediately;
-     * otherwise it is queued onto the server's event loop. LuaJIT is not
-     * thread-safe, so every Lua state interaction must happen on a single
-     * (server) thread.
-     */
-    private inline fun onServerThread(crossinline block: () -> Unit) {
-        val server = Aris.server
-        if (server.isSameThread) block() else server.execute { block() }
-    }
-
-    /**
-     * For hooks that must return a value synchronously (cancel/modify), we
-     * submit the work to the server thread and block until it returns. This
-     * keeps the Lua state single-threaded and the return value correct.
-     * Deadlock is possible (e.g. if the calling thread holds a lock the
-     * server thread is waiting on) and is accepted as the cost of correctness.
-     */
-    private inline fun <T> requireServerThread(name: String, crossinline block: () -> T): T {
-        val server = Aris.server
-        if (server.isSameThread) return block()
-        logger.warn(
-            "$name invoked off the server thread (${Thread.currentThread().name}); " +
-                    "blocking until the server thread runs the hook"
-        )
-        return server.submit(Supplier { block() }).get()
-    }
+    data class EntityDamageResult(val cancelled: Boolean, val amount: Float)
 
     val itemUseHook = LuaHookMap<String>()
     init {
@@ -71,10 +40,8 @@ object EntityHooks {
     }
 
     fun executeOnUseItem(itemId: String, player: ServerPlayer, item: ItemStack) {
-        onServerThread {
-            val event = LuaUseItemEvent(LuaServerPlayer(player), LuaItemStack(item))
-            itemUseHook[itemId].callAsTask(event)
-        }
+        val event = LuaUseItemEvent(LuaServerPlayer(player), LuaItemStack(item))
+        itemUseHook[itemId].callAsTask(event)
     }
 
     val rightClickHook = LuaHook()
@@ -100,10 +67,8 @@ object EntityHooks {
     }
 
     fun executeOnRightClick(player: ServerPlayer) {
-        onServerThread {
-            val event = LuaRightClickEvent(LuaServerPlayer(player))
-            rightClickHook.callAsTask(event)
-        }
+        val event = LuaRightClickEvent(LuaServerPlayer(player))
+        rightClickHook.callAsTask(event)
     }
 
     val leftClickHook = LuaHook()
@@ -129,10 +94,8 @@ object EntityHooks {
     }
 
     fun executeOnLeftClick(player: ServerPlayer) {
-        onServerThread {
-            val event = LuaLeftClickEvent(LuaServerPlayer(player))
-            leftClickHook.callAsTask(event)
-        }
+        val event = LuaLeftClickEvent(LuaServerPlayer(player))
+        leftClickHook.callAsTask(event)
     }
 
     val onEntityDamagedHook = LuaHook()
@@ -142,6 +105,7 @@ object EntityHooks {
 
     /**
      * 엔티티가 데미지를 입었을 때 실행할 함수
+     * event:cancel()을 호출하면 데미지를 취소합니다.
      * @param f 실행할 함수 (LuaEntityDamagedEvent를 인자로 받음)
      */
     @LuaFunction("add_on_entity_damaged")
@@ -149,12 +113,11 @@ object EntityHooks {
         onEntityDamagedHook.add(f)
     }
 
-    fun executeOnEntityGotDamage(damage: DamageSource, amount: Float, target: LivingEntity): Float =
-        requireServerThread("executeOnEntityGotDamage") {
-            val event = LuaEntityDamagedEvent(LuaDamageSource(damage, amount), target.toLuaValue())
-            onEntityDamagedHook.call(event)
-            event.damageSourceWrapper.amount
-        }
+    fun executeOnEntityGotDamage(damage: DamageSource, amount: Float, target: LivingEntity): EntityDamageResult {
+        val event = LuaEntityDamagedEvent(LuaDamageSource(damage, amount), target.toLuaValue())
+        onEntityDamagedHook.call(event)
+        return EntityDamageResult(event.cancelled, event.damageSourceWrapper.amount)
+    }
 
     val onItemMoveHook = LuaHook()
     init {
@@ -180,24 +143,21 @@ object EntityHooks {
         onItemMoveHook.clear()
     }
 
-    fun executeOnContainerClick(player: ServerPlayer, item: ItemStack): Boolean =
-        requireServerThread("executeOnContainerClick") {
-            val event = LuaItemMoveEvent(LuaServerPlayer(player), LuaItemStack(item), "container_click")
-            onItemMoveHook.call(event)
-            event.cancelled
-        }
+    fun executeOnContainerClick(player: ServerPlayer, item: ItemStack): Boolean {
+        val event = LuaItemMoveEvent(LuaServerPlayer(player), LuaItemStack(item), "container_click")
+        onItemMoveHook.call(event)
+        return event.cancelled
+    }
 
-    fun executeOnItemDrop(player: ServerPlayer, item: ItemStack): Boolean =
-        requireServerThread("executeOnItemDrop") {
-            val event = LuaItemMoveEvent(LuaServerPlayer(player), LuaItemStack(item), "drop")
-            onItemMoveHook.call(event)
-            event.cancelled
-        }
+    fun executeOnItemDrop(player: ServerPlayer, item: ItemStack): Boolean {
+        val event = LuaItemMoveEvent(LuaServerPlayer(player), LuaItemStack(item), "drop")
+        onItemMoveHook.call(event)
+        return event.cancelled
+    }
 
-    fun executeOnItemPickup(player: ServerPlayer, item: ItemStack): Boolean =
-        requireServerThread("executeOnItemPickup") {
-            val event = LuaItemMoveEvent(LuaServerPlayer(player), LuaItemStack(item), "pickup")
-            onItemMoveHook.call(event)
-            event.cancelled
-        }
+    fun executeOnItemPickup(player: ServerPlayer, item: ItemStack): Boolean {
+        val event = LuaItemMoveEvent(LuaServerPlayer(player), LuaItemStack(item), "pickup")
+        onItemMoveHook.call(event)
+        return event.cancelled
+    }
 }

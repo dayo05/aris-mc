@@ -1,6 +1,5 @@
 package me.ddayo.aris.engine.hook
 
-import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import me.ddayo.aris.luagen.LuaFunc
@@ -10,19 +9,6 @@ import net.minecraft.server.level.ServerPlayer
 
 @LuaProvider(InGameEngine.PROVIDER, library = "aris.game.hook")
 object GameHooks {
-    /**
-     * Run [block] on the server thread. If already on it, runs immediately;
-     * otherwise it is queued onto the server's event loop. LuaJIT is not
-     * thread-safe, so every Lua state interaction must happen on the server
-     * thread. The player connection events ([executeOnPlayerJoin] /
-     * [executeOnPlayerLeave]) are networking events: the disconnect path in
-     * particular can be dispatched from the Netty network thread.
-     */
-    private inline fun onServerThread(crossinline block: () -> Unit) {
-        val server = Aris.server
-        if (server.isSameThread) block() else server.execute { block() }
-    }
-
     /**
      * 매 틱마다 실행할 함수를 추가합니다.
      * @param f 실행할 함수
@@ -74,18 +60,12 @@ object GameHooks {
     }
 
     fun executeOnPlayerJoin(player: ServerPlayer) {
-        onServerThread {
-            // The engine may have been disposed (e.g. by /aris reload) between
-            // the event firing and this block running on the server thread.
-            InGameEngine.INSTANCE ?: return@onServerThread
-            playerJoinHook.callAsTask(LuaServerPlayer(player))
-        }
+        InGameEngine.INSTANCE ?: return
+        playerJoinHook.callAsTask(LuaServerPlayer(player))
     }
 
     fun executeOnPlayerLeave(player: ServerPlayer) {
-        onServerThread {
-            InGameEngine.INSTANCE ?: return@onServerThread
-            playerLeaveHook.callAsTask(LuaServerPlayer(player))
-        }
+        InGameEngine.INSTANCE ?: return
+        playerLeaveHook.callAsTask(LuaServerPlayer(player))
     }
 }

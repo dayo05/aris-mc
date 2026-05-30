@@ -18,6 +18,7 @@ import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.commands.arguments.item.ItemArgument
 import net.minecraft.server.MinecraftServer
 import party.iroiro.luajava.luajit.LuaJit
+import java.util.function.Supplier
 
 
 /*
@@ -71,6 +72,17 @@ object Aris {
 
     lateinit var server: MinecraftServer
         private set
+
+    inline fun runOnServerThreadBlocking(crossinline block: () -> Unit) {
+        if (server.isSameThread) {
+            block()
+            return
+        }
+        server.submit(Supplier {
+            block()
+            Unit
+        }).get()
+    }
 
     fun onServerStart(server: MinecraftServer) {
         this.server = server

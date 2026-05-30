@@ -52,10 +52,14 @@ class ArisFabric: ModInitializer {
         }
 
         ServerPlayConnectionEvents.JOIN.register { handler, _, _ ->
-            GameHooks.executeOnPlayerJoin(handler.player)
+            Aris.runOnServerThreadBlocking {
+                GameHooks.executeOnPlayerJoin(handler.player)
+            }
         }
         ServerPlayConnectionEvents.DISCONNECT.register { handler, _ ->
-            GameHooks.executeOnPlayerLeave(handler.player)
+            Aris.runOnServerThreadBlocking {
+                GameHooks.executeOnPlayerLeave(handler.player)
+            }
         }
 
         UseItemCallback.EVENT.register { player, world, hand ->

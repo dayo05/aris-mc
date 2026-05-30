@@ -118,9 +118,10 @@ class ArisFabricClient: ClientModInitializer {
                         executor2: Executor
                     ): CompletableFuture<Void?> {
                         return preparationBarrier.wait(Unit).thenAcceptAsync({
-                            Resource.clearResource()
-                            ClientInGameEngine.reloadEngine()
-                            ClientMainEngine.reloadEngine()
+                            ArisClient.runOnClientThreadBlocking {
+                                Resource.clearResource()
+                                ArisClient.reloadEngine()
+                            }
                         }, executor2)
                     }
                 })

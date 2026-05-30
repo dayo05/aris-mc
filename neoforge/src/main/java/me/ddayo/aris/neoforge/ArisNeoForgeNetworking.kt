@@ -33,13 +33,13 @@ object ArisNeoForgeNetworking {
         registrar.playToClient(ReloadEnginePayload.ID, ReloadEnginePayload.CODEC) { _, context ->
             context.enqueueWork {
                 ArisClient.reloadEngine()
-            }
+            }.join()
         }
         registrar.playToClient(S2CLuaPayload.TYPE, S2CLuaPayload.CODEC) { payload, context ->
             context.enqueueWork {
                 val packet = S2CPacketHandler.packets[payload.id]!!
                 packet.execute(payload.parsedData!!)
-            }
+            }.join()
         }
 
         // C2S payloads
@@ -48,7 +48,7 @@ object ArisNeoForgeNetworking {
                 val player = context.player() as ServerPlayer
                 val packet = C2SPacketHandler.packets[payload.id]!!
                 packet.execute(player, payload.parsedData!!)
-            }
+            }.join()
         }
     }
 
@@ -62,7 +62,7 @@ object ArisNeoForgeNetworking {
                     ScriptDataType.ITEM -> engine.clientItemStackData[payload.id] = payload.itemData
                 }
             }
-        }
+        }.join()
     }
 
     fun sendDataPacketNeoForge(player: ServerPlayer, of: String, data: Any) {
