@@ -10,6 +10,7 @@ import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.event.RegisterCommandsEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
 import net.neoforged.neoforge.event.server.ServerStartingEvent
 import net.neoforged.neoforge.event.tick.ServerTickEvent
 
@@ -30,6 +31,16 @@ object ArisNeoForgeServerEventSubscriber {
     }
 
     @SubscribeEvent
+    fun onLivingIncomingDamage(event: LivingIncomingDamageEvent) {
+        val result = EntityHooks.executeOnEntityGotDamage(event.source, event.amount, event.entity)
+        if (result.cancelled) {
+            event.isCanceled = true
+        } else {
+            event.amount = result.amount
+        }
+    }
+
+    @SubscribeEvent
     fun onRegisterCommands(event: RegisterCommandsEvent) {
         Aris.registerCommand(event.dispatcher, event.buildContext)
     }
@@ -42,12 +53,16 @@ object ArisNeoForgeServerEventSubscriber {
     @SubscribeEvent
     fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent) {
         val player = event.entity as? ServerPlayer ?: return
-        GameHooks.executeOnPlayerJoin(player)
+        Aris.runOnServerThreadBlocking {
+            GameHooks.executeOnPlayerJoin(player)
+        }
     }
 
     @SubscribeEvent
     fun onPlayerLoggedOut(event: PlayerEvent.PlayerLoggedOutEvent) {
         val player = event.entity as? ServerPlayer ?: return
-        GameHooks.executeOnPlayerLeave(player)
+        Aris.runOnServerThreadBlocking {
+            GameHooks.executeOnPlayerLeave(player)
+        }
     }
 }

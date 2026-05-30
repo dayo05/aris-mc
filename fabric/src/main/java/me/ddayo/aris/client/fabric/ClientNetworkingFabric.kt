@@ -13,7 +13,7 @@ object ClientNetworkingFabric {
     fun register() {
         ClientPlayNetworking.registerGlobalReceiver(SyncDataPayload.ID) { payload, context ->
             val type = ServerNetworkingFabric.ScriptDataType.entries[payload.type.toInt()]
-            context.client().execute {
+            ArisClient.runOnClientThreadBlocking {
                 ClientInGameEngine.INSTANCE?.let { engine ->
                     when (type) {
                         ServerNetworkingFabric.ScriptDataType.STRING -> engine.clientStringData[payload.id] = payload.stringData
@@ -25,13 +25,11 @@ object ClientNetworkingFabric {
         }
 
         ClientPlayNetworking.registerGlobalReceiver(ReloadEnginePayload.ID) { payload, context ->
-            context.client().execute {
-                ArisClient.reloadEngine()
-            }
+            ArisClient.reloadEngine()
         }
 
         ClientPlayNetworking.registerGlobalReceiver(S2CLuaPayload.TYPE) { payload, context ->
-            context.client().execute {
+            ArisClient.runOnClientThreadBlocking {
                 val packet = S2CPacketHandler.packets[payload.id]!!
                 packet.execute(payload.parsedData!!)
             }

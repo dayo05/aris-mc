@@ -6,8 +6,21 @@ import me.ddayo.aris.engine.hook.client.ClientInGameHooks
 import me.ddayo.aris.engine.client.ClientMainEngine
 import net.minecraft.client.Minecraft
 import party.iroiro.luajava.luajit.LuaJit
+import java.util.function.Supplier
 
 object ArisClient {
+    inline fun runOnClientThreadBlocking(crossinline block: () -> Unit) {
+        val mc = Minecraft.getInstance()
+        if (mc.isSameThread) {
+            block()
+            return
+        }
+        mc.submit(Supplier {
+            block()
+            Unit
+        }).get()
+    }
+
     fun init() {
         val engine = ClientInitEngine(LuaJit())
 
@@ -29,31 +42,36 @@ object ArisClient {
     }
 
     fun onClientJoinGame() {
-        ClientInGameEngine.createEngine(LuaJit())
+        runOnClientThreadBlocking {
+            ClientInGameEngine.createEngine(LuaJit())
+        }
     }
 
     fun onClientLeaveGame() {
         // The disconnect event may be dispatched off the client render thread;
         // LuaJIT is not thread-safe, so the leave hook and engine disposal must
         // run together on the render thread (and in that order).
-        val mc = Minecraft.getInstance()
-        val task = Runnable {
+        runOnClientThreadBlocking {
             ClientInGameEngine.INSTANCE?.let { ClientInGameHooks.executeOnPlayerLeave() }
             ClientInGameEngine.disposeEngine()
         }
-        if (mc.isSameThread) task.run() else mc.execute(task)
     }
 
     fun onClientClose() {
-        ClientMainEngine.disposeEngine()
+        runOnClientThreadBlocking {
+            ClientMainEngine.disposeEngine()
+        }
     }
 
     fun onClientStart() {
-        ClientMainEngine.createEngine(LuaJit())
+        runOnClientThreadBlocking {
+            ClientMainEngine.createEngine(LuaJit())
+        }
     }
 
     fun reloadEngine() {
-        ClientMainEngine.INSTANCE?.run {
+        runOnClientThreadBlocking {
+            ClientMainEngine.INSTANCE ?: return@runOnClientThreadBlocking
             ClientMainEngine.disposeEngine()
             ClientMainEngine.createEngine(LuaJit())
             ClientInGameEngine.INSTANCE?.run {

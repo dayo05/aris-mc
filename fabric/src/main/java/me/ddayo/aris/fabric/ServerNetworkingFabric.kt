@@ -1,5 +1,6 @@
 package me.ddayo.aris.fabric
 
+import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.networking.C2SPacketHandler
 import me.ddayo.aris.networking.C2SLuaPayload
 import me.ddayo.aris.networking.ReloadEnginePayload
@@ -47,7 +48,7 @@ object ServerNetworkingFabric {
 
     fun init() {
         ServerPlayNetworking.registerGlobalReceiver(C2SLuaPayload.TYPE) { payload, context ->
-            context.server().execute {
+            Aris.runOnServerThreadBlocking {
                 val packet = C2SPacketHandler.packets[payload.id]!!
                 packet.execute(context.player(), payload.parsedData!!)
             }

@@ -3,6 +3,7 @@ package me.ddayo.aris.engine.wrapper
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.lua.glue.InGameGenerated
 import me.ddayo.aris.luagen.ILuaStaticDecl
+import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.luagen.LuaProvider
 
@@ -11,6 +12,8 @@ class LuaEntityDamagedEvent(
     val damageSourceWrapper: LuaDamageSource,
     val targetWrapper: LuaEntity
 ) : ILuaStaticDecl by InGameGenerated.LuaEntityDamagedEvent_LuaGenerated {
+    var cancelled = false
+
     /**
      * 데미지 정보. amount를 수정하면 데미지가 변경됩니다.
      */
@@ -22,4 +25,12 @@ class LuaEntityDamagedEvent(
      */
     @LuaProperty
     val target get() = targetWrapper
+
+    /**
+     * 데미지 이벤트를 취소합니다.
+     */
+    @LuaFunction("cancel")
+    fun cancel() {
+        cancelled = true
+    }
 }

@@ -106,6 +106,7 @@
 ## aris.game.hook.add_on_entity_damaged(f: function)
 ```
  엔티티가 데미지를 입었을 때 실행할 함수
+ event:cancel()을 호출하면 데미지를 취소합니다.
  @param f 실행할 함수 (LuaEntityDamagedEvent를 인자로 받음)
 ```
 ## aris.game.hook.add_on_item_move(f: function)
@@ -218,6 +219,12 @@
 ## LuaItemMoveEvent:get_type() -> string
 ```
  이동 유형: "container_click", "drop", "pickup"
+```
+
+
+## LuaEntityDamagedEvent:cancel()
+```
+ 데미지 이벤트를 취소합니다.
 ```
 
 
