@@ -2,6 +2,7 @@ package me.ddayo.aris.mixin;
 
 import me.ddayo.aris.engine.hook.EntityHooks;
 import net.minecraft.network.protocol.game.ServerboundSwingPacket;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.InteractionHand;
@@ -19,7 +20,12 @@ public class ServerGamePacketListenerMixin {
     @Inject(method = "handleAnimate", at = @At("HEAD"))
     private void onHandleAnimate(ServerboundSwingPacket packet, CallbackInfo ci) {
         if (packet.getHand() == InteractionHand.MAIN_HAND) {
-            EntityHooks.INSTANCE.executeOnLeftClick(player);
+            MinecraftServer server = player.getServer();
+            if (server.isSameThread()) {
+                EntityHooks.INSTANCE.executeOnLeftClick(player);
+            } else {
+                server.execute(() -> EntityHooks.INSTANCE.executeOnLeftClick(player));
+            }
         }
     }
 }
