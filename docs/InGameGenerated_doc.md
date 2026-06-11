@@ -24,49 +24,16 @@
  아이템 ID로 ItemStack을 생성합니다. (수량 1)
  @param id 아이템 ID (예: "minecraft:diamond")
 ```
-## aris.game.world.get_world(world: string) -> LuaServerWorld
-## get_overworld() -> LuaServerWorld
-## get_nether() -> LuaServerWorld
-## get_end() -> LuaServerWorld
-## aris.game.nbt.from_table(table: any) -> LuaNBTCompound
+## aris.game.command.suggestion.set_list(id: string, values: any)
 ```
- Converts Lua Table into NBT Compound
+ 명령어 자동완성 리스트를 설정합니다.
+ @param id 자동완성 리스트 id
+ @param values 자동완성 후보 문자열 배열(table)
 ```
-## aris.game.nbt.from_entity(entity: LuaEntity) -> LuaNBTCompound
+## aris.game.command.suggestion.clear_list(id: string)
 ```
- Get NBT of entity
- @param entity entity to get nbt
- @return full nbt object of entity
-```
-## aris.game.nbt.from_item_stack(stack: LuaItemStack) -> LuaNBTCompound
-```
- Get NBT of item stack
- @param stack item stack to get nbt
- @return full nbt object of item stack
-```
-## aris.game.nbt.from_block_entity(level: LuaServerWorld, x: number, y: number, z: number) -> LuaNBTCompound
-```
- Get NBT of block entity at specific position
- @param level server level for target block entity
- @param x x position for target block entity
- @param y y position for target block entity
- @param z z position for target block entity
- @return full nbt object of provided location. Nil if not exists.
-```
-## aris.game.nbt.from_block_state(level: LuaServerWorld, x: number, y: number, z: number) -> LuaNBTCompound
-```
- Get NBT of block state at specific position
- @param level server level for target block state
- @param x x position for target block state
- @param y y position for target block state
- @param z z position for target block state
- @return full nbt object of provided location
-```
-## aris.game.nbt.from_string(string: string) -> LuaNBTCompound
-```
- Converts string into NBT
- @param string nbt string to convert into nbt
- @return nbt object of provided string
+ 명령어 자동완성 리스트를 비웁니다.
+ @param id 자동완성 리스트 id
 ```
 ## aris.game.networking.send_s2c_packet(player: LuaServerPlayer, packet: PacketDeclaration.Builder)
 ```
@@ -79,16 +46,17 @@
  클라이언트로 전송할 패킷을 설정하는 빌더(builder)를 만듭니다.
  @param of 전송할 패킷의 id
 ```
-## aris.game.command.suggestion.set_list(id: string, values: any)
+## aris.game.hook.add_c2s_packet_handler(id: string, func: function)
 ```
- 명령어 자동완성 리스트를 설정합니다.
- @param id 자동완성 리스트 id
- @param values 자동완성 후보 문자열 배열(table)
+ 패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
+ @param id 패킷 id
+ @param func 실행할 함수
 ```
-## aris.game.command.suggestion.clear_list(id: string)
+## aris.game.hook.register_endpoint(of: string, func: function)
 ```
- 명령어 자동완성 리스트를 비웁니다.
- @param id 자동완성 리스트 id
+ 명령어를 입력했을때 실행할 함수를 지정합니다.
+ @param of 명령어 id
+ @param func 실행할 함수
 ```
 ## aris.game.hook.add_tick(f: function)
 ```
@@ -116,18 +84,6 @@
  이때 리로드 시점에 이미 접속해 있던 모든 플레이어에 대해서도 호출되므로,
  스크립트가 정리(cleanup) 작업을 수행할 수 있습니다.
  @param f 실행할 함수 (나간 LuaServerPlayer를 인자로 받음)
-```
-## aris.game.hook.register_endpoint(of: string, func: function)
-```
- 명령어를 입력했을때 실행할 함수를 지정합니다.
- @param of 명령어 id
- @param func 실행할 함수
-```
-## aris.game.hook.add_c2s_packet_handler(id: string, func: function)
-```
- 패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.
- @param id 패킷 id
- @param func 실행할 함수
 ```
 ## aris.game.hook.add_on_use_item(item: string, func: function)
 ```
@@ -175,6 +131,106 @@
 ```
  아이템 이동 훅을 초기화합니다.
 ```
+## aris.game.nbt.from_table(table: any) -> LuaNBTCompound
+```
+ Converts Lua Table into NBT Compound
+```
+## aris.game.nbt.from_entity(entity: LuaEntity) -> LuaNBTCompound
+```
+ Get NBT of entity
+ @param entity entity to get nbt
+ @return full nbt object of entity
+```
+## aris.game.nbt.from_item_stack(stack: LuaItemStack) -> LuaNBTCompound
+```
+ Get NBT of item stack
+ @param stack item stack to get nbt
+ @return full nbt object of item stack
+```
+## aris.game.nbt.from_block_entity(level: LuaServerWorld, x: number, y: number, z: number) -> LuaNBTCompound
+```
+ Get NBT of block entity at specific position
+ @param level server level for target block entity
+ @param x x position for target block entity
+ @param y y position for target block entity
+ @param z z position for target block entity
+ @return full nbt object of provided location. Nil if not exists.
+```
+## aris.game.nbt.from_block_state(level: LuaServerWorld, x: number, y: number, z: number) -> LuaNBTCompound
+```
+ Get NBT of block state at specific position
+ @param level server level for target block state
+ @param x x position for target block state
+ @param y y position for target block state
+ @param z z position for target block state
+ @return full nbt object of provided location
+```
+## aris.game.nbt.from_string(string: string) -> LuaNBTCompound
+```
+ Converts string into NBT
+ @param string nbt string to convert into nbt
+ @return nbt object of provided string
+```
+## aris.game.world.get_world(world: string) -> LuaServerWorld
+## get_overworld() -> LuaServerWorld
+## get_nether() -> LuaServerWorld
+## get_end() -> LuaServerWorld
+
+
+## Builder:append_int(id: string, of: number)
+```
+ 정수 인자를 패킷에 추가합니다.
+ @param id 패킷에 첨부할 정수의 이름
+ @param of 추가할 정수
+```
+
+
+## Builder:append_string(id: string, of: string)
+```
+ 문자열 인자를 패킷에 추가합니다.
+ @param id 패킷에 첨부할 문자열의 이름
+ @param of 추가할 문자열
+```
+
+
+## Builder:append_float(id: string, of: number)
+```
+ 실수 인자를 패킷에 추가합니다.
+ @param id 패킷에 첨부할 실수의 이름
+ @param of 추가할 실수
+```
+
+
+## Builder:append_itemstack(id: string, of: LuaItemStack)
+```
+ 아이템 스택 인자를 패킷에 추가합니다.
+ @param id 패킷에 첨부할 아이템 스택의 이름
+ @param of 추가할 아이템 스택
+```
+
+
+## LuaItemMoveEvent:cancel()
+```
+ 이벤트를 취소합니다.
+```
+
+
+## LuaItemMoveEvent:get_player() -> LuaServerPlayer
+```
+ 이벤트를 발생시킨 플레이어
+```
+
+
+## LuaItemMoveEvent:get_item() -> LuaItemStack
+```
+ 이동 대상 아이템
+```
+
+
+## LuaItemMoveEvent:get_type() -> string
+```
+ 이동 유형: "container_click", "drop", "pickup"
+```
 
 
 ## LuaEntityDamagedEvent:cancel()
@@ -193,6 +249,83 @@
 ```
  데미지를 받은 엔티티
 ```
+
+
+## LuaNBTCompound:into_string() -> string
+```
+ Convert NBT into JSON string
+```
+
+
+## LuaNBTCompound:into_table() -> any
+```
+ Convert NBT into Lua Table
+```
+
+
+## LuaNBTCompound:into_item_stack() -> LuaItemStack
+```
+ Convert NBT into item stack
+```
+
+
+## LuaNBTCompound:apply_entity(entity: LuaEntity)
+```
+ Apply(overwrite) current NBT into entity
+```
+
+
+## LuaNBTCompound:spawn_entity(level: LuaServerWorld) -> LuaEntity
+```
+ Spawn entity with this NBT
+```
+
+
+## LuaNBTCompound:place_block_entity(level: LuaServerWorld) -> boolean
+
+
+## LuaNBTCompound:place_block_state(level: LuaServerWorld, x: number, y: number, z: number) -> boolean
+```
+ Place block with this NBT at provided position
+ If exists then it replaces
+ @return is successful
+```
+
+
+## LuaLeftClickEvent:get_player() -> LuaServerPlayer
+```
+ 좌클릭한 플레이어
+```
+
+
+## LuaUseItemEvent:get_player() -> LuaServerPlayer
+```
+ 아이템을 사용한 플레이어
+```
+
+
+## LuaUseItemEvent:get_item() -> LuaItemStack
+```
+ 사용한 아이템
+```
+
+
+## LuaDamageSource:set_amount(new_value: number)
+
+
+## LuaDamageSource:get_amount() -> number
+
+
+## LuaDamageSource:get_causing() -> LuaEntity
+
+
+## LuaDamageSource:get_direct() -> LuaEntity
+
+
+## LuaDamageSource:get_isDirect() -> boolean
+
+
+## LuaDamageSource:get_id() -> string
 
 
 ## LuaItemStack:set_count(new_value: number)
@@ -231,52 +364,6 @@
 ```
 
 
-## LuaLeftClickEvent:get_player() -> LuaServerPlayer
-```
- 좌클릭한 플레이어
-```
-
-
-## LuaMobEffectInstance:set_duration(new_value: number)
-```
- Duration(tick)
-```
-
-
-## LuaMobEffectInstance:get_duration() -> number
-```
- Duration(tick)
-```
-
-
-## LuaMobEffectInstance:set_amplifier(new_value: number)
-
-
-## LuaMobEffectInstance:get_amplifier() -> number
-
-
-## LuaMobEffectInstance:set_ambient(new_value: boolean)
-```
- 거품 표시 여부
-```
-
-
-## LuaMobEffectInstance:get_ambient() -> boolean
-```
- 거품 표시 여부
-```
-
-
-## LuaMobEffectInstance:set_visible(new_value: boolean)
-
-
-## LuaMobEffectInstance:get_visible() -> boolean
-
-
-## LuaMobEffectInstance:set_showIcon(new_value: boolean)
-
-
-## LuaMobEffectInstance:get_showIcon() -> boolean
 
 
 ## LuaEntity:add_damage(damage: number)
@@ -423,140 +510,53 @@
 ```
 
 
+## LuaMobEffectInstance:set_duration(new_value: number)
+```
+ Duration(tick)
+```
+
+
+## LuaMobEffectInstance:get_duration() -> number
+```
+ Duration(tick)
+```
+
+
+## LuaMobEffectInstance:set_amplifier(new_value: number)
+
+
+## LuaMobEffectInstance:get_amplifier() -> number
+
+
+## LuaMobEffectInstance:set_ambient(new_value: boolean)
+```
+ 거품 표시 여부
+```
+
+
+## LuaMobEffectInstance:get_ambient() -> boolean
+```
+ 거품 표시 여부
+```
+
+
+## LuaMobEffectInstance:set_visible(new_value: boolean)
+
+
+## LuaMobEffectInstance:get_visible() -> boolean
+
+
+## LuaMobEffectInstance:set_showIcon(new_value: boolean)
+
+
+## LuaMobEffectInstance:get_showIcon() -> boolean
+
+
+
+
 ## LuaRightClickEvent:get_player() -> LuaServerPlayer
 ```
  우클릭한 플레이어
-```
-
-
-## LuaUseItemEvent:get_player() -> LuaServerPlayer
-```
- 아이템을 사용한 플레이어
-```
-
-
-## LuaUseItemEvent:get_item() -> LuaItemStack
-```
- 사용한 아이템
-```
-
-
-## LuaDamageSource:set_amount(new_value: number)
-
-
-## LuaDamageSource:get_amount() -> number
-
-
-## LuaDamageSource:get_causing() -> LuaEntity
-
-
-## LuaDamageSource:get_direct() -> LuaEntity
-
-
-## LuaDamageSource:get_isDirect() -> boolean
-
-
-## LuaDamageSource:get_id() -> string
-
-
-## LuaItemMoveEvent:cancel()
-```
- 이벤트를 취소합니다.
-```
-
-
-## LuaItemMoveEvent:get_player() -> LuaServerPlayer
-```
- 이벤트를 발생시킨 플레이어
-```
-
-
-## LuaItemMoveEvent:get_item() -> LuaItemStack
-```
- 이동 대상 아이템
-```
-
-
-## LuaItemMoveEvent:get_type() -> string
-```
- 이동 유형: "container_click", "drop", "pickup"
-```
-
-
-
-
-
-
-## LuaNBTCompound:into_string() -> string
-```
- Convert NBT into JSON string
-```
-
-
-## LuaNBTCompound:into_table() -> any
-```
- Convert NBT into Lua Table
-```
-
-
-## LuaNBTCompound:into_item_stack() -> LuaItemStack
-```
- Convert NBT into item stack
-```
-
-
-## LuaNBTCompound:apply_entity(entity: LuaEntity)
-```
- Apply(overwrite) current NBT into entity
-```
-
-
-## LuaNBTCompound:spawn_entity(level: LuaServerWorld) -> LuaEntity
-```
- Spawn entity with this NBT
-```
-
-
-## LuaNBTCompound:place_block_entity(level: LuaServerWorld) -> boolean
-
-
-## LuaNBTCompound:place_block_state(level: LuaServerWorld, x: number, y: number, z: number) -> boolean
-```
- Place block with this NBT at provided position
- If exists then it replaces
- @return is successful
-```
-
-
-## Builder:append_int(id: string, of: number)
-```
- 정수 인자를 패킷에 추가합니다.
- @param id 패킷에 첨부할 정수의 이름
- @param of 추가할 정수
-```
-
-
-## Builder:append_string(id: string, of: string)
-```
- 문자열 인자를 패킷에 추가합니다.
- @param id 패킷에 첨부할 문자열의 이름
- @param of 추가할 문자열
-```
-
-
-## Builder:append_float(id: string, of: number)
-```
- 실수 인자를 패킷에 추가합니다.
- @param id 패킷에 첨부할 실수의 이름
- @param of 추가할 실수
-```
-
-
-## Builder:append_itemstack(id: string, of: LuaItemStack)
-```
- 아이템 스택 인자를 패킷에 추가합니다.
- @param id 패킷에 첨부할 아이템 스택의 이름
- @param of 추가할 아이템 스택
 ```
 
 
