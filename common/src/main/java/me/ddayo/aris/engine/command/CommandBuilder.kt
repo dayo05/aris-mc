@@ -6,11 +6,14 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
+import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InitEngine
+import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.hook.CommandHooks
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import me.ddayo.aris.lua.glue.InitGenerated
@@ -20,6 +23,9 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.resources.ResourceLocation
+import party.iroiro.luajava.value.LuaValue
+import java.util.concurrent.CompletableFuture
+import java.util.Locale
 
 
 @LuaProvider(InitEngine.PROVIDER, library = "aris.init.command")
@@ -105,6 +111,28 @@ object CommandBuilderFunctions {
         }
     }
 
+    /**
+     * 자동완성 리스트를 사용하는 문자열 인수를 추가합니다.
+     * @param of 추가할 문자열 인수 이름
+     * @param list 자동완성에 사용할 리스트 id
+     * @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+     */
+    @LuaFunction("suggested_string_arg")
+    fun suggestedStringArg(of: String, list: String) = stringArg(of).apply {
+        setSuggestionList(list)
+    }
+
+    /**
+     * 자동완성 리스트를 사용하는 word 인수를 추가합니다.
+     * @param of 추가할 word 인수 이름
+     * @param list 자동완성에 사용할 리스트 id
+     * @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+     */
+    @LuaFunction("suggested_word_arg")
+    fun suggestedWordArg(of: String, list: String) = wordArg(of).apply {
+        setSuggestionList(list)
+    }
+
 
     val commands = mutableMapOf<ResourceLocation, AbstractCommandHandler>()
 
@@ -133,6 +161,56 @@ object CommandBuilderFunctions {
     }
 }
 
+@LuaProvider(InitEngine.PROVIDER, library = "aris.init.command.suggestion")
+@LuaProvider(InGameEngine.PROVIDER, library = "aris.game.command.suggestion")
+object CommandSuggestionFunctions {
+    /**
+     * 명령어 자동완성 리스트를 설정합니다.
+     * @param id 자동완성 리스트 id
+     * @param values 자동완성 후보 문자열 배열(table)
+     */
+    @LuaFunction("set_list")
+    fun setList(id: String, values: LuaValue) {
+        CommandSuggestionLists.set(RegistryHelper.getResourceLocation(id), values)
+    }
+
+    /**
+     * 명령어 자동완성 리스트를 비웁니다.
+     * @param id 자동완성 리스트 id
+     */
+    @LuaFunction("clear_list")
+    fun clearList(id: String) {
+        CommandSuggestionLists.clear(RegistryHelper.getResourceLocation(id))
+    }
+}
+
+object CommandSuggestionLists {
+    private val lists = mutableMapOf<ResourceLocation, List<String>>()
+
+    @Synchronized
+    fun set(id: ResourceLocation, values: LuaValue) {
+        lists[id] = (1..values.length())
+            .mapNotNull { values.get(it)?.toString() }
+            .filter { it.isNotEmpty() }
+    }
+
+    @Synchronized
+    fun clear(id: ResourceLocation) {
+        lists.remove(id)
+    }
+
+    @Synchronized
+    fun get(id: ResourceLocation): List<String> = lists[id].orEmpty()
+
+    fun suggest(id: ResourceLocation, builder: SuggestionsBuilder): CompletableFuture<com.mojang.brigadier.suggestion.Suggestions> {
+        val remaining = builder.remaining.lowercase(Locale.ROOT)
+        get(id)
+            .filter { it.lowercase(Locale.ROOT).startsWith(remaining) }
+            .forEach { builder.suggest(it) }
+        return builder.buildFuture()
+    }
+}
+
 @LuaProvider(InitEngine.PROVIDER)
 abstract class AbstractCommandHandler : ILuaStaticDecl by InitGenerated.AbstractCommandHandler_LuaGenerated {
     val subCommands = mutableListOf<AbstractCommandHandler>()
@@ -151,6 +229,15 @@ abstract class AbstractCommandHandler : ILuaStaticDecl by InitGenerated.Abstract
         subCommands.add(of)
     }
 
+    /**
+     * 이 인수의 자동완성 리스트를 설정합니다.
+     * @param of 자동완성에 사용할 리스트 id
+     */
+    @LuaFunction("set_suggestion_list")
+    fun setSuggestionList(of: String) {
+        suggestionList = RegistryHelper.getResourceLocation(of)
+    }
+
     var endpoint: ResourceLocation? = null
         set(value) {
             if (field != null)
@@ -159,12 +246,18 @@ abstract class AbstractCommandHandler : ILuaStaticDecl by InitGenerated.Abstract
         }
 
     private var parent: AbstractCommandHandler? = null
+    private var suggestionList: ResourceLocation? = null
 
     protected abstract fun retrieve(): ArgumentBuilder<CommandSourceStack, *>
     protected abstract fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder)
 
     fun build(): ArgumentBuilder<CommandSourceStack, *> {
         val b = retrieve()
+        suggestionList?.let { suggestionList ->
+            if (b is RequiredArgumentBuilder<CommandSourceStack, *>) {
+                b.suggests { _, builder -> CommandSuggestionLists.suggest(suggestionList, builder) }
+            }
+        }
         subCommands.forEach {
             it.build(b)
             it.parent = this
