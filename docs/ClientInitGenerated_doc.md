@@ -1,3 +1,21 @@
+## aris.init.sound.client.register_sound(id: string)
+```
+ Minecraft 리소스팩의 `sounds.json`에 정의된 소리 이벤트를 등록합니다.
+ @param id 소리 이벤트 id. 예: `aris:alert`
+```
+## aris.init.sound.client.register_sound_raw(id: string, path: string)
+```
+ `sounds.json` 없이 재생할 raw OGG 소리 이벤트를 등록합니다.
+ @param id 등록할 소리 이벤트 id. 예: `aris:alert`
+ @param path `assets/sounds` 아래의 상대 경로. 예: `alert.ogg`
+```
+## aris.init.sound.client.register_sound_raw(id: string, path: string, stream: boolean)
+```
+ `sounds.json` 없이 재생할 raw OGG 소리 이벤트를 등록합니다.
+ @param id 등록할 소리 이벤트 id. 예: `aris:alert`
+ @param path `assets/sounds` 아래의 상대 경로. 예: `alert.ogg`
+ @param stream 소리를 메모리에 한 번에 올리지 않고 스트리밍할지 여부
+```
 ## aris.init.client.create_keybinding(key: string, code: number, category: string)
 ```
  새로운 조작키를 추가합니다.

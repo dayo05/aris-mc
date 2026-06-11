@@ -85,6 +85,50 @@
  @param id 패킷 id
  @param func 실행할 함수
 ```
+## aris.game.sound.client.play_sound(id: string)
+```
+ `sounds.json`에 정의된 Minecraft 소리 이벤트를 클라이언트 플레이어의 현재 위치에서 재생합니다.
+ @param id 소리 이벤트 id. 예: `minecraft:block.note_block.pling`
+```
+## aris.game.sound.client.play_sound(id: string, volume: number, pitch: number)
+```
+ `sounds.json`에 정의된 Minecraft 소리 이벤트를 클라이언트 플레이어의 현재 위치에서 재생합니다.
+ @param id 소리 이벤트 id. 예: `minecraft:block.note_block.pling`
+ @param volume 소리 크기
+ @param pitch 소리 높낮이
+```
+## aris.game.sound.client.play_sound_at(id: string, x: number, y: number, z: number, volume: number, pitch: number)
+```
+ `sounds.json`에 정의된 Minecraft 소리 이벤트를 지정한 위치에서 재생합니다.
+ @param id 소리 이벤트 id. 예: `minecraft:block.note_block.pling`
+ @param x x좌표
+ @param y y좌표
+ @param z z좌표
+ @param volume 소리 크기
+ @param pitch 소리 높낮이
+```
+## aris.game.sound.client.play_sound_raw(id: string)
+```
+ `aris.init.sound.client.register_sound_raw`로 등록한 raw 소리를 재생합니다.
+ @param id raw 소리 이벤트 id. 예: `aris:alert`
+```
+## aris.game.sound.client.play_sound_raw(id: string, volume: number, pitch: number)
+```
+ `aris.init.sound.client.register_sound_raw`로 등록한 raw 소리를 재생합니다.
+ @param id raw 소리 이벤트 id. 예: `aris:alert`
+ @param volume 소리 크기
+ @param pitch 소리 높낮이
+```
+## aris.game.sound.client.play_sound_raw_at(id: string, x: number, y: number, z: number, volume: number, pitch: number)
+```
+ `aris.init.sound.client.register_sound_raw`로 등록한 raw 소리를 지정한 위치에서 재생합니다.
+ @param id raw 소리 이벤트 id. 예: `aris:alert`
+ @param x x좌표
+ @param y y좌표
+ @param z z좌표
+ @param volume 소리 크기
+ @param pitch 소리 높낮이
+```
 
 
 ## Builder:append_int(id: string, of: number)
