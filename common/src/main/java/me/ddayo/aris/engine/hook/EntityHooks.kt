@@ -7,13 +7,340 @@ import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
 
 @LuaProvider(InGameEngine.PROVIDER, library = "aris.game.hook")
 object EntityHooks {
     data class EntityDamageResult(val cancelled: Boolean, val amount: Float)
+
+    private fun blockId(state: BlockState) = BuiltInRegistries.BLOCK.getKey(state.block).toString()
+
+    val blockLeftClickHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(blockLeftClickHook)
+    }
+
+    /**
+     * 플레이어가 블록을 좌클릭했을 때 실행할 함수를 추가합니다.
+     * event:cancel()을 호출하면 블록 파괴 시작을 취소합니다.
+     * @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_block_left_click")
+    fun onBlockLeftClick(f: LuaFunc) {
+        blockLeftClickHook.add(f)
+    }
+
+    /**
+     * 블록 좌클릭 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_block_left_click")
+    fun clearOnBlockLeftClick() {
+        blockLeftClickHook.clear()
+    }
+
+    fun executeOnBlockLeftClick(player: ServerPlayer, pos: BlockPos, direction: Direction): Boolean {
+        val event = LuaBlockEvent(
+            LuaServerPlayer(player),
+            pos.x,
+            pos.y,
+            pos.z,
+            blockId(player.level().getBlockState(pos)),
+            direction.serializedName,
+            "left_click",
+            "main_hand"
+        )
+        blockLeftClickHook.call(event)
+        return event.cancelled
+    }
+
+    val blockRightClickHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(blockRightClickHook)
+    }
+
+    /**
+     * 플레이어가 블록을 우클릭했을 때 실행할 함수를 추가합니다.
+     * event:cancel()을 호출하면 블록 상호작용을 취소합니다.
+     * @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_block_right_click")
+    fun onBlockRightClick(f: LuaFunc) {
+        blockRightClickHook.add(f)
+    }
+
+    /**
+     * 블록 우클릭 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_block_right_click")
+    fun clearOnBlockRightClick() {
+        blockRightClickHook.clear()
+    }
+
+    fun executeOnBlockRightClick(player: ServerPlayer, pos: BlockPos, direction: Direction, hand: InteractionHand): Boolean {
+        val event = LuaBlockEvent(
+            LuaServerPlayer(player),
+            pos.x,
+            pos.y,
+            pos.z,
+            blockId(player.level().getBlockState(pos)),
+            direction.serializedName,
+            "right_click",
+            hand.name.lowercase()
+        )
+        blockRightClickHook.call(event)
+        return event.cancelled
+    }
+
+    val blockBreakHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(blockBreakHook)
+    }
+
+    /**
+     * 플레이어가 블록을 파괴하기 직전에 실행할 함수를 추가합니다.
+     * event:cancel()을 호출하면 블록 파괴를 취소합니다.
+     * @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_block_break")
+    fun onBlockBreak(f: LuaFunc) {
+        blockBreakHook.add(f)
+    }
+
+    /**
+     * 블록 파괴 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_block_break")
+    fun clearOnBlockBreak() {
+        blockBreakHook.clear()
+    }
+
+    fun executeOnBlockBreak(player: ServerPlayer, pos: BlockPos): Boolean {
+        val event = LuaBlockEvent(
+            LuaServerPlayer(player),
+            pos.x,
+            pos.y,
+            pos.z,
+            blockId(player.level().getBlockState(pos)),
+            "unknown",
+            "break",
+            "main_hand"
+        )
+        blockBreakHook.call(event)
+        return event.cancelled
+    }
+
+    val blockPlaceHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(blockPlaceHook)
+    }
+
+    /**
+     * 플레이어가 블록을 설치하려고 할 때 실행할 함수를 추가합니다.
+     * event:cancel()을 호출하면 블록 설치를 취소합니다.
+     * @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_block_place")
+    fun onBlockPlace(f: LuaFunc) {
+        blockPlaceHook.add(f)
+    }
+
+    /**
+     * 블록 설치 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_block_place")
+    fun clearOnBlockPlace() {
+        blockPlaceHook.clear()
+    }
+
+    fun executeOnBlockPlace(player: ServerPlayer, pos: BlockPos, direction: Direction, hand: InteractionHand, block: Block): Boolean {
+        val event = LuaBlockEvent(
+            LuaServerPlayer(player),
+            pos.x,
+            pos.y,
+            pos.z,
+            BuiltInRegistries.BLOCK.getKey(block).toString(),
+            direction.serializedName,
+            "place",
+            hand.name.lowercase()
+        )
+        blockPlaceHook.call(event)
+        return event.cancelled
+    }
+
+    val entityInteractHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(entityInteractHook)
+    }
+
+    /**
+     * 플레이어가 엔티티를 우클릭했을 때 실행할 함수를 추가합니다.
+     * event:cancel()을 호출하면 엔티티 상호작용을 취소합니다.
+     * @param f 실행할 함수 (LuaEntityInteractEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_entity_interact")
+    fun onEntityInteract(f: LuaFunc) {
+        entityInteractHook.add(f)
+    }
+
+    /**
+     * 엔티티 우클릭 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_entity_interact")
+    fun clearOnEntityInteract() {
+        entityInteractHook.clear()
+    }
+
+    fun executeOnEntityInteract(player: ServerPlayer, target: Entity, hand: InteractionHand): Boolean {
+        val event = LuaEntityInteractEvent(LuaServerPlayer(player), target.toLuaValue(), "interact", hand.name.lowercase())
+        entityInteractHook.call(event)
+        return event.cancelled
+    }
+
+    val entityAttackHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(entityAttackHook)
+    }
+
+    /**
+     * 플레이어가 엔티티를 공격하려고 할 때 실행할 함수를 추가합니다.
+     * event:cancel()을 호출하면 엔티티 공격을 취소합니다.
+     * @param f 실행할 함수 (LuaEntityInteractEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_entity_attack")
+    fun onEntityAttack(f: LuaFunc) {
+        entityAttackHook.add(f)
+    }
+
+    /**
+     * 엔티티 공격 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_entity_attack")
+    fun clearOnEntityAttack() {
+        entityAttackHook.clear()
+    }
+
+    fun executeOnEntityAttack(player: ServerPlayer, target: Entity): Boolean {
+        val event = LuaEntityInteractEvent(LuaServerPlayer(player), target.toLuaValue(), "attack", "main_hand")
+        entityAttackHook.call(event)
+        return event.cancelled
+    }
+
+    val playerDeathHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(playerDeathHook)
+    }
+
+    /**
+     * 플레이어가 사망했을 때 실행할 함수를 추가합니다.
+     * @param f 실행할 함수 (LuaPlayerEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_player_death")
+    fun onPlayerDeath(f: LuaFunc) {
+        playerDeathHook.add(f)
+    }
+
+    /**
+     * 플레이어 사망 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_player_death")
+    fun clearOnPlayerDeath() {
+        playerDeathHook.clear()
+    }
+
+    fun executeOnPlayerDeath(player: ServerPlayer) {
+        playerDeathHook.callAsTask(LuaPlayerEvent(LuaServerPlayer(player), "death"))
+    }
+
+    val playerRespawnHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(playerRespawnHook)
+    }
+
+    /**
+     * 플레이어가 리스폰했을 때 실행할 함수를 추가합니다.
+     * @param f 실행할 함수 (LuaPlayerEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_player_respawn")
+    fun onPlayerRespawn(f: LuaFunc) {
+        playerRespawnHook.add(f)
+    }
+
+    /**
+     * 플레이어 리스폰 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_player_respawn")
+    fun clearOnPlayerRespawn() {
+        playerRespawnHook.clear()
+    }
+
+    fun executeOnPlayerRespawn(player: ServerPlayer) {
+        playerRespawnHook.callAsTask(LuaPlayerEvent(LuaServerPlayer(player), "respawn"))
+    }
+
+    val itemConsumeHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(itemConsumeHook)
+    }
+
+    /**
+     * 플레이어가 아이템 소비를 완료했을 때 실행할 함수를 추가합니다.
+     * @param f 실행할 함수 (LuaItemConsumeEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_item_consume")
+    fun onItemConsume(f: LuaFunc) {
+        itemConsumeHook.add(f)
+    }
+
+    /**
+     * 아이템 소비 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_item_consume")
+    fun clearOnItemConsume() {
+        itemConsumeHook.clear()
+    }
+
+    fun executeOnItemConsume(player: ServerPlayer, item: ItemStack) {
+        if (item.isEmpty) return
+        itemConsumeHook.callAsTask(LuaItemConsumeEvent(LuaServerPlayer(player), LuaItemStack(item.copy())))
+    }
+
+    val chatHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(chatHook)
+    }
+
+    /**
+     * 플레이어가 채팅을 보냈을 때 실행할 함수를 추가합니다.
+     * event:cancel()을 호출하면 채팅 전송을 취소합니다.
+     * @param f 실행할 함수 (LuaChatEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_chat")
+    fun onChat(f: LuaFunc) {
+        chatHook.add(f)
+    }
+
+    /**
+     * 채팅 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_chat")
+    fun clearOnChat() {
+        chatHook.clear()
+    }
+
+    fun executeOnChat(player: ServerPlayer, message: String): Boolean {
+        val event = LuaChatEvent(LuaServerPlayer(player), message)
+        chatHook.call(event)
+        return event.cancelled
+    }
 
     val itemUseHook = LuaHookMap<String>()
     init {
