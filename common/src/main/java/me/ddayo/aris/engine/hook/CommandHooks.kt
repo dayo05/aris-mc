@@ -3,9 +3,13 @@ package me.ddayo.aris.engine.hook
 import me.ddayo.aris.Aris
 import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.engine.InGameEngine
+import me.ddayo.aris.engine.wrapper.LuaServerPlayer
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.luagen.LuaType
 import net.minecraft.resources.ResourceLocation
 
 @LuaProvider(InGameEngine.PROVIDER, library = "aris.game.hook")
@@ -20,7 +24,14 @@ object CommandHooks {
      * @param func 실행할 함수
      */
     @LuaFunction("register_endpoint")
-    fun registerEndpoint(of: String, func: LuaFunc) {
+    fun registerEndpoint(
+        of: String,
+        @LuaCallback(params = [
+            LuaCallbackParam("player", LuaServerPlayer::class),
+            LuaCallbackParam("arguments", luaType = LuaType.TABLE)
+        ])
+        func: LuaFunc
+    ) {
         commandEndpointHook[RegistryHelper.getResourceLocation(of)].add(func)
     }
 }

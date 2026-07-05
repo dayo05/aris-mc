@@ -6,10 +6,13 @@ import me.ddayo.aris.client.gui.RenderUtil
 import me.ddayo.aris.engine.client.ClientMainEngine
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import me.ddayo.aris.luagen.ILuaStaticDecl
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.luagen.LuaType
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.util.StringUtil
@@ -169,7 +172,10 @@ class ScriptTextInputRenderer(
      * The callback receives the new text (String).
      */
     @LuaFunction("set_change_hook")
-    fun setChangeHook(fn: LuaFunc) { changeHook = { fn.call(it) } }
+    fun setChangeHook(
+        @LuaCallback(params = [LuaCallbackParam("text", luaType = LuaType.STRING)])
+        fn: LuaFunc
+    ) { changeHook = { fn.call(it) } }
 
     /**
      * Removes the currently assigned change hook.
@@ -182,7 +188,10 @@ class ScriptTextInputRenderer(
      * The callback receives the current text (String).
      */
     @LuaFunction("set_enter_hook")
-    fun setEnterHook(fn: LuaFunc) { enterHook = { fn.call(it) } }
+    fun setEnterHook(
+        @LuaCallback(params = [LuaCallbackParam("text", luaType = LuaType.STRING)])
+        fn: LuaFunc
+    ) { enterHook = { fn.call(it) } }
 
     /**
      * Removes the currently assigned enter hook.
@@ -195,7 +204,10 @@ class ScriptTextInputRenderer(
      * The callback receives the new focus state (Boolean).
      */
     @LuaFunction("set_focus_hook")
-    fun setFocusHook(fn: LuaFunc) { focusHook = { fn.call(it) } }
+    fun setFocusHook(
+        @LuaCallback(params = [LuaCallbackParam("focused", luaType = LuaType.BOOLEAN)])
+        fn: LuaFunc
+    ) { focusHook = { fn.call(it) } }
 
     /**
      * Removes the currently assigned focus hook.

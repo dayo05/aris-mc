@@ -2,6 +2,8 @@ package me.ddayo.aris.engine.hook
 
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
@@ -14,7 +16,7 @@ object GameHooks {
      * @param f 실행할 함수
      */
     @LuaFunction("add_tick")
-    fun addTickHook(f: LuaFunc) {
+    fun addTickHook(@LuaCallback f: LuaFunc) {
         InGameEngine.tickHook.add(f)
     }
 
@@ -22,7 +24,7 @@ object GameHooks {
      * 매 틱마다 실행할 함수를 초기화합니다.
      */
     @LuaFunction("clear_tick")
-    fun clearTickHook(f: LuaFunc) {
+    fun clearTickHook(@LuaCallback f: LuaFunc) {
         InGameEngine.tickHook.clear()
     }
 
@@ -42,7 +44,10 @@ object GameHooks {
      * @param f 실행할 함수 (접속한 LuaServerPlayer를 인자로 받음)
      */
     @LuaFunction("on_player_join_server")
-    fun onPlayerJoinServer(f: LuaFunc) {
+    fun onPlayerJoinServer(
+        @LuaCallback(params = [LuaCallbackParam("player", LuaServerPlayer::class)])
+        f: LuaFunc
+    ) {
         playerJoinHook.add(f)
     }
 
@@ -55,7 +60,10 @@ object GameHooks {
      * @param f 실행할 함수 (나간 LuaServerPlayer를 인자로 받음)
      */
     @LuaFunction("on_player_leave_server")
-    fun onPlayerLeaveServer(f: LuaFunc) {
+    fun onPlayerLeaveServer(
+        @LuaCallback(params = [LuaCallbackParam("player", LuaServerPlayer::class)])
+        f: LuaFunc
+    ) {
         playerLeaveHook.add(f)
     }
 

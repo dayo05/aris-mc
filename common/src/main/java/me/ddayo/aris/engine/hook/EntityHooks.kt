@@ -3,6 +3,8 @@ package me.ddayo.aris.engine.hook
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.wrapper.*
 import me.ddayo.aris.engine.wrapper.LuaEntity.Companion.toLuaValue
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
@@ -35,7 +37,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)
      */
     @LuaFunction("add_on_block_left_click")
-    fun onBlockLeftClick(f: LuaFunc) {
+    fun onBlockLeftClick(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaBlockEvent::class)])
+        f: LuaFunc
+    ) {
         blockLeftClickHook.add(f)
     }
 
@@ -73,7 +78,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)
      */
     @LuaFunction("add_on_block_right_click")
-    fun onBlockRightClick(f: LuaFunc) {
+    fun onBlockRightClick(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaBlockEvent::class)])
+        f: LuaFunc
+    ) {
         blockRightClickHook.add(f)
     }
 
@@ -111,7 +119,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)
      */
     @LuaFunction("add_on_block_break")
-    fun onBlockBreak(f: LuaFunc) {
+    fun onBlockBreak(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaBlockEvent::class)])
+        f: LuaFunc
+    ) {
         blockBreakHook.add(f)
     }
 
@@ -149,7 +160,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)
      */
     @LuaFunction("add_on_block_place")
-    fun onBlockPlace(f: LuaFunc) {
+    fun onBlockPlace(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaBlockEvent::class)])
+        f: LuaFunc
+    ) {
         blockPlaceHook.add(f)
     }
 
@@ -187,7 +201,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaEntityInteractEvent를 인자로 받음)
      */
     @LuaFunction("add_on_entity_interact")
-    fun onEntityInteract(f: LuaFunc) {
+    fun onEntityInteract(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaEntityInteractEvent::class)])
+        f: LuaFunc
+    ) {
         entityInteractHook.add(f)
     }
 
@@ -216,7 +233,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaEntityInteractEvent를 인자로 받음)
      */
     @LuaFunction("add_on_entity_attack")
-    fun onEntityAttack(f: LuaFunc) {
+    fun onEntityAttack(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaEntityInteractEvent::class)])
+        f: LuaFunc
+    ) {
         entityAttackHook.add(f)
     }
 
@@ -244,7 +264,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaPlayerEvent를 인자로 받음)
      */
     @LuaFunction("add_on_player_death")
-    fun onPlayerDeath(f: LuaFunc) {
+    fun onPlayerDeath(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaPlayerEvent::class)])
+        f: LuaFunc
+    ) {
         playerDeathHook.add(f)
     }
 
@@ -270,7 +293,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaPlayerEvent를 인자로 받음)
      */
     @LuaFunction("add_on_player_respawn")
-    fun onPlayerRespawn(f: LuaFunc) {
+    fun onPlayerRespawn(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaPlayerEvent::class)])
+        f: LuaFunc
+    ) {
         playerRespawnHook.add(f)
     }
 
@@ -296,7 +322,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaItemConsumeEvent를 인자로 받음)
      */
     @LuaFunction("add_on_item_consume")
-    fun onItemConsume(f: LuaFunc) {
+    fun onItemConsume(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaItemConsumeEvent::class)])
+        f: LuaFunc
+    ) {
         itemConsumeHook.add(f)
     }
 
@@ -324,7 +353,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaChatEvent를 인자로 받음)
      */
     @LuaFunction("add_on_chat")
-    fun onChat(f: LuaFunc) {
+    fun onChat(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaChatEvent::class)])
+        f: LuaFunc
+    ) {
         chatHook.add(f)
     }
 
@@ -353,7 +385,11 @@ object EntityHooks {
      * @param func 실행할 함수 (LuaUseItemEvent를 인자로 받음)
      */
     @LuaFunction("add_on_use_item")
-    fun onUseItemHook(item: String, func: LuaFunc) {
+    fun onUseItemHook(
+        item: String,
+        @LuaCallback(params = [LuaCallbackParam("event", LuaUseItemEvent::class)])
+        func: LuaFunc
+    ) {
         itemUseHook[item].add(func)
     }
 
@@ -381,7 +417,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaRightClickEvent를 인자로 받음)
      */
     @LuaFunction("add_on_right_click")
-    fun onRightClick(f: LuaFunc) {
+    fun onRightClick(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaRightClickEvent::class)])
+        f: LuaFunc
+    ) {
         rightClickHook.add(f)
     }
 
@@ -408,7 +447,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaLeftClickEvent를 인자로 받음)
      */
     @LuaFunction("add_on_left_click")
-    fun onLeftClick(f: LuaFunc) {
+    fun onLeftClick(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaLeftClickEvent::class)])
+        f: LuaFunc
+    ) {
         leftClickHook.add(f)
     }
 
@@ -436,7 +478,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaEntityDamagedEvent를 인자로 받음)
      */
     @LuaFunction("add_on_entity_damaged")
-    fun onEntityGotDamaged(f: LuaFunc) {
+    fun onEntityGotDamaged(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaEntityDamagedEvent::class)])
+        f: LuaFunc
+    ) {
         onEntityDamagedHook.add(f)
     }
 
@@ -458,7 +503,10 @@ object EntityHooks {
      * @param f 실행할 함수 (LuaItemMoveEvent를 인자로 받음)
      */
     @LuaFunction("add_on_item_move")
-    fun onItemMove(f: LuaFunc) {
+    fun onItemMove(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaItemMoveEvent::class)])
+        f: LuaFunc
+    ) {
         onItemMoveHook.add(f)
     }
 

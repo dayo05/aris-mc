@@ -5,10 +5,13 @@ import me.ddayo.aris.client.gui.RenderUtil
 import me.ddayo.aris.engine.client.ClientMainEngine
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import me.ddayo.aris.luagen.ILuaStaticDecl
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.luagen.LuaType
 
 /**
  * A square checkbox that toggles its [isChecked] state when clicked.
@@ -64,7 +67,10 @@ class ScriptCheckboxRenderer(
      * The callback receives the new checked state (Boolean).
      */
     @LuaFunction("set_change_hook")
-    fun setChangeHook(fn: LuaFunc) { changeHook = { fn.call(it) } }
+    fun setChangeHook(
+        @LuaCallback(params = [LuaCallbackParam("checked", luaType = LuaType.BOOLEAN)])
+        fn: LuaFunc
+    ) { changeHook = { fn.call(it) } }
 
     /**
      * Removes the currently assigned change hook.

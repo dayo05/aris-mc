@@ -53,7 +53,14 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
      * @param fn The Lua function to serve as the callback.
      */
     @LuaFunction(name = "set_key_down_hook")
-    fun setKeyDownHook(fn: LuaFunc) {
+    fun setKeyDownHook(
+        @LuaCallback(params = [
+            LuaCallbackParam("key_code", luaType = LuaType.NUMBER),
+            LuaCallbackParam("scan_code", luaType = LuaType.NUMBER),
+            LuaCallbackParam("modifiers", luaType = LuaType.NUMBER)
+        ])
+        fn: LuaFunc
+    ) {
         keyDownHook = fn::call
     }
 
@@ -76,7 +83,14 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
      * @param fn The Lua function to serve as the callback.
      */
     @LuaFunction(name = "set_key_up_hook")
-    fun setKeyUpHook(fn: LuaFunc) {
+    fun setKeyUpHook(
+        @LuaCallback(params = [
+            LuaCallbackParam("key_code", luaType = LuaType.NUMBER),
+            LuaCallbackParam("scan_code", luaType = LuaType.NUMBER),
+            LuaCallbackParam("modifiers", luaType = LuaType.NUMBER)
+        ])
+        fn: LuaFunc
+    ) {
         keyUpHook = fn::call
     }
 
@@ -96,7 +110,7 @@ class ScreenRenderer : BaseRectComponent(), ILuaStaticDecl by LuaClientOnlyGener
      * @param fn The Lua function to serve as the callback.
      */
     @LuaFunction(name = "set_close_hook")
-    fun setCloseHook(fn: LuaFunc) {
+    fun setCloseHook(@LuaCallback fn: LuaFunc) {
         closeHook = { fn.call() }
     }
 

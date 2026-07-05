@@ -5,9 +5,12 @@ import me.ddayo.aris.client.gui.HudRenderer
 import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.wrapper.LuaEntity
 import me.ddayo.aris.engine.wrapper.LuaItemStack
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.luagen.LuaType
 import me.ddayo.aris.luagen.RetrieveEngine
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
@@ -133,7 +136,13 @@ object ClientInGameFunction {
      * @param fn 각 슬롯에 대해 실행할 콜백 (slot: Int, item: ItemStack) -> void
      */
     @LuaFunction("iter_inventory")
-    fun iterInventory(fn: LuaFunc) {
+    fun iterInventory(
+        @LuaCallback(params = [
+            LuaCallbackParam("slot", luaType = LuaType.NUMBER),
+            LuaCallbackParam("item", LuaItemStack::class)
+        ])
+        fn: LuaFunc
+    ) {
         val inventory = mc.player!!.inventory
         for (i in 0 until inventory.containerSize)
             fn.call(i, LuaItemStack(inventory.getItem(i)))

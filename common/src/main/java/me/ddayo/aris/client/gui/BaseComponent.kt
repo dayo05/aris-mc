@@ -5,12 +5,15 @@ import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.client.ClientMainEngine
 import me.ddayo.aris.client.gui.element.IMouseHandlerElement
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
 import me.ddayo.aris.luagen.LuaMultiReturn
 import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.util.ListExtensions.mutableForEach
+import me.ddayo.aris.luagen.LuaType
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -157,7 +160,14 @@ open class BaseComponent : ILuaStaticDecl by LuaClientOnlyGenerated.BaseComponen
      * @param fn The Lua function to call. (scaled_mouse_x, scaled_mouse_y, tick_delta) -> void
      */
     @LuaFunction(name = "add_render_hook")
-    fun addRenderHook(fn: LuaFunc) {
+    fun addRenderHook(
+        @LuaCallback(params = [
+            LuaCallbackParam("scaled_mouse_x", luaType = LuaType.NUMBER),
+            LuaCallbackParam("scaled_mouse_y", luaType = LuaType.NUMBER),
+            LuaCallbackParam("tick_delta", luaType = LuaType.NUMBER)
+        ])
+        fn: LuaFunc
+    ) {
         renderHooks.add(fn)
     }
 
@@ -170,7 +180,7 @@ open class BaseComponent : ILuaStaticDecl by LuaClientOnlyGenerated.BaseComponen
     }
 
     @LuaFunction(name = "add_tick_hook")
-    fun addTickHook(fn: LuaFunc) {
+    fun addTickHook(@LuaCallback fn: LuaFunc) {
         tickHooks.add(fn)
     }
 

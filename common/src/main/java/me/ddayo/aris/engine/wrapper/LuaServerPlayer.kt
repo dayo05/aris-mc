@@ -3,6 +3,8 @@ package me.ddayo.aris.engine.wrapper
 import me.ddayo.aris.Aris
 import me.ddayo.aris.luagen.CoroutineProvider
 import me.ddayo.aris.luagen.ILuaStaticDecl
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.lua.glue.InGameGenerated
@@ -24,7 +26,10 @@ object LuaServerPlayerFunctions : CoroutineProvider {
              * 플레이어 리스트에서 for문을 돌리는 것과 유사합니다.
              * @param fn callback
              */
-    fun iterPlayers(fn: LuaFunc) = coroutine<Unit> {
+    fun iterPlayers(
+        @LuaCallback(params = [LuaCallbackParam("player", LuaServerPlayer::class)])
+        fn: LuaFunc
+    ) = coroutine<Unit> {
         Aris.server.playerList.players.forEach {
             fn.await(this@coroutine, LuaServerPlayer(it))
         }
@@ -74,7 +79,12 @@ class LuaServerPlayer(player: ServerPlayer) : LuaPlayerEntity(player), Coroutine
      * @see aris.game.iter_players
      */
     @LuaFunction(name = "iter_player_nearby")
-    fun iterPlayers(fn: LuaFunc, lnt: Double, includeSelf: Boolean) = coroutine<Unit> {
+    fun iterPlayers(
+        @LuaCallback(params = [LuaCallbackParam("player", LuaServerPlayer::class)])
+        fn: LuaFunc,
+        lnt: Double,
+        includeSelf: Boolean
+    ) = coroutine<Unit> {
         Aris.server.playerList.players.forEach {
             if (it.position().distanceTo(player.position()) < lnt && (includeSelf || it != player))
                 fn.await(this@coroutine, LuaServerPlayer(it))

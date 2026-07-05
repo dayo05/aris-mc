@@ -1,6 +1,8 @@
 package me.ddayo.aris.engine.wrapper
 
 import me.ddayo.aris.luagen.ILuaStaticDecl
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.wrapper.LuaServerPlayerFunctions.coroutine
@@ -208,7 +210,12 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
      * @param includeSelf 자기 자신을 포함할지 여부
      */
     @LuaFunction("iter_entities_nearby")
-    fun getEntitiesNearby(fn: LuaFunc, radius: Double, includeSelf: Boolean) = coroutine<Unit> {
+    fun getEntitiesNearby(
+        @LuaCallback(params = [LuaCallbackParam("entity", LuaEntity::class)])
+        fn: LuaFunc,
+        radius: Double,
+        includeSelf: Boolean
+    ) = coroutine<Unit> {
         val level = inner.level()
         val area: AABB? = inner.boundingBox.inflate(radius)
         level.getEntities(inner, area) {
