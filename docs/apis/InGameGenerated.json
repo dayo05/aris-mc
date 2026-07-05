@@ -2,7 +2,7 @@
   "version": 1,
   "name": "InGameGenerated",
   "generatedClassName": "InGameGenerated",
-  "contexts": ["ingame"],
+  "contexts": ["game-mc"],
   "types": [
     {
       "name": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",

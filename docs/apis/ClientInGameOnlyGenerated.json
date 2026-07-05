@@ -2,7 +2,7 @@
   "version": 1,
   "name": "ClientInGameOnlyGenerated",
   "generatedClassName": "ClientInGameOnlyGenerated",
-  "contexts": ["client-ingame"],
+  "contexts": ["client-game-mc"],
   "types": [
     {
       "name": "me.ddayo.aris.client.gui.BaseRectComponent",
