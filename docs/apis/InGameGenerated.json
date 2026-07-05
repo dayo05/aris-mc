@@ -1,0 +1,1776 @@
+{
+  "version": 1,
+  "name": "InGameGenerated",
+  "generatedClassName": "InGameGenerated",
+  "contexts": ["ingame"],
+  "types": [
+    {
+      "name": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "displayName": "Builder",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "displayName": "LuaBlockEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaChatEvent",
+      "displayName": "LuaChatEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaDamageSource",
+      "displayName": "LuaDamageSource",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "displayName": "LuaEntity",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaEntityDamagedEvent",
+      "displayName": "LuaEntityDamagedEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent",
+      "displayName": "LuaEntityInteractEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaEntityType",
+      "displayName": "LuaEntityType",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaItemConsumeEvent",
+      "displayName": "LuaItemConsumeEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent",
+      "displayName": "LuaItemMoveEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "displayName": "LuaItemStack",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaLeftClickEvent",
+      "displayName": "LuaLeftClickEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "displayName": "LuaLivingEntity",
+      "description": null,
+      "extends": ["me.ddayo.aris.engine.wrapper.LuaEntity"]
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "displayName": "LuaMobEffectInstance",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "displayName": "LuaNBTCompound",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaPlayerEntity",
+      "displayName": "LuaPlayerEntity",
+      "description": null,
+      "extends": ["me.ddayo.aris.engine.wrapper.LuaLivingEntity"]
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaPlayerEvent",
+      "displayName": "LuaPlayerEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaRightClickEvent",
+      "displayName": "LuaRightClickEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "displayName": "LuaServerPlayer",
+      "description": null,
+      "extends": ["me.ddayo.aris.engine.wrapper.LuaPlayerEntity"]
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaServerWorld",
+      "displayName": "LuaServerWorld",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaUseItemEvent",
+      "displayName": "LuaUseItemEvent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
+      "displayName": "LuaCoroutineIntegration",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.math.Point3",
+      "displayName": "Point3",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "net.minecraft.network.chat.Component",
+      "displayName": "Component",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "party.iroiro.luajava.value.LuaValue",
+      "displayName": "LuaValue",
+      "description": null,
+      "extends": []
+    }
+  ],
+  "functions": [
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "iter_players",
+      "luaName": "game.iter_players",
+      "i18nKey": "game.iter_players(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
+      "description": "모든 플레이어를 한번씩 callback으로 넘겨줍니다.\n 플레이어 리스트에서 for문을 돌리는 것과 유사합니다.\n @param fn callback"
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "dispatch_command",
+      "luaName": "game.dispatch_command",
+      "i18nKey": "game.dispatch_command(string)",
+      "params": [{"name": "command", "type": "string"}],
+      "returns": "nil",
+      "description": "서버 콘솔에서 커멘드를 실행합니다.\n @param command 실행할 명령어"
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "create_effect_builder",
+      "luaName": "game.create_effect_builder",
+      "i18nKey": "game.create_effect_builder(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "create_effect_builder",
+      "luaName": "game.create_effect_builder",
+      "i18nKey": "game.create_effect_builder(string,string)",
+      "params": [{"name": "ns", "type": "string"}, {"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "summon_entity",
+      "luaName": "game.summon_entity",
+      "i18nKey": "game.summon_entity(me.ddayo.aris.engine.wrapper.LuaEntityType,me.ddayo.aris.engine.wrapper.LuaServerWorld,me.ddayo.aris.math.Point3)",
+      "params": [{"name": "entityType", "type": "me.ddayo.aris.engine.wrapper.LuaEntityType"}, {"name": "world", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "pos", "type": "me.ddayo.aris.math.Point3"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "entity_type_of",
+      "luaName": "game.entity_type_of",
+      "i18nKey": "game.entity_type_of(string)",
+      "params": [{"name": "str", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntityType",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "create_item",
+      "luaName": "game.create_item",
+      "i18nKey": "game.create_item(string,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "count", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "아이템 ID로 ItemStack을 생성합니다.\n @param id 아이템 ID (예: \"minecraft:diamond\")\n @param count 수량"
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "create_item",
+      "luaName": "game.create_item",
+      "i18nKey": "game.create_item(string)",
+      "params": [{"name": "id", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "아이템 ID로 ItemStack을 생성합니다. (수량 1)\n @param id 아이템 ID (예: \"minecraft:diamond\")"
+    },
+    {
+      "kind": "function",
+      "namespace": "suggestion",
+      "name": "set_list",
+      "luaName": "suggestion.set_list",
+      "i18nKey": "suggestion.set_list(string,any)",
+      "params": [{"name": "id", "type": "string"}, {"name": "values", "type": "any"}],
+      "returns": "nil",
+      "description": "명령어 자동완성 리스트를 설정합니다.\n @param id 자동완성 리스트 id\n @param values 자동완성 후보 문자열 배열(table)"
+    },
+    {
+      "kind": "function",
+      "namespace": "suggestion",
+      "name": "clear_list",
+      "luaName": "suggestion.clear_list",
+      "i18nKey": "suggestion.clear_list(string)",
+      "params": [{"name": "id", "type": "string"}],
+      "returns": "nil",
+      "description": "명령어 자동완성 리스트를 비웁니다.\n @param id 자동완성 리스트 id"
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "send_s2c_packet",
+      "luaName": "networking.send_s2c_packet",
+      "i18nKey": "networking.send_s2c_packet(me.ddayo.aris.engine.wrapper.LuaServerPlayer,me.ddayo.aris.engine.networking.PacketDeclaration.Builder)",
+      "params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}, {"name": "packet", "type": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder"}],
+      "returns": "nil",
+      "description": "클라이언트로 주어진 패킷을 전송합니다.\n @param player 타겟 플레이어\n @param packet 패킷"
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "create_s2c_packet_builder",
+      "luaName": "networking.create_s2c_packet_builder",
+      "i18nKey": "networking.create_s2c_packet_builder(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "description": "클라이언트로 전송할 패킷을 설정하는 빌더(builder)를 만듭니다.\n @param of 전송할 패킷의 id"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_c2s_packet_handler",
+      "luaName": "hook.add_c2s_packet_handler",
+      "i18nKey": "hook.add_c2s_packet_handler(string,function)",
+      "params": [{"name": "id", "type": "string"}, {"name": "func", "type": "function"}],
+      "returns": "nil",
+      "description": "패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.\n @param id 패킷 id\n @param func 실행할 함수"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "register_endpoint",
+      "luaName": "hook.register_endpoint",
+      "i18nKey": "hook.register_endpoint(string,function)",
+      "params": [{"name": "of", "type": "string"}, {"name": "func", "type": "function"}],
+      "returns": "nil",
+      "description": "명령어를 입력했을때 실행할 함수를 지정합니다.\n @param of 명령어 id\n @param func 실행할 함수"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_tick",
+      "luaName": "hook.add_tick",
+      "i18nKey": "hook.add_tick(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "매 틱마다 실행할 함수를 추가합니다.\n @param f 실행할 함수"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_tick",
+      "luaName": "hook.clear_tick",
+      "i18nKey": "hook.clear_tick(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "매 틱마다 실행할 함수를 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "on_player_join_server",
+      "luaName": "hook.on_player_join_server",
+      "i18nKey": "hook.on_player_join_server(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 서버에 접속했을 때 실행할 함수를 추가합니다.\n\n 엔진이 리로드(`/aris reload`)되면 새 엔진에서 이 함수가 다시 실행됩니다.\n 이때 리로드 시점에 이미 접속해 있던 모든 플레이어에 대해서도 호출되므로,\n 스크립트 입장에서 리로드는 새로 시작하는 것과 동일하게 취급됩니다.\n @param f 실행할 함수 (접속한 LuaServerPlayer를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "on_player_leave_server",
+      "luaName": "hook.on_player_leave_server",
+      "i18nKey": "hook.on_player_leave_server(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 서버에서 나갔을 때 실행할 함수를 추가합니다.\n\n 엔진이 리로드(`/aris reload`)되면 폐기되는 엔진에서 이 함수가 실행됩니다.\n 이때 리로드 시점에 이미 접속해 있던 모든 플레이어에 대해서도 호출되므로,\n 스크립트가 정리(cleanup) 작업을 수행할 수 있습니다.\n @param f 실행할 함수 (나간 LuaServerPlayer를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_block_left_click",
+      "luaName": "hook.add_on_block_left_click",
+      "i18nKey": "hook.add_on_block_left_click(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 블록을 좌클릭했을 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 블록 파괴 시작을 취소합니다.\n @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_block_left_click",
+      "luaName": "hook.clear_on_block_left_click",
+      "i18nKey": "hook.clear_on_block_left_click()",
+      "params": [],
+      "returns": "nil",
+      "description": "블록 좌클릭 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_block_right_click",
+      "luaName": "hook.add_on_block_right_click",
+      "i18nKey": "hook.add_on_block_right_click(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 블록을 우클릭했을 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 블록 상호작용을 취소합니다.\n @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_block_right_click",
+      "luaName": "hook.clear_on_block_right_click",
+      "i18nKey": "hook.clear_on_block_right_click()",
+      "params": [],
+      "returns": "nil",
+      "description": "블록 우클릭 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_block_break",
+      "luaName": "hook.add_on_block_break",
+      "i18nKey": "hook.add_on_block_break(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 블록을 파괴하기 직전에 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 블록 파괴를 취소합니다.\n @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_block_break",
+      "luaName": "hook.clear_on_block_break",
+      "i18nKey": "hook.clear_on_block_break()",
+      "params": [],
+      "returns": "nil",
+      "description": "블록 파괴 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_block_place",
+      "luaName": "hook.add_on_block_place",
+      "i18nKey": "hook.add_on_block_place(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 블록을 설치하려고 할 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 블록 설치를 취소합니다.\n @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_block_place",
+      "luaName": "hook.clear_on_block_place",
+      "i18nKey": "hook.clear_on_block_place()",
+      "params": [],
+      "returns": "nil",
+      "description": "블록 설치 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_entity_interact",
+      "luaName": "hook.add_on_entity_interact",
+      "i18nKey": "hook.add_on_entity_interact(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 엔티티를 우클릭했을 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 엔티티 상호작용을 취소합니다.\n @param f 실행할 함수 (LuaEntityInteractEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_entity_interact",
+      "luaName": "hook.clear_on_entity_interact",
+      "i18nKey": "hook.clear_on_entity_interact()",
+      "params": [],
+      "returns": "nil",
+      "description": "엔티티 우클릭 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_entity_attack",
+      "luaName": "hook.add_on_entity_attack",
+      "i18nKey": "hook.add_on_entity_attack(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 엔티티를 공격하려고 할 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 엔티티 공격을 취소합니다.\n @param f 실행할 함수 (LuaEntityInteractEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_entity_attack",
+      "luaName": "hook.clear_on_entity_attack",
+      "i18nKey": "hook.clear_on_entity_attack()",
+      "params": [],
+      "returns": "nil",
+      "description": "엔티티 공격 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_player_death",
+      "luaName": "hook.add_on_player_death",
+      "i18nKey": "hook.add_on_player_death(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 사망했을 때 실행할 함수를 추가합니다.\n @param f 실행할 함수 (LuaPlayerEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_player_death",
+      "luaName": "hook.clear_on_player_death",
+      "i18nKey": "hook.clear_on_player_death()",
+      "params": [],
+      "returns": "nil",
+      "description": "플레이어 사망 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_player_respawn",
+      "luaName": "hook.add_on_player_respawn",
+      "i18nKey": "hook.add_on_player_respawn(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 리스폰했을 때 실행할 함수를 추가합니다.\n @param f 실행할 함수 (LuaPlayerEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_player_respawn",
+      "luaName": "hook.clear_on_player_respawn",
+      "i18nKey": "hook.clear_on_player_respawn()",
+      "params": [],
+      "returns": "nil",
+      "description": "플레이어 리스폰 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_item_consume",
+      "luaName": "hook.add_on_item_consume",
+      "i18nKey": "hook.add_on_item_consume(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 아이템 소비를 완료했을 때 실행할 함수를 추가합니다.\n @param f 실행할 함수 (LuaItemConsumeEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_item_consume",
+      "luaName": "hook.clear_on_item_consume",
+      "i18nKey": "hook.clear_on_item_consume()",
+      "params": [],
+      "returns": "nil",
+      "description": "아이템 소비 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_chat",
+      "luaName": "hook.add_on_chat",
+      "i18nKey": "hook.add_on_chat(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 채팅을 보냈을 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 채팅 전송을 취소합니다.\n @param f 실행할 함수 (LuaChatEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_chat",
+      "luaName": "hook.clear_on_chat",
+      "i18nKey": "hook.clear_on_chat()",
+      "params": [],
+      "returns": "nil",
+      "description": "채팅 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_use_item",
+      "luaName": "hook.add_on_use_item",
+      "i18nKey": "hook.add_on_use_item(string,function)",
+      "params": [{"name": "item", "type": "string"}, {"name": "func", "type": "function"}],
+      "returns": "nil",
+      "description": "추가한 아이템을 사용했을때 실행할 함수를 추가합니다.\n @param item 아이템 id\n @param func 실행할 함수 (LuaUseItemEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_use_item",
+      "luaName": "hook.clear_on_use_item",
+      "i18nKey": "hook.clear_on_use_item(string)",
+      "params": [{"name": "item", "type": "string"}],
+      "returns": "nil",
+      "description": "add_on_use_item을 통해 등록한 함수들을 초기화합니다.\n @param item 초기화할 아이템"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_right_click",
+      "luaName": "hook.add_on_right_click",
+      "i18nKey": "hook.add_on_right_click(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 임의의 위치를 우클릭시 실행할 함수\n @param f 실행할 함수 (LuaRightClickEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_right_click",
+      "luaName": "hook.clear_on_right_click",
+      "i18nKey": "hook.clear_on_right_click()",
+      "params": [],
+      "returns": "nil",
+      "description": "플레이어가 임의의 위치를 우클릭시 실행할 훅 초기화"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_left_click",
+      "luaName": "hook.add_on_left_click",
+      "i18nKey": "hook.add_on_left_click(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "플레이어가 임의의 위치를 좌클릭시 실행할 함수\n @param f 실행할 함수 (LuaLeftClickEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_left_click",
+      "luaName": "hook.clear_on_left_click",
+      "i18nKey": "hook.clear_on_left_click()",
+      "params": [],
+      "returns": "nil",
+      "description": "플레이어가 임의의 위치를 좌클릭시 실행할 훅 초기화"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_entity_damaged",
+      "luaName": "hook.add_on_entity_damaged",
+      "i18nKey": "hook.add_on_entity_damaged(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "엔티티가 데미지를 입었을 때 실행할 함수\n event:cancel()을 호출하면 데미지를 취소합니다.\n @param f 실행할 함수 (LuaEntityDamagedEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_item_move",
+      "luaName": "hook.add_on_item_move",
+      "i18nKey": "hook.add_on_item_move(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "아이템 이동 시 실행할 함수를 추가합니다.\n 컨테이너 클릭, 아이템 드롭, 아이템 줍기 등을 감지합니다.\n event:cancel()을 호출하면 이동을 취소합니다.\n @param f 실행할 함수 (LuaItemMoveEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_item_move",
+      "luaName": "hook.clear_on_item_move",
+      "i18nKey": "hook.clear_on_item_move()",
+      "params": [],
+      "returns": "nil",
+      "description": "아이템 이동 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_table",
+      "luaName": "nbt.from_table",
+      "i18nKey": "nbt.from_table(any)",
+      "params": [{"name": "table", "type": "any"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Converts Lua Table into NBT Compound"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_entity",
+      "luaName": "nbt.from_entity",
+      "i18nKey": "nbt.from_entity(me.ddayo.aris.engine.wrapper.LuaEntity)",
+      "params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of entity\n @param entity entity to get nbt\n @return full nbt object of entity"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_item_stack",
+      "luaName": "nbt.from_item_stack",
+      "i18nKey": "nbt.from_item_stack(me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "stack", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of item stack\n @param stack item stack to get nbt\n @return full nbt object of item stack"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_block_entity",
+      "luaName": "nbt.from_block_entity",
+      "i18nKey": "nbt.from_block_entity(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of block entity at specific position\n @param level server level for target block entity\n @param x x position for target block entity\n @param y y position for target block entity\n @param z z position for target block entity\n @return full nbt object of provided location. Nil if not exists."
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_block_state",
+      "luaName": "nbt.from_block_state",
+      "i18nKey": "nbt.from_block_state(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of block state at specific position\n @param level server level for target block state\n @param x x position for target block state\n @param y y position for target block state\n @param z z position for target block state\n @return full nbt object of provided location"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_string",
+      "luaName": "nbt.from_string",
+      "i18nKey": "nbt.from_string(string)",
+      "params": [{"name": "string", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Converts string into NBT\n @param string nbt string to convert into nbt\n @return nbt object of provided string"
+    },
+    {
+      "kind": "function",
+      "namespace": "world",
+      "name": "get_world",
+      "luaName": "world.get_world",
+      "i18nKey": "world.get_world(string)",
+      "params": [{"name": "world", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerWorld",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "world",
+      "name": "get_overworld",
+      "luaName": "world.get_overworld",
+      "i18nKey": "world.get_overworld()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerWorld",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "world",
+      "name": "get_nether",
+      "luaName": "world.get_nether",
+      "i18nKey": "world.get_nether()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerWorld",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "world",
+      "name": "get_end",
+      "luaName": "world.get_end",
+      "i18nKey": "world.get_end()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerWorld",
+      "description": null
+    }
+  ],
+  "methods": [
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "name": "append_int",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder:append_int(string,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "of", "type": "number"}],
+      "returns": "nil",
+      "description": "정수 인자를 패킷에 추가합니다.\n @param id 패킷에 첨부할 정수의 이름\n @param of 추가할 정수"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "name": "append_string",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder:append_string(string,string)",
+      "params": [{"name": "id", "type": "string"}, {"name": "of", "type": "string"}],
+      "returns": "nil",
+      "description": "문자열 인자를 패킷에 추가합니다.\n @param id 패킷에 첨부할 문자열의 이름\n @param of 추가할 문자열"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "name": "append_float",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder:append_float(string,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "of", "type": "number"}],
+      "returns": "nil",
+      "description": "실수 인자를 패킷에 추가합니다.\n @param id 패킷에 첨부할 실수의 이름\n @param of 추가할 실수"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "name": "append_itemstack",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder:append_itemstack(string,me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "id", "type": "string"}, {"name": "of", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "nil",
+      "description": "아이템 스택 인자를 패킷에 추가합니다.\n @param id 패킷에 첨부할 아이템 스택의 이름\n @param of 추가할 아이템 스택"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent",
+      "name": "cancel",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent:cancel()",
+      "params": [],
+      "returns": "nil",
+      "description": "이벤트를 취소합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": "이벤트를 발생시킨 플레이어"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent",
+      "name": "get_item",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent:get_item()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "이동 대상 아이템"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent",
+      "name": "get_type",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent:get_type()",
+      "params": [],
+      "returns": "string",
+      "description": "이동 유형: \"container_click\", \"drop\", \"pickup\""
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityDamagedEvent",
+      "name": "cancel",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityDamagedEvent:cancel()",
+      "params": [],
+      "returns": "nil",
+      "description": "데미지 이벤트를 취소합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityDamagedEvent",
+      "name": "get_damage",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityDamagedEvent:get_damage()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaDamageSource",
+      "description": "데미지 정보. amount를 수정하면 데미지가 변경됩니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityDamagedEvent",
+      "name": "get_target",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityDamagedEvent:get_target()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": "데미지를 받은 엔티티"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "into_string",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:into_string()",
+      "params": [],
+      "returns": "string",
+      "description": "Convert NBT into JSON string"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "into_table",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:into_table()",
+      "params": [],
+      "returns": "party.iroiro.luajava.value.LuaValue",
+      "description": "Convert NBT into Lua Table"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "into_item_stack",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:into_item_stack()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "Convert NBT into item stack"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "apply_entity",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:apply_entity(me.ddayo.aris.engine.wrapper.LuaEntity)",
+      "params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}],
+      "returns": "nil",
+      "description": "Apply(overwrite) current NBT into entity"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "spawn_entity",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:spawn_entity(me.ddayo.aris.engine.wrapper.LuaServerWorld)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": "Spawn entity with this NBT"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "place_block_entity",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:place_block_entity(me.ddayo.aris.engine.wrapper.LuaServerWorld)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}],
+      "returns": "boolean",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "place_block_state",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:place_block_state(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "boolean",
+      "description": "Place block with this NBT at provided position\n If exists then it replaces\n @return is successful"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent",
+      "name": "cancel",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent:cancel()",
+      "params": [],
+      "returns": "nil",
+      "description": "이벤트를 취소합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent",
+      "name": "get_action",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent:get_action()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent",
+      "name": "get_hand",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent:get_hand()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": "이벤트를 발생시킨 플레이어"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent",
+      "name": "get_target",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent:get_target()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": "상호작용 대상 엔티티"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemConsumeEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemConsumeEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": "아이템을 소비한 플레이어"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemConsumeEvent",
+      "name": "get_item",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemConsumeEvent:get_item()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "소비가 완료된 아이템"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaPlayerEvent",
+      "name": "get_action",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaPlayerEvent:get_action()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaPlayerEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaPlayerEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": "이벤트를 발생시킨 플레이어"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLeftClickEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLeftClickEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": "좌클릭한 플레이어"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaUseItemEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaUseItemEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": "아이템을 사용한 플레이어"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaUseItemEvent",
+      "name": "get_item",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaUseItemEvent:get_item()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "사용한 아이템"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaDamageSource",
+      "name": "set_amount",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaDamageSource:set_amount(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaDamageSource",
+      "name": "get_amount",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaDamageSource:get_amount()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaDamageSource",
+      "name": "get_causing",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaDamageSource:get_causing()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaDamageSource",
+      "name": "get_direct",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaDamageSource:get_direct()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaDamageSource",
+      "name": "get_isDirect",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaDamageSource:get_isDirect()",
+      "params": [],
+      "returns": "boolean",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaDamageSource",
+      "name": "get_id",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaDamageSource:get_id()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaChatEvent",
+      "name": "cancel",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaChatEvent:cancel()",
+      "params": [],
+      "returns": "nil",
+      "description": "채팅 전송을 취소합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaChatEvent",
+      "name": "get_message",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaChatEvent:get_message()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaChatEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaChatEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": "채팅을 보낸 플레이어"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "name": "set_count",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemStack:set_count(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "해당 ItemStack의 수량을 설정하거나 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "name": "get_count",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemStack:get_count()",
+      "params": [],
+      "returns": "number",
+      "description": "해당 ItemStack의 수량을 설정하거나 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "name": "get_display_name",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemStack:get_display_name()",
+      "params": [],
+      "returns": "string",
+      "description": "해당 아이템의 표기된 이름을 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "name": "get_name",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemStack:get_name()",
+      "params": [],
+      "returns": "string",
+      "description": "해당 아이템의 기본 이름을 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "name": "set_data",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemStack:set_data(me.ddayo.aris.engine.wrapper.LuaNBTCompound)",
+      "params": [{"name": "new_value", "type": "me.ddayo.aris.engine.wrapper.LuaNBTCompound"}],
+      "returns": "nil",
+      "description": "해당 아이템의 custom NBT data를 읽고 씁니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "name": "get_data",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaItemStack:get_data()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "해당 아이템의 custom NBT data를 읽고 씁니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "add_damage",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:add_damage(number)",
+      "params": [{"name": "damage", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티에 특정 데미지를 줄 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "add_velocity",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:add_velocity(number,number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티에 속도를 설정합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "add_velocity_relative",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:add_velocity_relative(number,number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티가 바라보는 방향을 기준으로 속도를 설정합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "move_delta",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:move_delta(number,number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티를 특정 상대적인 위치로 텔레포트 시킵니다.\n @param x 이동시킬 x좌표의 상대적인 값\n @param y 이동시킬 y좌표의 상대적인 값\n @param z 이동시킬 z좌표의 상대적인 값"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "move_to",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:move_to(number,number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티를 특정 위치로 텔레포트 시킵니다.\n @param x 이동시킬 x좌표\n @param y 이동시킬 y좌표\n @param z 이동시킬 z좌표"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "move_delta_relative",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:move_delta_relative(number,number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티를 바라보는 위치를 기준으로 하는 상대적인 위치로 텔레포트 시킵니다.\n @param x 앞으로 이동할 칸수\n @param y 위로 이동할 칸수\n @param z 옆으로 이동할 칸수(+는 오른쪽을 의미)"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "iter_entities_nearby",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:iter_entities_nearby(function,number,boolean)",
+      "params": [{"name": "fn", "type": "function"}, {"name": "radius", "type": "number"}, {"name": "includeSelf", "type": "boolean"}],
+      "returns": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
+      "description": "주변 엔티티를 순회합니다.\n @param fn 각 엔티티에 대해 실행할 콜백\n @param radius 탐색 반경\n @param includeSelf 자기 자신을 포함할지 여부"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "remove",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:remove()",
+      "params": [],
+      "returns": "nil",
+      "description": "엔티티를 월드에서 즉시 제거합니다. (사망 애니메이션 없음, 드롭 없음)"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_name",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_name()",
+      "params": [],
+      "returns": "string",
+      "description": "엔티티의 이름을 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_type",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_type()",
+      "params": [],
+      "returns": "string",
+      "description": "엔티티의 타입 ID를 가져옵니다. (예: \"minecraft:zombie\")"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_display_name",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_display_name()",
+      "params": [],
+      "returns": "string",
+      "description": "엔티티의 표시된 이름을 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "set_custom_name",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:set_custom_name(string)",
+      "params": [{"name": "new_value", "type": "string"}],
+      "returns": "nil",
+      "description": "엔티티의 커스텀 이름을 설정하거나 가져올 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_custom_name",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_custom_name()",
+      "params": [],
+      "returns": "string",
+      "description": "엔티티의 커스텀 이름을 설정하거나 가져올 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_entity_type",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_entity_type()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntityType",
+      "description": "엔티티의 타입 객체를 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "set_x",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:set_x(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "플레이어의 X좌표를 가져오거나 설정할 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_x",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_x()",
+      "params": [],
+      "returns": "number",
+      "description": "플레이어의 X좌표를 가져오거나 설정할 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "set_y",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:set_y(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티의 Y좌표를 가져오거나 설정할 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_y",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_y()",
+      "params": [],
+      "returns": "number",
+      "description": "엔티티의 Y좌표를 가져오거나 설정할 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "set_z",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:set_z(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티의 Z좌표를 가져오거나 설정할 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_z",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_z()",
+      "params": [],
+      "returns": "number",
+      "description": "엔티티의 Z좌표를 가져오거나 설정할 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_uuid",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_uuid()",
+      "params": [],
+      "returns": "string",
+      "description": "엔티티의 uuid를 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "name": "get_server_world",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:get_server_world()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerWorld",
+      "description": "엔티티의 world를 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "set_duration",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:set_duration(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Duration(tick)"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "get_duration",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:get_duration()",
+      "params": [],
+      "returns": "number",
+      "description": "Duration(tick)"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "set_amplifier",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:set_amplifier(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "get_amplifier",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:get_amplifier()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "set_ambient",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:set_ambient(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": "거품 표시 여부"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "get_ambient",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:get_ambient()",
+      "params": [],
+      "returns": "boolean",
+      "description": "거품 표시 여부"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "set_visible",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:set_visible(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "get_visible",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:get_visible()",
+      "params": [],
+      "returns": "boolean",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "set_showIcon",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:set_showIcon(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance",
+      "name": "get_showIcon",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance:get_showIcon()",
+      "params": [],
+      "returns": "boolean",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "name": "cancel",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaBlockEvent:cancel()",
+      "params": [],
+      "returns": "nil",
+      "description": "이벤트를 취소합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "name": "get_x",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaBlockEvent:get_x()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "name": "get_y",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaBlockEvent:get_y()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "name": "get_z",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaBlockEvent:get_z()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "name": "get_block_id",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaBlockEvent:get_block_id()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "name": "get_face",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaBlockEvent:get_face()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "name": "get_action",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaBlockEvent:get_action()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "name": "get_hand",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaBlockEvent:get_hand()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaBlockEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaBlockEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaRightClickEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaRightClickEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": "우클릭한 플레이어"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "add_effect",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:add_effect(me.ddayo.aris.engine.wrapper.LuaMobEffectInstance)",
+      "params": [{"name": "effect", "type": "me.ddayo.aris.engine.wrapper.LuaMobEffectInstance"}],
+      "returns": "nil",
+      "description": "엔티티에 상태 효과를 추가합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "clear_effect",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:clear_effect()",
+      "params": [],
+      "returns": "nil",
+      "description": "엔티티의 모든 상태 효과를 제거합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "remove_effect",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:remove_effect(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "nil",
+      "description": "엔티티의 특정 상태 효과를 제거합니다.\n @param of 효과 ID (예: \"minecraft:speed\")"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "remove_effect",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:remove_effect(string,string)",
+      "params": [{"name": "ns", "type": "string"}, {"name": "of", "type": "string"}],
+      "returns": "nil",
+      "description": "엔티티의 특정 상태 효과를 제거합니다.\n @param ns 네임스페이스\n @param of 효과 이름"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "get_equipment",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:get_equipment(string)",
+      "params": [{"name": "slot", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "장비 슬롯의 아이템을 가져옵니다.\n 슬롯: mainhand, offhand, head, chest, legs, feet"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "set_equipment",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:set_equipment(string,me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "slot", "type": "string"}, {"name": "item", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "nil",
+      "description": "장비 슬롯에 아이템을 설정합니다.\n 슬롯: mainhand, offhand, head, chest, legs, feet"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "clear_equipment",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:clear_equipment(string)",
+      "params": [{"name": "slot", "type": "string"}],
+      "returns": "nil",
+      "description": "장비 슬롯의 아이템을 제거합니다.\n 슬롯: mainhand, offhand, head, chest, legs, feet"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "get_slot",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:get_slot(number)",
+      "params": [{"name": "slot", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "슬롯 번호로 아이템을 가져옵니다.\n @param slot 슬롯 번호"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "set_slot",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:set_slot(number,me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "slot", "type": "number"}, {"name": "item", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "nil",
+      "description": "슬롯 번호로 아이템을 설정합니다.\n @param slot 슬롯 번호\n @param item 설정할 아이템"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "give_item",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:give_item(me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "item", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "boolean",
+      "description": "엔티티에 아이템을 추가합니다. 이미 같은 아이템이 있으면 수량을 합칩니다.\n @param item 추가할 아이템\n @return 성공 여부"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "give_item",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:give_item(string,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "count", "type": "number"}],
+      "returns": "boolean",
+      "description": "아이템 ID와 수량으로 엔티티에 아이템을 추가합니다.\n @param id 아이템 ID (예: \"minecraft:diamond\")\n @param count 수량\n @return 성공 여부"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "clear_inventory",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:clear_inventory()",
+      "params": [],
+      "returns": "nil",
+      "description": "엔티티의 모든 아이템을 제거합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "remove_item",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:remove_item(string,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "count", "type": "number"}],
+      "returns": "boolean",
+      "description": "엔티티의 슬롯에서 특정 아이템을 제거합니다. 수량이 부족하면 제거하지 않고 false를 반환합니다.\n @param id 아이템 ID (예: \"minecraft:diamond\")\n @param count 제거할 수량\n @return 성공 여부"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "set_health",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:set_health(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티의 현재 체력을 가져오거나 설정합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "get_health",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:get_health()",
+      "params": [],
+      "returns": "number",
+      "description": "엔티티의 현재 체력을 가져오거나 설정합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "get_max_health",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:get_max_health()",
+      "params": [],
+      "returns": "number",
+      "description": "엔티티의 최대 체력을 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "set_pitch",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:set_pitch(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티의 pitch(상하 회전)를 가져오거나 설정합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "get_pitch",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:get_pitch()",
+      "params": [],
+      "returns": "number",
+      "description": "엔티티의 pitch(상하 회전)를 가져오거나 설정합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "set_yaw",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:set_yaw(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "엔티티의 yaw(좌우 회전)를 가져오거나 설정합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaLivingEntity",
+      "name": "get_yaw",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaLivingEntity:get_yaw()",
+      "params": [],
+      "returns": "number",
+      "description": "엔티티의 yaw(좌우 회전)를 가져오거나 설정합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaPlayerEntity",
+      "name": "get_main_hand_item",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaPlayerEntity:get_main_hand_item()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "플레이어의 오른손의 아이템을 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaPlayerEntity",
+      "name": "get_is_sneaking",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaPlayerEntity:get_is_sneaking()",
+      "params": [],
+      "returns": "boolean",
+      "description": "플레이어가 웅크리고 있는지 여부를 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaPlayerEntity",
+      "name": "get_is_running",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaPlayerEntity:get_is_running()",
+      "params": [],
+      "returns": "boolean",
+      "description": "플레이어가 달리고 있는지 여부를 가져옵니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "name": "send_message_text",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaServerPlayer:send_message_text(string)",
+      "params": [{"name": "msg", "type": "string"}],
+      "returns": "nil",
+      "description": "채팅으로 텍스트 메시지를 전송\n @param msg 전송할 텍스트"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "name": "send_message",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaServerPlayer:send_message(net.minecraft.network.chat.Component)",
+      "params": [{"name": "msg", "type": "net.minecraft.network.chat.Component"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "name": "is_op",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaServerPlayer:is_op()",
+      "params": [],
+      "returns": "boolean",
+      "description": "플레이어가 OP 권한을 가지고 있는지 확인합니다.\n @return OP인 경우 true, 아닌 경우 false"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "name": "iter_player_nearby",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaServerPlayer:iter_player_nearby(function,number,boolean)",
+      "params": [{"name": "fn", "type": "function"}, {"name": "lnt", "type": "number"}, {"name": "includeSelf", "type": "boolean"}],
+      "returns": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
+      "description": "플레이어로부터 유클리드 거리(직선거리) 기준 특정 거리 이내인 플레이어를 탐색합니다.\n @param fn callback\n @param lnt 플레이어로부터의 거리\n @param includeSelf true인 경우 자기 자신을 포함하고, false인 경우 제외합니다.\n @see aris.game.iter_players"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "name": "set_main_hand_item",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaServerPlayer:set_main_hand_item(me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "new_value", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "name": "get_main_hand_item",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaServerPlayer:get_main_hand_item()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": null
+    }
+  ]
+}

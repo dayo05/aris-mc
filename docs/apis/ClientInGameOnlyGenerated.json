@@ -1,0 +1,376 @@
+{
+  "version": 1,
+  "name": "ClientInGameOnlyGenerated",
+  "generatedClassName": "ClientInGameOnlyGenerated",
+  "contexts": ["client-ingame"],
+  "types": [
+    {
+      "name": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "displayName": "BaseRectComponent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.HudRenderer",
+      "displayName": "HudRenderer",
+      "description": null,
+      "extends": ["me.ddayo.aris.client.gui.BaseRectComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "displayName": "Builder",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "displayName": "LuaEntity",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "displayName": "LuaItemStack",
+      "description": null,
+      "extends": []
+    }
+  ],
+  "functions": [
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "send_system_message",
+      "luaName": "client.send_system_message",
+      "i18nKey": "client.send_system_message(string)",
+      "params": [{"name": "message", "type": "string"}],
+      "returns": "nil",
+      "description": "채팅창에 새로운 텍스트를 추가합니다.\n @param message 추가할 메시지"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "invoke_command",
+      "luaName": "client.invoke_command",
+      "i18nKey": "client.invoke_command(string)",
+      "params": [{"name": "command", "type": "string"}],
+      "returns": "nil",
+      "description": "채팅창에 /command를 입력하는 것과 동일합니다.\n @param command 실행할 커멘드"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "get_player_x",
+      "luaName": "client.get_player_x",
+      "i18nKey": "client.get_player_x()",
+      "params": [],
+      "returns": "number",
+      "description": "현재 플레이어의 x좌표를 구합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "get_player_y",
+      "luaName": "client.get_player_y",
+      "i18nKey": "client.get_player_y()",
+      "params": [],
+      "returns": "number",
+      "description": "현재 플레이어의 y좌표를 구합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "get_player_z",
+      "luaName": "client.get_player_z",
+      "i18nKey": "client.get_player_z()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "get_player_pitch",
+      "luaName": "client.get_player_pitch",
+      "i18nKey": "client.get_player_pitch()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "get_player_yaw",
+      "luaName": "client.get_player_yaw",
+      "i18nKey": "client.get_player_yaw()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "item_used_duration",
+      "luaName": "client.item_used_duration",
+      "i18nKey": "client.item_used_duration()",
+      "params": [],
+      "returns": "number",
+      "description": "플레이어가 얼마나 오랫동안 아이템을 사용했는지(charging)\n @return 플레이어가 차징한 시간(tick)"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_hud",
+      "luaName": "client.create_hud",
+      "i18nKey": "client.create_hud()",
+      "params": [],
+      "returns": "me.ddayo.aris.client.gui.HudRenderer",
+      "description": "HUD를 생성합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "clear_opened_hud",
+      "luaName": "client.clear_opened_hud",
+      "i18nKey": "client.clear_opened_hud()",
+      "params": [],
+      "returns": "nil",
+      "description": "모든 열려있는 HUD를 닫습니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "remote_string_data",
+      "luaName": "client.remote_string_data",
+      "i18nKey": "client.remote_string_data(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "string",
+      "description": "서버로부터 전송받은 문자열 데이터를 가져옵니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "remote_number_data",
+      "luaName": "client.remote_number_data",
+      "i18nKey": "client.remote_number_data(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "number",
+      "description": "서버로부터 전송받은 정수 데이터를 가져옵니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "remove_item_data",
+      "luaName": "client.remove_item_data",
+      "i18nKey": "client.remove_item_data(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "서버로부터 전송받은 아이템 데이터를 가져옵니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "is_key_pressed",
+      "luaName": "client.is_key_pressed",
+      "i18nKey": "client.is_key_pressed(number)",
+      "params": [{"name": "key", "type": "number"}],
+      "returns": "boolean",
+      "description": "특정 키가 눌린 상태인지 검사합니다.\n 이 함수는 씹힐 위험이 있으니, 사용을 지양하세요.\n @param key 눌려져있는지 확인할 키"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "get_inventory_size",
+      "luaName": "client.get_inventory_size",
+      "i18nKey": "client.get_inventory_size()",
+      "params": [],
+      "returns": "number",
+      "description": "현재 플레이어 인벤토리의 슬롯 개수를 가져옵니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "get_inventory_item",
+      "luaName": "client.get_inventory_item",
+      "i18nKey": "client.get_inventory_item(number)",
+      "params": [{"name": "slot", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "현재 플레이어 인벤토리의 특정 슬롯에 있는 아이템을 가져옵니다.\n @param slot 슬롯 번호 (0부터 시작)"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "get_selected_slot",
+      "luaName": "client.get_selected_slot",
+      "i18nKey": "client.get_selected_slot()",
+      "params": [],
+      "returns": "number",
+      "description": "현재 선택된(들고 있는) 핫바 슬롯 번호를 가져옵니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "iter_inventory",
+      "luaName": "client.iter_inventory",
+      "i18nKey": "client.iter_inventory(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "현재 플레이어 인벤토리의 모든 슬롯을 순회합니다.\n @param fn 각 슬롯에 대해 실행할 콜백 (slot: Int, item: ItemStack) -> void"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "target_crosshair_entity",
+      "luaName": "client.target_crosshair_entity",
+      "i18nKey": "client.target_crosshair_entity(number)",
+      "params": [{"name": "reach", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "send_c2s_packet",
+      "luaName": "networking.send_c2s_packet",
+      "i18nKey": "networking.send_c2s_packet(me.ddayo.aris.engine.networking.PacketDeclaration.Builder)",
+      "params": [{"name": "packet", "type": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder"}],
+      "returns": "nil",
+      "description": "서버로 주어진 패킷을 전송합니다.\n @param packet 패킷"
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "create_c2s_packet_builder",
+      "luaName": "networking.create_c2s_packet_builder",
+      "i18nKey": "networking.create_c2s_packet_builder(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "description": "서버로 전송할 패킷을 설정하는 빌더(builder)를 만듭니다.\n @param of 전송할 패킷의 id"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_s2c_packet_handler",
+      "luaName": "hook.add_s2c_packet_handler",
+      "i18nKey": "hook.add_s2c_packet_handler(string,function)",
+      "params": [{"name": "id", "type": "string"}, {"name": "func", "type": "function"}],
+      "returns": "nil",
+      "description": "패킷이 서버로부터 전송됐을때 실행할 함수를 지정합니다.\n @param id 패킷 id\n @param func 실행할 함수"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "play_sound",
+      "luaName": "client.play_sound",
+      "i18nKey": "client.play_sound(string)",
+      "params": [{"name": "id", "type": "string"}],
+      "returns": "nil",
+      "description": "`sounds.json`에 정의된 Minecraft 소리 이벤트를 클라이언트 플레이어의 현재 위치에서 재생합니다.\n @param id 소리 이벤트 id. 예: `minecraft:block.note_block.pling`"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "play_sound",
+      "luaName": "client.play_sound",
+      "i18nKey": "client.play_sound(string,number,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "volume", "type": "number"}, {"name": "pitch", "type": "number"}],
+      "returns": "nil",
+      "description": "`sounds.json`에 정의된 Minecraft 소리 이벤트를 클라이언트 플레이어의 현재 위치에서 재생합니다.\n @param id 소리 이벤트 id. 예: `minecraft:block.note_block.pling`\n @param volume 소리 크기\n @param pitch 소리 높낮이"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "play_sound_at",
+      "luaName": "client.play_sound_at",
+      "i18nKey": "client.play_sound_at(string,number,number,number,number,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}, {"name": "volume", "type": "number"}, {"name": "pitch", "type": "number"}],
+      "returns": "nil",
+      "description": "`sounds.json`에 정의된 Minecraft 소리 이벤트를 지정한 위치에서 재생합니다.\n @param id 소리 이벤트 id. 예: `minecraft:block.note_block.pling`\n @param x x좌표\n @param y y좌표\n @param z z좌표\n @param volume 소리 크기\n @param pitch 소리 높낮이"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "play_sound_raw",
+      "luaName": "client.play_sound_raw",
+      "i18nKey": "client.play_sound_raw(string)",
+      "params": [{"name": "id", "type": "string"}],
+      "returns": "nil",
+      "description": "`aris.init.sound.client.register_sound_raw`로 등록한 raw 소리를 재생합니다.\n @param id raw 소리 이벤트 id. 예: `aris:alert`"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "play_sound_raw",
+      "luaName": "client.play_sound_raw",
+      "i18nKey": "client.play_sound_raw(string,number,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "volume", "type": "number"}, {"name": "pitch", "type": "number"}],
+      "returns": "nil",
+      "description": "`aris.init.sound.client.register_sound_raw`로 등록한 raw 소리를 재생합니다.\n @param id raw 소리 이벤트 id. 예: `aris:alert`\n @param volume 소리 크기\n @param pitch 소리 높낮이"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "play_sound_raw_at",
+      "luaName": "client.play_sound_raw_at",
+      "i18nKey": "client.play_sound_raw_at(string,number,number,number,number,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}, {"name": "volume", "type": "number"}, {"name": "pitch", "type": "number"}],
+      "returns": "nil",
+      "description": "`aris.init.sound.client.register_sound_raw`로 등록한 raw 소리를 지정한 위치에서 재생합니다.\n @param id raw 소리 이벤트 id. 예: `aris:alert`\n @param x x좌표\n @param y y좌표\n @param z z좌표\n @param volume 소리 크기\n @param pitch 소리 높낮이"
+    }
+  ],
+  "methods": [
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "name": "append_int",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder:append_int(string,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "of", "type": "number"}],
+      "returns": "nil",
+      "description": "정수 인자를 패킷에 추가합니다.\n @param id 패킷에 첨부할 정수의 이름\n @param of 추가할 정수"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "name": "append_string",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder:append_string(string,string)",
+      "params": [{"name": "id", "type": "string"}, {"name": "of", "type": "string"}],
+      "returns": "nil",
+      "description": "문자열 인자를 패킷에 추가합니다.\n @param id 패킷에 첨부할 문자열의 이름\n @param of 추가할 문자열"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "name": "append_float",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder:append_float(string,number)",
+      "params": [{"name": "id", "type": "string"}, {"name": "of", "type": "number"}],
+      "returns": "nil",
+      "description": "실수 인자를 패킷에 추가합니다.\n @param id 패킷에 첨부할 실수의 이름\n @param of 추가할 실수"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder",
+      "name": "append_itemstack",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration.Builder:append_itemstack(string,me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "id", "type": "string"}, {"name": "of", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "nil",
+      "description": "아이템 스택 인자를 패킷에 추가합니다.\n @param id 패킷에 첨부할 아이템 스택의 이름\n @param of 추가할 아이템 스택"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.HudRenderer",
+      "name": "open_hud",
+      "i18nKey": "me.ddayo.aris.client.gui.HudRenderer:open_hud()",
+      "params": [],
+      "returns": "nil",
+      "description": "Registers this renderer to the in-game HUD engine, making it visible on the HUD."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.HudRenderer",
+      "name": "close_hud",
+      "i18nKey": "me.ddayo.aris.client.gui.HudRenderer:close_hud()",
+      "params": [],
+      "returns": "nil",
+      "description": "Unregisters this renderer from the in-game HUD engine."
+    }
+  ]
+}

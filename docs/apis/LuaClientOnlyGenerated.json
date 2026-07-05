@@ -1,0 +1,1724 @@
+{
+  "version": 1,
+  "name": "LuaClientOnlyGenerated",
+  "generatedClassName": "LuaClientOnlyGenerated",
+  "contexts": ["client"],
+  "types": [
+    {
+      "name": "me.ddayo.aris.client.gui.BaseComponent",
+      "displayName": "BaseComponent",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "displayName": "BaseRectComponent",
+      "description": null,
+      "extends": ["me.ddayo.aris.client.gui.BaseComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.FontResource",
+      "displayName": "FontResource",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.ImageResource",
+      "displayName": "ImageResource",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "displayName": "ScreenRenderer",
+      "description": null,
+      "extends": ["me.ddayo.aris.client.gui.BaseRectComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "displayName": "ScriptCheckboxRenderer",
+      "description": "A square checkbox that toggles its [isChecked] state when clicked.\n Occupies a [size] x [size] box (in the parent's coordinate space) that captures clicks.",
+      "extends": ["me.ddayo.aris.client.gui.BaseComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "displayName": "ScriptColorRenderer",
+      "description": null,
+      "extends": ["me.ddayo.aris.client.gui.BaseRectComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer",
+      "displayName": "ScriptDefaultTextRenderer",
+      "description": null,
+      "extends": ["me.ddayo.aris.client.gui.BaseComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "displayName": "ScriptImageRenderer",
+      "description": null,
+      "extends": ["me.ddayo.aris.client.gui.BaseRectComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.element.ScriptItemRenderer",
+      "displayName": "ScriptItemRenderer",
+      "description": null,
+      "extends": ["me.ddayo.aris.client.gui.BaseComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "displayName": "ScriptMouseHandlerRenderer",
+      "description": null,
+      "extends": ["me.ddayo.aris.client.gui.BaseComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "displayName": "ScriptTextInputRenderer",
+      "description": "An editable single-line text field. The component occupies a [width] x [height] box\n (in the parent's coordinate space) that captures clicks for focus and cursor placement,\n and keyboard/character events while focused. Supports selection, clipboard (copy/cut/paste),\n word-wise navigation and horizontal scrolling.",
+      "extends": ["me.ddayo.aris.client.gui.BaseComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.client.gui.element.ScriptTextRenderer",
+      "displayName": "ScriptTextRenderer",
+      "description": null,
+      "extends": ["me.ddayo.aris.client.gui.BaseComponent"]
+    },
+    {
+      "name": "me.ddayo.aris.engine.client.wrapper.LuaKeyBinding",
+      "displayName": "LuaKeyBinding",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "displayName": "LuaItemStack",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.luagen.LuaMultiReturn",
+      "displayName": "LuaMultiReturn",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.math.Area",
+      "displayName": "Area",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.math.AreaBuilder",
+      "displayName": "AreaBuilder",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.math.Point",
+      "displayName": "Point",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.math.Point3",
+      "displayName": "Point3",
+      "description": null,
+      "extends": []
+    }
+  ],
+  "functions": [
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_tick_hook",
+      "luaName": "hook.add_tick_hook",
+      "i18nKey": "hook.add_tick_hook(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "매 틱마다 실행할 함수를 추가합니다.\n @param f 실행할 함수"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_tick_hook",
+      "luaName": "hook.clear_tick_hook",
+      "i18nKey": "hook.clear_tick_hook(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "매 틱마다 실행할 함수를 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "on_key_pressed",
+      "luaName": "hook.on_key_pressed",
+      "i18nKey": "hook.on_key_pressed(string,function)",
+      "params": [{"name": "key", "type": "string"}, {"name": "function", "type": "function"}],
+      "returns": "nil",
+      "description": "새로 추가한 조작키를 실행할때 실행될 함수를 지정합니다.\n @param key 누를 키\n @param function 실행할 함수"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "on_player_leave_server",
+      "luaName": "hook.on_player_leave_server",
+      "i18nKey": "hook.on_player_leave_server(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "클라이언트가 서버에서 나갔을 때 실행할 함수를 추가합니다.\n\n 엔진이 리로드되면 폐기되는 엔진에서 이 함수가 실행되므로,\n 스크립트가 정리(cleanup) 작업을 수행할 수 있습니다.\n @param f 실행할 함수"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_area_builder",
+      "luaName": "client.create_area_builder",
+      "i18nKey": "client.create_area_builder()",
+      "params": [],
+      "returns": "me.ddayo.aris.math.AreaBuilder",
+      "description": "Creates a new [AreaBuilder] instance to construct complex areas."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_point",
+      "luaName": "client.create_point",
+      "i18nKey": "client.create_point(number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": "Creates a 2D [Point] object.\n @param x The x-coordinate.\n @param y The y-coordinate."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_point",
+      "luaName": "client.create_point",
+      "i18nKey": "client.create_point(number,number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "me.ddayo.aris.math.Point3",
+      "description": "Creates a 3D [Point3] object.\n @param x The x-coordinate.\n @param y The y-coordinate.\n @param z The z-coordinate."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_window",
+      "luaName": "client.create_window",
+      "i18nKey": "client.create_window()",
+      "params": [],
+      "returns": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "description": "Creates a new [ScreenRenderer] to manage a custom GUI screen."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_image_renderer",
+      "luaName": "client.create_image_renderer",
+      "i18nKey": "client.create_image_renderer(me.ddayo.aris.client.gui.ImageResource)",
+      "params": [{"name": "res", "type": "me.ddayo.aris.client.gui.ImageResource"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "description": "Creates a component that renders a specific image resource.\n @param res The [ImageResource] loaded via `load_image`."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_clickable",
+      "luaName": "client.create_clickable",
+      "i18nKey": "client.create_clickable(function,me.ddayo.aris.math.Area)",
+      "params": [{"name": "onClick", "type": "function"}, {"name": "area", "type": "me.ddayo.aris.math.Area"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "description": "Creates an invisible clickable component defined by a custom [Area].\n @param onClick The Lua function to execute when clicked.\n @param area The definition of the clickable area."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_clickable",
+      "luaName": "client.create_clickable",
+      "i18nKey": "client.create_clickable(function,number,number,number,number)",
+      "params": [{"name": "onClick", "type": "function"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "width", "type": "number"}, {"name": "height", "type": "number"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "description": "Creates an invisible clickable component defined by a rectangle.\n @param onClick The Lua function to execute when clicked.\n @param x The x-coordinate of the rectangle.\n @param y The y-coordinate of the rectangle.\n @param width The width of the rectangle.\n @param height The height of the rectangle."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_color_renderer",
+      "luaName": "client.create_color_renderer",
+      "i18nKey": "client.create_color_renderer(number,number,number,number)",
+      "params": [{"name": "r", "type": "number"}, {"name": "g", "type": "number"}, {"name": "b", "type": "number"}, {"name": "a", "type": "number"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "description": "Creates a solid color rectangle component.\n @param r Red component (0-255).\n @param g Green component (0-255).\n @param b Blue component (0-255).\n @param a Alpha component (0-255)."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_color_renderer",
+      "luaName": "client.create_color_renderer",
+      "i18nKey": "client.create_color_renderer(number)",
+      "params": [{"name": "color", "type": "number"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "description": "Creates a solid color rectangle component using a packed color value.\n @param color The ARGB color value."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_default_text_renderer",
+      "luaName": "client.create_default_text_renderer",
+      "i18nKey": "client.create_default_text_renderer(string,number)",
+      "params": [{"name": "text", "type": "string"}, {"name": "color", "type": "number"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer",
+      "description": "Creates a text label component using the default Minecraft font.\n @param text The string to display.\n @param color The integer color of the text."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_text_renderer",
+      "luaName": "client.create_text_renderer",
+      "i18nKey": "client.create_text_renderer(me.ddayo.aris.client.gui.FontResource,string,number)",
+      "params": [{"name": "font", "type": "me.ddayo.aris.client.gui.FontResource"}, {"name": "text", "type": "string"}, {"name": "color", "type": "number"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptTextRenderer",
+      "description": "Creates a text label component using the default Minecraft font.\n @param text The string to display.\n @param color The integer color of the text."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_text_input_renderer",
+      "luaName": "client.create_text_input_renderer",
+      "i18nKey": "client.create_text_input_renderer(me.ddayo.aris.client.gui.FontResource,string,number)",
+      "params": [{"name": "font", "type": "me.ddayo.aris.client.gui.FontResource"}, {"name": "text", "type": "string"}, {"name": "color", "type": "number"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "description": "Creates an editable single-line text input component.\n @param font The [FontResource] used to render the text.\n @param text The initial text content.\n @param color The integer color of the text."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_checkbox_renderer",
+      "luaName": "client.create_checkbox_renderer",
+      "i18nKey": "client.create_checkbox_renderer(boolean)",
+      "params": [{"name": "checked", "type": "boolean"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "description": "Creates a toggleable checkbox component.\n @param checked The initial checked state."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_item_renderer",
+      "luaName": "client.create_item_renderer",
+      "i18nKey": "client.create_item_renderer(me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "item", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "me.ddayo.aris.client.gui.element.ScriptItemRenderer",
+      "description": "Creates a component that renders a Minecraft item stack.\n @param item The item stack to render."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "load_image",
+      "luaName": "client.load_image",
+      "i18nKey": "client.load_image(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "me.ddayo.aris.client.gui.ImageResource",
+      "description": "Loads an image resource from a file path.\n @param path The relative path to the image file.\n @return The loaded [ImageResource]."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "load_image",
+      "luaName": "client.load_image",
+      "i18nKey": "client.load_image(string,string)",
+      "params": [{"name": "name", "type": "string"}, {"name": "path", "type": "string"}],
+      "returns": "me.ddayo.aris.client.gui.ImageResource",
+      "description": "Loads an image resource (alias overload).\n @param name Unused parameter (legacy or alias).\n @param path The relative path to the image file."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "load_font",
+      "luaName": "client.load_font",
+      "i18nKey": "client.load_font(string,number)",
+      "params": [{"name": "path", "type": "string"}, {"name": "size", "type": "number"}],
+      "returns": "me.ddayo.aris.client.gui.FontResource",
+      "description": "Loads a font resource\n @param path The relative path to the font file\n @param size Expected size to render"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "load_font",
+      "luaName": "client.load_font",
+      "i18nKey": "client.load_font(string,number,number)",
+      "params": [{"name": "path", "type": "string"}, {"name": "size", "type": "number"}, {"name": "oversample", "type": "number"}],
+      "returns": "me.ddayo.aris.client.gui.FontResource",
+      "description": "Loads a font resource\n @param path The relative path to the font file\n @param size Expected size to render\n @param oversample The depth of resolution sampling.(4.0f is recommended and this is the default)"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_component",
+      "luaName": "client.create_component",
+      "i18nKey": "client.create_component()",
+      "params": [],
+      "returns": "me.ddayo.aris.client.gui.BaseComponent",
+      "description": "Creates a basic, empty component container."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_rect_component",
+      "luaName": "client.create_rect_component",
+      "i18nKey": "client.create_rect_component()",
+      "params": [],
+      "returns": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "description": "Creates a basic component container with rectangular properties (width/height)."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "close_screen",
+      "luaName": "client.close_screen",
+      "i18nKey": "client.close_screen()",
+      "params": [],
+      "returns": "nil",
+      "description": "Closes the current Minecraft screen (sets it to null)."
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "get_keybinding",
+      "luaName": "client.get_keybinding",
+      "i18nKey": "client.get_keybinding(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.client.wrapper.LuaKeyBinding",
+      "description": "Retrieves a Minecraft key binding by its internal name.\n @param of The name of the key binding to find.\n @return A [LuaKeyBinding] wrapper if found, or null."
+    }
+  ],
+  "methods": [
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.client.wrapper.LuaKeyBinding",
+      "name": "consume",
+      "i18nKey": "me.ddayo.aris.engine.client.wrapper.LuaKeyBinding:consume()",
+      "params": [],
+      "returns": "boolean",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.client.wrapper.LuaKeyBinding",
+      "name": "get_is_down",
+      "i18nKey": "me.ddayo.aris.engine.client.wrapper.LuaKeyBinding:get_is_down()",
+      "params": [],
+      "returns": "boolean",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "add_child",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:add_child(me.ddayo.aris.client.gui.BaseComponent)",
+      "params": [{"name": "child", "type": "me.ddayo.aris.client.gui.BaseComponent"}],
+      "returns": "nil",
+      "description": "Adds a child component to this component.\n The child moves relative to this parent.\n\n @param child The component to add."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "add_render_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:add_render_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Adds a hook function to be invoked on each frame during rendering.\n\n @param fn The Lua function to call. (scaled_mouse_x, scaled_mouse_y, tick_delta) -> void"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "clear_render_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:clear_render_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Clears all registered render hooks."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "add_tick_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:add_tick_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "clear_tick_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:clear_tick_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "clear_child",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:clear_child()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes all child components from this component."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "remove_child",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:remove_child(me.ddayo.aris.client.gui.BaseComponent)",
+      "params": [{"name": "child", "type": "me.ddayo.aris.client.gui.BaseComponent"}],
+      "returns": "nil",
+      "description": "Removes a specific child component.\n\n @param child The component to remove."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_local_coordinate",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_local_coordinate(number,number)",
+      "params": [{"name": "mx", "type": "number"}, {"name": "my", "type": "number"}],
+      "returns": "me.ddayo.aris.luagen.LuaMultiReturn",
+      "description": "Recursively calculates the local mouse position by traversing up to the root parent.\n This converts global screen coordinates to coordinates relative to this component.\n @param mx Global X coordinate\n @param my Global Y coordinate\n @return local_x, local_y"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_global_coordinate",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_global_coordinate(number,number)",
+      "params": [{"name": "lx", "type": "number"}, {"name": "ly", "type": "number"}],
+      "returns": "me.ddayo.aris.luagen.LuaMultiReturn",
+      "description": "Converts a local coordinate (relative to this component) to global screen coordinates.\n @param lx Local X coordinate\n @param ly Local Y coordinate\n @return global_x, global_y"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_x",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_x(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The X coordinate of the component's position."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_x",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_x()",
+      "params": [],
+      "returns": "number",
+      "description": "The X coordinate of the component's position."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_y",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_y(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The Y coordinate of the component's position."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_y",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_y()",
+      "params": [],
+      "returns": "number",
+      "description": "The Y coordinate of the component's position."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_rotation",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_rotation(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The rotation of the component in degrees."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_rotation",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_rotation()",
+      "params": [],
+      "returns": "number",
+      "description": "The rotation of the component in degrees."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_anchor_x",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_anchor_x(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The X coordinate of the anchor point (pivot) relative to the component's origin.\n Rotation and scaling occur around this point."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_anchor_x",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_anchor_x()",
+      "params": [],
+      "returns": "number",
+      "description": "The X coordinate of the anchor point (pivot) relative to the component's origin.\n Rotation and scaling occur around this point."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_anchor_y",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_anchor_y(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The Y coordinate of the anchor point (pivot) relative to the component's origin.\n Rotation and scaling occur around this point."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_anchor_y",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_anchor_y()",
+      "params": [],
+      "returns": "number",
+      "description": "The Y coordinate of the anchor point (pivot) relative to the component's origin.\n Rotation and scaling occur around this point."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_is_scale_rate_fixed",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_is_scale_rate_fixed()",
+      "params": [],
+      "returns": "boolean",
+      "description": "Determines if the scale rate is locked.\n If true, [xScale] and [yScale] cannot be modified individually."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_scale_x",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_scale_x(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The scale factor on the X axis.\n @throws AssertionError if [isScaleRateFixed] is true."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_scale_x",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_scale_x()",
+      "params": [],
+      "returns": "number",
+      "description": "The scale factor on the X axis.\n @throws AssertionError if [isScaleRateFixed] is true."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_scale_y",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_scale_y(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The scale factor on the Y axis.\n @throws AssertionError if [isScaleRateFixed] is true."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_scale_y",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_scale_y()",
+      "params": [],
+      "returns": "number",
+      "description": "The scale factor on the Y axis.\n @throws AssertionError if [isScaleRateFixed] is true."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_scale",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_scale(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "A utility property to set or get uniform scaling for both X and Y axes.\n Getting this property asserts that [xScale] equals [yScale]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_scale",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_scale()",
+      "params": [],
+      "returns": "number",
+      "description": "A utility property to set or get uniform scaling for both X and Y axes.\n Getting this property asserts that [xScale] equals [yScale]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_is_visible",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_is_visible(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": "Controls whether the component is rendered."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_is_visible",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_is_visible()",
+      "params": [],
+      "returns": "boolean",
+      "description": "Controls whether the component is rendered."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "set_is_active",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:set_is_active(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": "Controls whether the component accepts interactions (like clicks)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_is_active",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_is_active()",
+      "params": [],
+      "returns": "boolean",
+      "description": "Controls whether the component accepts interactions (like clicks)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
+      "name": "get_parent",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:get_parent()",
+      "params": [],
+      "returns": "me.ddayo.aris.client.gui.BaseComponent",
+      "description": "The parent component of this component, or null if it has no parent.\n This property cannot be set from Lua."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "name": "set_width",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseRectComponent:set_width(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The visual width of the component.\n Setting this updates [xScale] based on [fixedWidth]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "name": "get_width",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseRectComponent:get_width()",
+      "params": [],
+      "returns": "number",
+      "description": "The visual width of the component.\n Setting this updates [xScale] based on [fixedWidth]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "name": "set_height",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseRectComponent:set_height(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The visual height of the component.\n Setting this updates [yScale] based on [fixedHeight]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "name": "get_height",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseRectComponent:get_height()",
+      "params": [],
+      "returns": "number",
+      "description": "The visual height of the component.\n Setting this updates [yScale] based on [fixedHeight]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "name": "set_fixed_width",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseRectComponent:set_fixed_width(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The internal reference width (e.g., texture width).\n Changing this recalculates [xScale] to maintain visual [width]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "name": "get_fixed_width",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseRectComponent:get_fixed_width()",
+      "params": [],
+      "returns": "number",
+      "description": "The internal reference width (e.g., texture width).\n Changing this recalculates [xScale] to maintain visual [width]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "name": "set_fixed_height",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseRectComponent:set_fixed_height(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The internal reference height (e.g., texture height).\n Changing this recalculates [yScale] to maintain visual [height]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.BaseRectComponent",
+      "name": "get_fixed_height",
+      "i18nKey": "me.ddayo.aris.client.gui.BaseRectComponent:get_fixed_height()",
+      "params": [],
+      "returns": "number",
+      "description": "The internal reference height (e.g., texture height).\n Changing this recalculates [yScale] to maintain visual [height]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptItemRenderer",
+      "name": "set_item",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptItemRenderer:set_item(me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "new_value", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "nil",
+      "description": "The Minecraft item to render, wrapped for Lua access."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptItemRenderer",
+      "name": "get_item",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptItemRenderer:get_item()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "The Minecraft item to render, wrapped for Lua access."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptItemRenderer",
+      "name": "set_display_tooltip",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptItemRenderer:set_display_tooltip(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": "Whether to render the item's tooltip when the cursor hovers over it."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptItemRenderer",
+      "name": "get_display_tooltip",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptItemRenderer:get_display_tooltip()",
+      "params": [],
+      "returns": "boolean",
+      "description": "Whether to render the item's tooltip when the cursor hovers over it."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextRenderer",
+      "name": "set_font",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextRenderer:set_font(me.ddayo.aris.client.gui.FontResource)",
+      "params": [{"name": "new_value", "type": "me.ddayo.aris.client.gui.FontResource"}],
+      "returns": "nil",
+      "description": "Font to use"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextRenderer",
+      "name": "get_font",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextRenderer:get_font()",
+      "params": [],
+      "returns": "me.ddayo.aris.client.gui.FontResource",
+      "description": "Font to use"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextRenderer",
+      "name": "set_text",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextRenderer:set_text(string)",
+      "params": [{"name": "new_value", "type": "string"}],
+      "returns": "nil",
+      "description": "The text string to display."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextRenderer",
+      "name": "get_text",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextRenderer:get_text()",
+      "params": [],
+      "returns": "string",
+      "description": "The text string to display."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextRenderer",
+      "name": "set_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextRenderer:set_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The text color."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextRenderer",
+      "name": "get_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextRenderer:get_color()",
+      "params": [],
+      "returns": "number",
+      "description": "The text color."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer",
+      "name": "set_text",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer:set_text(string)",
+      "params": [{"name": "new_value", "type": "string"}],
+      "returns": "nil",
+      "description": "The text string to display."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer",
+      "name": "get_text",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer:get_text()",
+      "params": [],
+      "returns": "string",
+      "description": "The text string to display."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer",
+      "name": "set_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer:set_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The text color."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer",
+      "name": "get_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptDefaultTextRenderer:get_color()",
+      "params": [],
+      "returns": "number",
+      "description": "The text color."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "name": "set_mouse_up_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:set_mouse_up_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function to be called when a mouse button is released (mouse up) within the component's area.\n\n The Lua function will receive the following arguments:\n 1. `mx` (Double): The X coordinate of the mouse cursor.\n 2. `my` (Double): The Y coordinate of the mouse cursor.\n 3. `button` (Int): The index of the mouse button pressed.\n\n @param fn The Lua function to serve as the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "name": "clear_mouse_up_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:clear_mouse_up_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned mouse up hook, disabling the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "name": "set_mouse_down_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:set_mouse_down_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function to be called when a mouse button is pressed (mouse down) within the component's area.\n\n The Lua function will receive the following arguments:\n 1. `mx` (Double): The X coordinate of the mouse cursor.\n 2. `my` (Double): The Y coordinate of the mouse cursor.\n 3. `button` (Int): The index of the mouse button pressed.\n\n @param fn The Lua function to serve as the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "name": "clear_mouse_down_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:clear_mouse_down_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned mouse down hook, disabling the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "name": "set_mouse_drag_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:set_mouse_drag_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function to be called when the mouse is dragged within the component's area.\n\n The Lua function will receive the following arguments:\n 1. `mx` (Double): The X coordinate of the mouse cursor.\n 2. `my` (Double): The Y coordinate of the mouse cursor.\n 3. `button` (Int): The index of the mouse button being held.\n\n @param fn The Lua function to serve as the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "name": "clear_mouse_drag_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:clear_mouse_drag_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned mouse drag hook, disabling the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "name": "set_area",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:set_area(me.ddayo.aris.math.Area)",
+      "params": [{"name": "new_value", "type": "me.ddayo.aris.math.Area"}],
+      "returns": "nil",
+      "description": "The area within which clicks are detected."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
+      "name": "get_area",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:get_area()",
+      "params": [],
+      "returns": "me.ddayo.aris.math.Area",
+      "description": "The area within which clicks are detected."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "set_change_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:set_change_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function called when the checked state is toggled by a click.\n The callback receives the new checked state (Boolean)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "clear_change_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:clear_change_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned change hook."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "set_size",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:set_size(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The side length of the checkbox box."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "get_size",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:get_size()",
+      "params": [],
+      "returns": "number",
+      "description": "The side length of the checkbox box."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "set_border_width",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:set_border_width(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Thickness of the box border. Set to 0 to disable."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "get_border_width",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:get_border_width()",
+      "params": [],
+      "returns": "number",
+      "description": "Thickness of the box border. Set to 0 to disable."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "set_background_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:set_background_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Background fill color (ARGB). Alpha 0 disables the background."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "get_background_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:get_background_color()",
+      "params": [],
+      "returns": "number",
+      "description": "Background fill color (ARGB). Alpha 0 disables the background."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "set_border_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:set_border_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Border color (ARGB)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "get_border_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:get_border_color()",
+      "params": [],
+      "returns": "number",
+      "description": "Border color (ARGB)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "set_check_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:set_check_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Color (ARGB) of the check mark drawn when checked."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "get_check_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:get_check_color()",
+      "params": [],
+      "returns": "number",
+      "description": "Color (ARGB) of the check mark drawn when checked."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "set_is_checked",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:set_is_checked(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": "Whether the checkbox is currently checked."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
+      "name": "get_is_checked",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:get_is_checked()",
+      "params": [],
+      "returns": "boolean",
+      "description": "Whether the checkbox is currently checked."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_focused",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_focused(boolean)",
+      "params": [{"name": "focused", "type": "boolean"}],
+      "returns": "nil",
+      "description": "Sets the focus state programmatically."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_selected_text",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_selected_text()",
+      "params": [],
+      "returns": "string",
+      "description": "Returns the currently selected substring (empty if there is no selection)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_change_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_change_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function called whenever the text content changes.\n The callback receives the new text (String)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "clear_change_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:clear_change_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned change hook."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_enter_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_enter_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function called when Enter is pressed while focused.\n The callback receives the current text (String)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "clear_enter_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:clear_enter_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned enter hook."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_focus_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_focus_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function called when focus is gained or lost.\n The callback receives the new focus state (Boolean)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "clear_focus_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:clear_focus_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned focus hook."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_font",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_font(me.ddayo.aris.client.gui.FontResource)",
+      "params": [{"name": "new_value", "type": "me.ddayo.aris.client.gui.FontResource"}],
+      "returns": "nil",
+      "description": "Font to use for rendering the text."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_font",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_font()",
+      "params": [],
+      "returns": "me.ddayo.aris.client.gui.FontResource",
+      "description": "Font to use for rendering the text."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The color of the text (RGB, optionally ARGB)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_color()",
+      "params": [],
+      "returns": "number",
+      "description": "The color of the text (RGB, optionally ARGB)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_text",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_text(string)",
+      "params": [{"name": "new_value", "type": "string"}],
+      "returns": "nil",
+      "description": "The current text content. Setting this from Lua clamps the cursor/selection."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_text",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_text()",
+      "params": [],
+      "returns": "string",
+      "description": "The current text content. Setting this from Lua clamps the cursor/selection."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_width",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_width(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The width of the input box."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_width",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_width()",
+      "params": [],
+      "returns": "number",
+      "description": "The width of the input box."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_height",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_height(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The height of the input box."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_height",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_height()",
+      "params": [],
+      "returns": "number",
+      "description": "The height of the input box."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_padding",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_padding(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Horizontal/vertical inner padding between the box border and the text."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_padding",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_padding()",
+      "params": [],
+      "returns": "number",
+      "description": "Horizontal/vertical inner padding between the box border and the text."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_border_width",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_border_width(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Thickness of the box border. Set to 0 to disable."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_border_width",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_border_width()",
+      "params": [],
+      "returns": "number",
+      "description": "Thickness of the box border. Set to 0 to disable."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_background_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_background_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Background fill color (ARGB). Alpha 0 disables the background."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_background_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_background_color()",
+      "params": [],
+      "returns": "number",
+      "description": "Background fill color (ARGB). Alpha 0 disables the background."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_border_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_border_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Border color (ARGB) used when the field is not focused."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_border_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_border_color()",
+      "params": [],
+      "returns": "number",
+      "description": "Border color (ARGB) used when the field is not focused."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_focused_border_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_focused_border_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Border color (ARGB) used when the field is focused."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_focused_border_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_focused_border_color()",
+      "params": [],
+      "returns": "number",
+      "description": "Border color (ARGB) used when the field is focused."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_selection_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_selection_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Color (ARGB) of the text selection highlight."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_selection_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_selection_color()",
+      "params": [],
+      "returns": "number",
+      "description": "Color (ARGB) of the text selection highlight."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_placeholder",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_placeholder(string)",
+      "params": [{"name": "new_value", "type": "string"}],
+      "returns": "nil",
+      "description": "Placeholder text shown while the field is empty."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_placeholder",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_placeholder()",
+      "params": [],
+      "returns": "string",
+      "description": "Placeholder text shown while the field is empty."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_placeholder_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_placeholder_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Color of the placeholder text."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_placeholder_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_placeholder_color()",
+      "params": [],
+      "returns": "number",
+      "description": "Color of the placeholder text."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_max_length",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_max_length(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The maximum number of characters allowed."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_max_length",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_max_length()",
+      "params": [],
+      "returns": "number",
+      "description": "The maximum number of characters allowed."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_text_scale",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_text_scale(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "Scale factor applied to the rendered text (the font is otherwise drawn at its native ~9px size)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_text_scale",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_text_scale()",
+      "params": [],
+      "returns": "number",
+      "description": "Scale factor applied to the rendered text (the font is otherwise drawn at its native ~9px size)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "set_is_editable",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_is_editable(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": "Whether the field is editable. When false, the field can still be focused but ignores edits."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_is_editable",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_is_editable()",
+      "params": [],
+      "returns": "boolean",
+      "description": "Whether the field is editable. When false, the field can still be focused but ignores edits."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
+      "name": "get_is_focused",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:get_is_focused()",
+      "params": [],
+      "returns": "boolean",
+      "description": "Whether the field currently has keyboard focus. Read-only in Lua; use `set_focused`."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "set_key_down_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:set_key_down_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function to be called when a keyboard key is pressed (key down).\n\n The Lua function will receive the following arguments:\n 1. `keyCode` (Int): The unique ID of the key (GLFW key constant, e.g., 256 for ESC).\n 2. `scanCode` (Int): The platform-specific hardware scancode of the key.\n 3. `modifiers` (Int): A bitmask representing modifier keys held down (Shift, Ctrl, Alt, etc.).\n\n @param fn The Lua function to serve as the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "clear_key_down_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:clear_key_down_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned key down hook, disabling the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "set_key_up_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:set_key_up_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function to be called when a keyboard key is released (key up).\n\n The Lua function will receive the following arguments:\n 1. `keyCode` (Int): The unique ID of the key (GLFW key constant).\n 2. `scanCode` (Int): The platform-specific hardware scancode of the key.\n 3. `modifiers` (Int): A bitmask representing modifier keys held down (Shift, Ctrl, Alt, etc.).\n\n @param fn The Lua function to serve as the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "clear_key_up_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:clear_key_up_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned key up hook, disabling the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "set_close_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:set_close_hook(function)",
+      "params": [{"name": "fn", "type": "function"}],
+      "returns": "nil",
+      "description": "Sets the Lua function to be called when the screen is closed.\n\n The Lua function receives no arguments.\n\n @param fn The Lua function to serve as the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "clear_close_hook",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:clear_close_hook()",
+      "params": [],
+      "returns": "nil",
+      "description": "Removes the currently assigned close hook, disabling the callback."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "open",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:open()",
+      "params": [],
+      "returns": "nil",
+      "description": "Opens this component as the current Minecraft screen (GUI).\n Replaces the current screen."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "close",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:close()",
+      "params": [],
+      "returns": "nil",
+      "description": "Closes the current screen if it is this component."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "set_can_exit_with_esc",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:set_can_exit_with_esc(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": "Determines if the screen can be closed by pressing the Escape key."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "get_can_exit_with_esc",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:get_can_exit_with_esc()",
+      "params": [],
+      "returns": "boolean",
+      "description": "Determines if the screen can be closed by pressing the Escape key."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "get_window_width",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:get_window_width()",
+      "params": [],
+      "returns": "number",
+      "description": "The actual width of the game window.\n This property is read-only in Lua."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
+      "name": "get_window_height",
+      "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:get_window_height()",
+      "params": [],
+      "returns": "number",
+      "description": "The actual height of the game window.\n This property is read-only in Lua."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "name": "get_uv1",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptImageRenderer:get_uv1()",
+      "params": [],
+      "returns": "me.ddayo.aris.luagen.LuaMultiReturn",
+      "description": "Returns the UV coordinates of the first corner.\n @return MultiReturn(u, v)"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "name": "get_uv2",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptImageRenderer:get_uv2()",
+      "params": [],
+      "returns": "me.ddayo.aris.luagen.LuaMultiReturn",
+      "description": "Returns the UV coordinates of the second corner.\n @return MultiReturn(u, v)"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "name": "set_uv1",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptImageRenderer:set_uv1(number,number)",
+      "params": [{"name": "u", "type": "number"}, {"name": "v", "type": "number"}],
+      "returns": "nil",
+      "description": "Sets the UV coordinates for the first corner."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "name": "set_uv2",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptImageRenderer:set_uv2(number,number)",
+      "params": [{"name": "u", "type": "number"}, {"name": "v", "type": "number"}],
+      "returns": "nil",
+      "description": "Sets the UV coordinates for the second corner."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "name": "crop_uv1",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptImageRenderer:crop_uv1(number,number)",
+      "params": [{"name": "u", "type": "number"}, {"name": "v", "type": "number"}],
+      "returns": "nil",
+      "description": "Crops the image UV from the top-left (UV1) side, adjusting position and size to match visual changes."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "name": "crop_uv2",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptImageRenderer:crop_uv2(number,number)",
+      "params": [{"name": "u", "type": "number"}, {"name": "v", "type": "number"}],
+      "returns": "nil",
+      "description": "Crops the image UV from the bottom-right (UV2) side, adjusting size to match."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "name": "set_image",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptImageRenderer:set_image(me.ddayo.aris.client.gui.ImageResource)",
+      "params": [{"name": "new_value", "type": "me.ddayo.aris.client.gui.ImageResource"}],
+      "returns": "nil",
+      "description": "The image resource to be rendered."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptImageRenderer",
+      "name": "get_image",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptImageRenderer:get_image()",
+      "params": [],
+      "returns": "me.ddayo.aris.client.gui.ImageResource",
+      "description": "The image resource to be rendered."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "set_r",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:set_r(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The red component of the color (0-255)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "get_r",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:get_r()",
+      "params": [],
+      "returns": "number",
+      "description": "The red component of the color (0-255)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "set_g",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:set_g(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The green component of the color (0-255)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "get_g",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:get_g()",
+      "params": [],
+      "returns": "number",
+      "description": "The green component of the color (0-255)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "set_b",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:set_b(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The blue component of the color (0-255)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "get_b",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:get_b()",
+      "params": [],
+      "returns": "number",
+      "description": "The blue component of the color (0-255)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "set_a",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:set_a(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The alpha component of the color (0-255)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "get_a",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:get_a()",
+      "params": [],
+      "returns": "number",
+      "description": "The alpha component of the color (0-255)."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "set_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:set_color(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": "The full color value packed into a Long (ARGB format).\n Setting this updates [r], [g], [b], and [a]."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.client.gui.element.ScriptColorRenderer",
+      "name": "get_color",
+      "i18nKey": "me.ddayo.aris.client.gui.element.ScriptColorRenderer:get_color()",
+      "params": [],
+      "returns": "number",
+      "description": "The full color value packed into a Long (ARGB format).\n Setting this updates [r], [g], [b], and [a]."
+    }
+  ]
+}
