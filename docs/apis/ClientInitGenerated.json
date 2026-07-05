@@ -1,0 +1,212 @@
+{
+  "version": 1,
+  "name": "ClientInitGenerated",
+  "generatedClassName": "ClientInitGenerated",
+  "contexts": ["client-init"],
+  "types": [
+    {
+      "name": "me.ddayo.aris.particle.ParticleInfo",
+      "displayName": "ParticleInfo",
+      "description": null,
+      "extends": []
+    }
+  ],
+  "functions": [
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "register_sound",
+      "luaName": "client.register_sound",
+      "i18nKey": "client.register_sound(string)",
+      "params": [{"name": "id", "type": "string"}],
+      "returns": "nil",
+      "description": "Minecraft 리소스팩의 `sounds.json`에 정의된 소리 이벤트를 등록합니다.\n @param id 소리 이벤트 id. 예: `aris:alert`"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "register_sound_raw",
+      "luaName": "client.register_sound_raw",
+      "i18nKey": "client.register_sound_raw(string,string)",
+      "params": [{"name": "id", "type": "string"}, {"name": "path", "type": "string"}],
+      "returns": "nil",
+      "description": "`sounds.json` 없이 재생할 raw OGG 소리 이벤트를 등록합니다.\n @param id 등록할 소리 이벤트 id. 예: `aris:alert`\n @param path `assets/sounds` 아래의 상대 경로. 예: `alert.ogg`"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "register_sound_raw",
+      "luaName": "client.register_sound_raw",
+      "i18nKey": "client.register_sound_raw(string,string,boolean)",
+      "params": [{"name": "id", "type": "string"}, {"name": "path", "type": "string"}, {"name": "stream", "type": "boolean"}],
+      "returns": "nil",
+      "description": "`sounds.json` 없이 재생할 raw OGG 소리 이벤트를 등록합니다.\n @param id 등록할 소리 이벤트 id. 예: `aris:alert`\n @param path `assets/sounds` 아래의 상대 경로. 예: `alert.ogg`\n @param stream 소리를 메모리에 한 번에 올리지 않고 스트리밍할지 여부"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_keybinding",
+      "luaName": "client.create_keybinding",
+      "i18nKey": "client.create_keybinding(string,number,string)",
+      "params": [{"name": "key", "type": "string"}, {"name": "code", "type": "number"}, {"name": "category", "type": "string"}],
+      "returns": "nil",
+      "description": "새로운 조작키를 추가합니다.\n @param key key 이름\n @param code keycode, https://www.glfw.org/docs/3.3/group__keys.html 에서 찾을 수 있습니다.\n @param category key 카테고리"
+    },
+    {
+      "kind": "function",
+      "namespace": "client",
+      "name": "create_particle_info",
+      "luaName": "client.create_particle_info",
+      "i18nKey": "client.create_particle_info(string)",
+      "params": [{"name": "key", "type": "string"}],
+      "returns": "me.ddayo.aris.particle.ParticleInfo",
+      "description": null
+    }
+  ],
+  "methods": [
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "set_lifetime",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:set_lifetime(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "get_lifetime",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:get_lifetime()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "set_has_physics",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:set_has_physics(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "get_has_physics",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:get_has_physics()",
+      "params": [],
+      "returns": "boolean",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "set_friction",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:set_friction(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "get_friction",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:get_friction()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "set_quadSize",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:set_quadSize(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "get_quadSize",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:get_quadSize()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "set_r",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:set_r(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "get_r",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:get_r()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "set_g",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:set_g(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "get_g",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:get_g()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "set_b",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:set_b(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "get_b",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:get_b()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "set_enable_random_movement",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:set_enable_random_movement(boolean)",
+      "params": [{"name": "new_value", "type": "boolean"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.particle.ParticleInfo",
+      "name": "get_enable_random_movement",
+      "i18nKey": "me.ddayo.aris.particle.ParticleInfo:get_enable_random_movement()",
+      "params": [],
+      "returns": "boolean",
+      "description": null
+    }
+  ]
+}

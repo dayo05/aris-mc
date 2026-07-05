@@ -1,0 +1,496 @@
+{
+  "version": 1,
+  "name": "LuaGenerated",
+  "generatedClassName": "LuaGenerated",
+  "contexts": ["base-mc"],
+  "types": [
+    {
+      "name": "me.ddayo.aris.math.Area",
+      "displayName": "Area",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.math.AreaBuilder",
+      "displayName": "AreaBuilder",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.math.Point",
+      "displayName": "Point",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.math.Point3",
+      "displayName": "Point3",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "party.iroiro.luajava.value.LuaValue",
+      "displayName": "LuaValue",
+      "description": null,
+      "extends": []
+    }
+  ],
+  "functions": [
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "log_debug",
+      "luaName": "aris.log_debug",
+      "i18nKey": "aris.log_debug(string)",
+      "params": [{"name": "msg", "type": "string"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "log_info",
+      "luaName": "aris.log_info",
+      "i18nKey": "aris.log_info(string)",
+      "params": [{"name": "msg", "type": "string"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "log_warn",
+      "luaName": "aris.log_warn",
+      "i18nKey": "aris.log_warn(string)",
+      "params": [{"name": "msg", "type": "string"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "log_error",
+      "luaName": "aris.log_error",
+      "i18nKey": "aris.log_error(string)",
+      "params": [{"name": "msg", "type": "string"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "check_version",
+      "luaName": "aris.check_version",
+      "i18nKey": "aris.check_version(string)",
+      "params": [{"name": "v", "type": "string"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "read_file",
+      "luaName": "aris.read_file",
+      "i18nKey": "aris.read_file(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "string",
+      "description": "Read the entire contents of a file as a UTF-8 string.\n Path is resolved relative to the base directory\n (gamedir on client, server working directory on a dedicated server)."
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "write_file",
+      "luaName": "aris.write_file",
+      "i18nKey": "aris.write_file(string,string)",
+      "params": [{"name": "path", "type": "string"}, {"name": "content", "type": "string"}],
+      "returns": "nil",
+      "description": "Write a UTF-8 string to a file, overwriting any existing content. Parent directories are created as needed."
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "append_file",
+      "luaName": "aris.append_file",
+      "i18nKey": "aris.append_file(string,string)",
+      "params": [{"name": "path", "type": "string"}, {"name": "content", "type": "string"}],
+      "returns": "nil",
+      "description": "Append a UTF-8 string to a file. Parent directories are created as needed."
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "is_file_exists",
+      "luaName": "aris.is_file_exists",
+      "i18nKey": "aris.is_file_exists(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "boolean",
+      "description": "Returns true if the path exists on disk."
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "is_directory",
+      "luaName": "aris.is_directory",
+      "i18nKey": "aris.is_directory(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "boolean",
+      "description": "Returns true if the path exists and is a directory."
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "delete_file",
+      "luaName": "aris.delete_file",
+      "i18nKey": "aris.delete_file(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "boolean",
+      "description": "Delete a file or (recursively) a directory. Returns true on success."
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "create_directory",
+      "luaName": "aris.create_directory",
+      "i18nKey": "aris.create_directory(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "boolean",
+      "description": "Create a directory, including any required parent directories. Returns true if created."
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "list_files",
+      "luaName": "aris.list_files",
+      "i18nKey": "aris.list_files(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "party.iroiro.luajava.value.LuaValue",
+      "description": "List the immediate children of a directory. Returns a Lua table (1-indexed) of file names.\n Returns an empty table if the path is not a directory or is not readable."
+    },
+    {
+      "kind": "function",
+      "namespace": "aris",
+      "name": "file_size",
+      "luaName": "aris.file_size",
+      "i18nKey": "aris.file_size(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "number",
+      "description": "Get the size of a file in bytes. Returns -1 if the file does not exist."
+    },
+    {
+      "kind": "function",
+      "namespace": "parse",
+      "name": "from_json",
+      "luaName": "parse.from_json",
+      "i18nKey": "parse.from_json(string)",
+      "params": [{"name": "content", "type": "string"}],
+      "returns": "party.iroiro.luajava.value.LuaValue",
+      "description": "Parse a JSON string into a Lua table."
+    },
+    {
+      "kind": "function",
+      "namespace": "parse",
+      "name": "from_yaml",
+      "luaName": "parse.from_yaml",
+      "i18nKey": "parse.from_yaml(string)",
+      "params": [{"name": "content", "type": "string"}],
+      "returns": "party.iroiro.luajava.value.LuaValue",
+      "description": "Parse a YAML string into a Lua table."
+    },
+    {
+      "kind": "function",
+      "namespace": "parse",
+      "name": "from_toml",
+      "luaName": "parse.from_toml",
+      "i18nKey": "parse.from_toml(string)",
+      "params": [{"name": "content", "type": "string"}],
+      "returns": "party.iroiro.luajava.value.LuaValue",
+      "description": "Parse a TOML string into a Lua table."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "on_engine_dispose",
+      "luaName": "hook.on_engine_dispose",
+      "i18nKey": "hook.on_engine_dispose(function)",
+      "params": [{"name": "f", "type": "function"}],
+      "returns": "nil",
+      "description": "엔진이 폐기될 때 실행할 함수를 추가합니다.\n\n - in-game / client-main 엔진: 엔진이 dispose될 때(예: `/aris reload`, 게임 퇴장) 실행됩니다.\n - init / client-init 엔진: 초기화 단계가 끝난 직후 실행됩니다.\n\n 엔진이 폐기되는 중에 동기적으로 실행되므로 정리(cleanup) 용도로 사용하세요.\n 이 콜백 안에서는 task_yield 등으로 yield할 수 없습니다.\n @param f 실행할 함수"
+    },
+    {
+      "kind": "function",
+      "namespace": "math",
+      "name": "create_point",
+      "luaName": "math.create_point",
+      "i18nKey": "math.create_point(number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": "Create point object (x, y)\n @return Point(x, y)"
+    },
+    {
+      "kind": "function",
+      "namespace": "math",
+      "name": "create_point",
+      "luaName": "math.create_point",
+      "i18nKey": "math.create_point(number,number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "me.ddayo.aris.math.Point3",
+      "description": "Create point object (x, y, z)\n @return Point3(x, y, z)"
+    },
+    {
+      "kind": "function",
+      "namespace": "math",
+      "name": "create_rect_area",
+      "luaName": "math.create_rect_area",
+      "i18nKey": "math.create_rect_area(number,number,number,number)",
+      "params": [{"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "width", "type": "number"}, {"name": "height", "type": "number"}],
+      "returns": "me.ddayo.aris.math.Area",
+      "description": "@param x x of left-top point\n @param y y of left-top point\n @param width width of the area\n @param height height of the area\n @return Area(x with y, x with (y + height), (x + width) with (y + height), (x + width) with y)"
+    },
+    {
+      "kind": "function",
+      "namespace": "math",
+      "name": "create_rect_area",
+      "luaName": "math.create_rect_area",
+      "i18nKey": "math.create_rect_area(me.ddayo.aris.math.Point,me.ddayo.aris.math.Point)",
+      "params": [{"name": "p1", "type": "me.ddayo.aris.math.Point"}, {"name": "p2", "type": "me.ddayo.aris.math.Point"}],
+      "returns": "me.ddayo.aris.math.Area",
+      "description": "@return createRect(min(p1.x, p2.x), min(p1.y, p2.y), abs(p1.x - p2.x), abs(p1.y - p2.y))"
+    }
+  ],
+  "methods": [
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "minus",
+      "i18nKey": "me.ddayo.aris.math.Point3:minus(me.ddayo.aris.math.Point3)",
+      "params": [{"name": "other", "type": "me.ddayo.aris.math.Point3"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "plus",
+      "i18nKey": "me.ddayo.aris.math.Point3:plus(me.ddayo.aris.math.Point3)",
+      "params": [{"name": "other", "type": "me.ddayo.aris.math.Point3"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "div",
+      "i18nKey": "me.ddayo.aris.math.Point3:div(number)",
+      "params": [{"name": "other", "type": "number"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "center",
+      "i18nKey": "me.ddayo.aris.math.Point3:center(me.ddayo.aris.math.Point3)",
+      "params": [{"name": "other", "type": "me.ddayo.aris.math.Point3"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "into_string",
+      "i18nKey": "me.ddayo.aris.math.Point3:into_string()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "set_x",
+      "i18nKey": "me.ddayo.aris.math.Point3:set_x(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "get_x",
+      "i18nKey": "me.ddayo.aris.math.Point3:get_x()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "set_y",
+      "i18nKey": "me.ddayo.aris.math.Point3:set_y(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "get_y",
+      "i18nKey": "me.ddayo.aris.math.Point3:get_y()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "set_z",
+      "i18nKey": "me.ddayo.aris.math.Point3:set_z(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point3",
+      "name": "get_z",
+      "i18nKey": "me.ddayo.aris.math.Point3:get_z()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point",
+      "name": "minus",
+      "i18nKey": "me.ddayo.aris.math.Point:minus(me.ddayo.aris.math.Point)",
+      "params": [{"name": "other", "type": "me.ddayo.aris.math.Point"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point",
+      "name": "plus",
+      "i18nKey": "me.ddayo.aris.math.Point:plus(me.ddayo.aris.math.Point)",
+      "params": [{"name": "other", "type": "me.ddayo.aris.math.Point"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point",
+      "name": "div",
+      "i18nKey": "me.ddayo.aris.math.Point:div(number)",
+      "params": [{"name": "other", "type": "number"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point",
+      "name": "center",
+      "i18nKey": "me.ddayo.aris.math.Point:center(me.ddayo.aris.math.Point)",
+      "params": [{"name": "other", "type": "me.ddayo.aris.math.Point"}],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point",
+      "name": "into_string",
+      "i18nKey": "me.ddayo.aris.math.Point:into_string()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point",
+      "name": "set_x",
+      "i18nKey": "me.ddayo.aris.math.Point:set_x(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point",
+      "name": "get_x",
+      "i18nKey": "me.ddayo.aris.math.Point:get_x()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point",
+      "name": "set_y",
+      "i18nKey": "me.ddayo.aris.math.Point:set_y(number)",
+      "params": [{"name": "new_value", "type": "number"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Point",
+      "name": "get_y",
+      "i18nKey": "me.ddayo.aris.math.Point:get_y()",
+      "params": [],
+      "returns": "number",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.AreaBuilder",
+      "name": "append",
+      "i18nKey": "me.ddayo.aris.math.AreaBuilder:append(me.ddayo.aris.math.Point)",
+      "params": [{"name": "p", "type": "me.ddayo.aris.math.Point"}],
+      "returns": "nil",
+      "description": "Append the point that constructs node of the area"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.AreaBuilder",
+      "name": "build",
+      "i18nKey": "me.ddayo.aris.math.AreaBuilder:build()",
+      "params": [],
+      "returns": "me.ddayo.aris.math.Area",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Area",
+      "name": "is_in",
+      "i18nKey": "me.ddayo.aris.math.Area:is_in(me.ddayo.aris.math.Point)",
+      "params": [{"name": "p", "type": "me.ddayo.aris.math.Point"}],
+      "returns": "boolean",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Area",
+      "name": "times",
+      "i18nKey": "me.ddayo.aris.math.Area:times(number)",
+      "params": [{"name": "x", "type": "number"}],
+      "returns": "me.ddayo.aris.math.Area",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Area",
+      "name": "center",
+      "i18nKey": "me.ddayo.aris.math.Area:center()",
+      "params": [],
+      "returns": "me.ddayo.aris.math.Point",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.math.Area",
+      "name": "into_string",
+      "i18nKey": "me.ddayo.aris.math.Area:into_string()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    }
+  ]
+}

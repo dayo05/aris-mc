@@ -1,0 +1,421 @@
+{
+  "version": 1,
+  "name": "InitGenerated",
+  "generatedClassName": "InitGenerated",
+  "contexts": ["init-mc"],
+  "types": [
+    {
+      "name": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "displayName": "AbstractCommandHandler",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.networking.AbstractPackableData",
+      "displayName": "AbstractPackableData",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.networking.C2SPacketDeclaration",
+      "displayName": "C2SPacketDeclaration",
+      "description": null,
+      "extends": ["me.ddayo.aris.engine.networking.PacketDeclaration"]
+    },
+    {
+      "name": "me.ddayo.aris.engine.networking.PacketDeclaration",
+      "displayName": "PacketDeclaration",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.networking.S2CPacketDeclaration",
+      "displayName": "S2CPacketDeclaration",
+      "description": null,
+      "extends": ["me.ddayo.aris.engine.networking.PacketDeclaration"]
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "displayName": "LuaEntity",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "displayName": "LuaItemStack",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "displayName": "LuaNBTCompound",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "me.ddayo.aris.engine.wrapper.LuaServerWorld",
+      "displayName": "LuaServerWorld",
+      "description": null,
+      "extends": []
+    },
+    {
+      "name": "party.iroiro.luajava.value.LuaValue",
+      "displayName": "LuaValue",
+      "description": null,
+      "extends": []
+    }
+  ],
+  "functions": [
+    {
+      "kind": "function",
+      "namespace": "init",
+      "name": "create_item",
+      "luaName": "init.create_item",
+      "i18nKey": "init.create_item(string)",
+      "params": [{"name": "key", "type": "string"}],
+      "returns": "nil",
+      "description": "새로운 아이템을 추가합니다.\n @param key 추가할 아이템 id"
+    },
+    {
+      "kind": "function",
+      "namespace": "init",
+      "name": "create_particle",
+      "luaName": "init.create_particle",
+      "i18nKey": "init.create_particle(string)",
+      "params": [{"name": "key", "type": "string"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "sub_command",
+      "luaName": "command.sub_command",
+      "i18nKey": "command.sub_command(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "하위 커멘드를 추가합니다.\n @of 추가할 커멘드 이름\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "integer_arg",
+      "luaName": "command.integer_arg",
+      "i18nKey": "command.integer_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "정수 인수를 추가합니다.\n @of 추가할 정수 인수 이름\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "float_arg",
+      "luaName": "command.float_arg",
+      "i18nKey": "command.float_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "실수 인수를 추가합니다.\n @of 추가할 실수 인수 이름\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "player_arg",
+      "luaName": "command.player_arg",
+      "i18nKey": "command.player_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "플레이어 인수를 추가합니다.\n @of 추가할 플레이어 인수 이름\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "string_arg",
+      "luaName": "command.string_arg",
+      "i18nKey": "command.string_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "문자열 인수를 추가합니다.\n @of 추가할 문자열 인수 이름\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "word_arg",
+      "luaName": "command.word_arg",
+      "i18nKey": "command.word_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "Word 인수를 추가합니다.\n @of 추가할 word 인수 이름\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "suggested_string_arg",
+      "luaName": "command.suggested_string_arg",
+      "i18nKey": "command.suggested_string_arg(string,string)",
+      "params": [{"name": "of", "type": "string"}, {"name": "list", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "자동완성 리스트를 사용하는 문자열 인수를 추가합니다.\n @param of 추가할 문자열 인수 이름\n @param list 자동완성에 사용할 리스트 id\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "suggested_word_arg",
+      "luaName": "command.suggested_word_arg",
+      "i18nKey": "command.suggested_word_arg(string,string)",
+      "params": [{"name": "of", "type": "string"}, {"name": "list", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "자동완성 리스트를 사용하는 word 인수를 추가합니다.\n @param of 추가할 word 인수 이름\n @param list 자동완성에 사용할 리스트 id\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "create_command",
+      "luaName": "command.create_command",
+      "i18nKey": "command.create_command(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "새로운 명령어를 추가합니다.\n @of 추가할 명령어 이름"
+    },
+    {
+      "kind": "function",
+      "namespace": "suggestion",
+      "name": "set_list",
+      "luaName": "suggestion.set_list",
+      "i18nKey": "suggestion.set_list(string,any)",
+      "params": [{"name": "id", "type": "string"}, {"name": "values", "type": "any"}],
+      "returns": "nil",
+      "description": "명령어 자동완성 리스트를 설정합니다.\n @param id 자동완성 리스트 id\n @param values 자동완성 후보 문자열 배열(table)"
+    },
+    {
+      "kind": "function",
+      "namespace": "suggestion",
+      "name": "clear_list",
+      "luaName": "suggestion.clear_list",
+      "i18nKey": "suggestion.clear_list(string)",
+      "params": [{"name": "id", "type": "string"}],
+      "returns": "nil",
+      "description": "명령어 자동완성 리스트를 비웁니다.\n @param id 자동완성 리스트 id"
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "integer_arg",
+      "luaName": "networking.integer_arg",
+      "i18nKey": "networking.integer_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
+      "description": "정수 인자를 패킷에 추가합니다.\n @param of 패킷에 첨부할 정수의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "float_arg",
+      "luaName": "networking.float_arg",
+      "i18nKey": "networking.float_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
+      "description": "실수 인자를 패킷에 추가합니다.\n @param of 패킷에 첨부할 실수의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "string_arg",
+      "luaName": "networking.string_arg",
+      "i18nKey": "networking.string_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
+      "description": "문자열 인자를 패킷에 추가합니다.\n @param of 패킷에 첨부할 문자열의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "itemstack_arg",
+      "luaName": "networking.itemstack_arg",
+      "i18nKey": "networking.itemstack_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
+      "description": "아이템 스택 인자를 패킷에 추가합니다. (S2C/C2S 모두 지원)\n @param of 패킷에 첨부할 아이템 스택의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "create_s2c_packet",
+      "luaName": "networking.create_s2c_packet",
+      "i18nKey": "networking.create_s2c_packet(string)",
+      "params": [{"name": "_id", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.S2CPacketDeclaration",
+      "description": "패킷을 새로 생성합니다.\n @param _id 패킷 id\n @return 생성된 패킷 정의 Builder"
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "create_c2s_packet",
+      "luaName": "networking.create_c2s_packet",
+      "i18nKey": "networking.create_c2s_packet(string)",
+      "params": [{"name": "_id", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.C2SPacketDeclaration",
+      "description": "패킷을 새로 생성합니다.\n @param _id 패킷 id\n @return 생성된 패킷 정의 Builder"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_table",
+      "luaName": "nbt.from_table",
+      "i18nKey": "nbt.from_table(any)",
+      "params": [{"name": "table", "type": "any"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Converts Lua Table into NBT Compound"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_entity",
+      "luaName": "nbt.from_entity",
+      "i18nKey": "nbt.from_entity(me.ddayo.aris.engine.wrapper.LuaEntity)",
+      "params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of entity\n @param entity entity to get nbt\n @return full nbt object of entity"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_item_stack",
+      "luaName": "nbt.from_item_stack",
+      "i18nKey": "nbt.from_item_stack(me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "stack", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of item stack\n @param stack item stack to get nbt\n @return full nbt object of item stack"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_block_entity",
+      "luaName": "nbt.from_block_entity",
+      "i18nKey": "nbt.from_block_entity(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of block entity at specific position\n @param level server level for target block entity\n @param x x position for target block entity\n @param y y position for target block entity\n @param z z position for target block entity\n @return full nbt object of provided location. Nil if not exists."
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_block_state",
+      "luaName": "nbt.from_block_state",
+      "i18nKey": "nbt.from_block_state(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of block state at specific position\n @param level server level for target block state\n @param x x position for target block state\n @param y y position for target block state\n @param z z position for target block state\n @return full nbt object of provided location"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_string",
+      "luaName": "nbt.from_string",
+      "i18nKey": "nbt.from_string(string)",
+      "params": [{"name": "string", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Converts string into NBT\n @param string nbt string to convert into nbt\n @return nbt object of provided string"
+    }
+  ],
+  "methods": [
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "name": "set_endpoint",
+      "i18nKey": "me.ddayo.aris.engine.command.AbstractCommandHandler:set_endpoint(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "nil",
+      "description": "여기에서 설정한 id를 register_endpoint를 통해 등록할 수 있습니다.\n @param of endpoint id"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "name": "append",
+      "i18nKey": "me.ddayo.aris.engine.command.AbstractCommandHandler:append(me.ddayo.aris.engine.command.AbstractCommandHandler)",
+      "params": [{"name": "of", "type": "me.ddayo.aris.engine.command.AbstractCommandHandler"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "name": "set_suggestion_list",
+      "i18nKey": "me.ddayo.aris.engine.command.AbstractCommandHandler:set_suggestion_list(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "nil",
+      "description": "이 인수의 자동완성 리스트를 설정합니다.\n @param of 자동완성에 사용할 리스트 id"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration",
+      "name": "append",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration:append(me.ddayo.aris.engine.networking.AbstractPackableData)",
+      "params": [{"name": "packet", "type": "me.ddayo.aris.engine.networking.AbstractPackableData"}],
+      "returns": "nil",
+      "description": "패킷에 인자를 추가합니다.\n @param packet 추가할 패킷 인자"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "into_string",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:into_string()",
+      "params": [],
+      "returns": "string",
+      "description": "Convert NBT into JSON string"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "into_table",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:into_table()",
+      "params": [],
+      "returns": "party.iroiro.luajava.value.LuaValue",
+      "description": "Convert NBT into Lua Table"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "into_item_stack",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:into_item_stack()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaItemStack",
+      "description": "Convert NBT into item stack"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "apply_entity",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:apply_entity(me.ddayo.aris.engine.wrapper.LuaEntity)",
+      "params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}],
+      "returns": "nil",
+      "description": "Apply(overwrite) current NBT into entity"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "spawn_entity",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:spawn_entity(me.ddayo.aris.engine.wrapper.LuaServerWorld)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": "Spawn entity with this NBT"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "place_block_entity",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:place_block_entity(me.ddayo.aris.engine.wrapper.LuaServerWorld)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}],
+      "returns": "boolean",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "name": "place_block_state",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaNBTCompound:place_block_state(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "boolean",
+      "description": "Place block with this NBT at provided position\n If exists then it replaces\n @return is successful"
+    }
+  ]
+}
