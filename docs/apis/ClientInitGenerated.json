@@ -2,7 +2,7 @@
   "version": 1,
   "name": "ClientInitGenerated",
   "generatedClassName": "ClientInitGenerated",
-  "contexts": ["client-init"],
+  "contexts": ["client-init-mc"],
   "types": [
     {
       "name": "me.ddayo.aris.particle.ParticleInfo",
