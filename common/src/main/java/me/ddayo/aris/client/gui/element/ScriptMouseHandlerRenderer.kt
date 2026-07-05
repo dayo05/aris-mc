@@ -4,12 +4,15 @@ import me.ddayo.aris.luagen.ILuaStaticDecl
 import me.ddayo.aris.engine.client.ClientMainEngine
 import me.ddayo.aris.client.gui.BaseComponent
 import me.ddayo.aris.lua.glue.LuaClientOnlyGenerated
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.math.Area
 import me.ddayo.aris.math.Point.Companion.with
 import me.ddayo.aris.luagen.LuaProperty
 import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.luagen.LuaType
 
 @LuaProvider(ClientMainEngine.PROVIDER)
 class ScriptMouseHandlerRenderer(
@@ -54,7 +57,14 @@ class ScriptMouseHandlerRenderer(
      * @param fn The Lua function to serve as the callback.
      */
     @LuaFunction(name = "set_mouse_up_hook")
-    fun setMouseUpHook(fn: LuaFunc) {
+    fun setMouseUpHook(
+        @LuaCallback(params = [
+            LuaCallbackParam("mouse_x", luaType = LuaType.NUMBER),
+            LuaCallbackParam("mouse_y", luaType = LuaType.NUMBER),
+            LuaCallbackParam("button", luaType = LuaType.NUMBER)
+        ])
+        fn: LuaFunc
+    ) {
         clickHook = fn::call
     }
 
@@ -79,7 +89,14 @@ class ScriptMouseHandlerRenderer(
      * @param fn The Lua function to serve as the callback.
      */
     @LuaFunction(name = "set_mouse_down_hook")
-    fun setMouseDownHook(fn: LuaFunc) {
+    fun setMouseDownHook(
+        @LuaCallback(params = [
+            LuaCallbackParam("mouse_x", luaType = LuaType.NUMBER),
+            LuaCallbackParam("mouse_y", luaType = LuaType.NUMBER),
+            LuaCallbackParam("button", luaType = LuaType.NUMBER)
+        ])
+        fn: LuaFunc
+    ) {
         mouseDownHook = fn::call
     }
 
@@ -102,7 +119,14 @@ class ScriptMouseHandlerRenderer(
      * @param fn The Lua function to serve as the callback.
      */
     @LuaFunction(name = "set_mouse_drag_hook")
-    fun setMouseDragHook(fn: LuaFunc) {
+    fun setMouseDragHook(
+        @LuaCallback(params = [
+            LuaCallbackParam("mouse_x", luaType = LuaType.NUMBER),
+            LuaCallbackParam("mouse_y", luaType = LuaType.NUMBER),
+            LuaCallbackParam("button", luaType = LuaType.NUMBER)
+        ])
+        fn: LuaFunc
+    ) {
         mouseDragHook = fn::call
     }
 

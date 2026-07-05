@@ -1,6 +1,8 @@
 package me.ddayo.aris.engine.client.functions
 
 import me.ddayo.aris.luagen.LuaFunc
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.client.gui.BaseComponent
 import me.ddayo.aris.client.gui.BaseRectComponent
 import me.ddayo.aris.client.gui.FontResource
@@ -11,6 +13,7 @@ import me.ddayo.aris.math.Point
 import me.ddayo.aris.math.Point.Companion.with
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.luagen.LuaType
 import me.ddayo.aris.client.gui.ScreenRenderer
 import me.ddayo.aris.client.gui.element.*
 import me.ddayo.aris.engine.wrapper.LuaItemStack
@@ -66,7 +69,15 @@ object ClientFunction {
      * @param area The definition of the clickable area.
      */
     @LuaFunction("create_clickable")
-    fun createClickable(onClick: LuaFunc, area: Area) =
+    fun createClickable(
+        @LuaCallback(params = [
+            LuaCallbackParam("mouse_x", luaType = LuaType.NUMBER),
+            LuaCallbackParam("mouse_y", luaType = LuaType.NUMBER),
+            LuaCallbackParam("button", luaType = LuaType.NUMBER)
+        ])
+        onClick: LuaFunc,
+        area: Area
+    ) =
         ScriptMouseHandlerRenderer(onClick::call, area)
 
     /**
@@ -78,7 +89,18 @@ object ClientFunction {
      * @param height The height of the rectangle.
      */
     @LuaFunction("create_clickable")
-    fun createClickable(onClick: LuaFunc, x: Int, y: Int, width: Int, height: Int) =
+    fun createClickable(
+        @LuaCallback(params = [
+            LuaCallbackParam("mouse_x", luaType = LuaType.NUMBER),
+            LuaCallbackParam("mouse_y", luaType = LuaType.NUMBER),
+            LuaCallbackParam("button", luaType = LuaType.NUMBER)
+        ])
+        onClick: LuaFunc,
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int
+    ) =
         ScriptMouseHandlerRenderer(
             onClick::call,
             Area(x with y, x with (y + height), (x + width) with (y + height), (x + width) with y)

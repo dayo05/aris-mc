@@ -4,6 +4,8 @@ import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.client.ClientMainEngine
 import me.ddayo.aris.engine.hook.LuaHook
 import me.ddayo.aris.engine.hook.LuaHookMap
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
@@ -16,7 +18,7 @@ object ClientInGameHooks {
      * @param f 실행할 함수
      */
     @LuaFunction("add_tick_hook")
-    fun addTickHook(f: LuaFunc) {
+    fun addTickHook(@LuaCallback f: LuaFunc) {
         ClientInGameEngine.tickHook.add(f)
     }
 
@@ -24,7 +26,7 @@ object ClientInGameHooks {
      * 매 틱마다 실행할 함수를 초기화합니다.
      */
     @LuaFunction("clear_tick_hook")
-    fun clearTickHook(f: LuaFunc) {
+    fun clearTickHook(@LuaCallback f: LuaFunc) {
         ClientInGameEngine.tickHook.clear()
     }
 
@@ -34,7 +36,11 @@ object ClientInGameHooks {
      * @param function 실행할 함수
      */
     @LuaFunction("on_key_pressed")
-    fun onKeyPressed(@RetrieveEngine engine: ClientInGameEngine, key: String, function: LuaFunc) {
+    fun onKeyPressed(
+        @RetrieveEngine engine: ClientInGameEngine,
+        key: String,
+        @LuaCallback function: LuaFunc
+    ) {
         engine.registerKeyHook(key, function)
     }
 
@@ -51,7 +57,7 @@ object ClientInGameHooks {
      * @param f 실행할 함수
      */
     @LuaFunction("on_player_leave_server")
-    fun onPlayerLeaveServer(f: LuaFunc) {
+    fun onPlayerLeaveServer(@LuaCallback f: LuaFunc) {
         playerLeaveHook.add(f)
     }
 

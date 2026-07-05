@@ -4,9 +4,12 @@ import me.ddayo.aris.Aris
 import me.ddayo.aris.RegistryHelper
 import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.hook.LuaHookMap
+import me.ddayo.aris.luagen.LuaCallback
+import me.ddayo.aris.luagen.LuaCallbackParam
 import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.luagen.LuaFunction
 import me.ddayo.aris.luagen.LuaProvider
+import me.ddayo.aris.luagen.LuaType
 import net.minecraft.resources.ResourceLocation
 
 @LuaProvider(ClientInGameEngine.PROVIDER, library = "aris.game.client.hook")
@@ -22,7 +25,11 @@ object ClientNetworkingHooks {
      * @param func 실행할 함수
      */
     @LuaFunction("add_s2c_packet_handler")
-    fun registerHandler(id: String, func: LuaFunc) {
+    fun registerHandler(
+        id: String,
+        @LuaCallback(params = [LuaCallbackParam("packet", luaType = LuaType.TABLE)])
+        func: LuaFunc
+    ) {
         packetHooks[RegistryHelper.getResourceLocation(id)].add(func)
     }
 }
