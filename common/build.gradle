@@ -27,6 +27,14 @@ dependencies {
 ksp {
     arg("package_name", "me.ddayo.aris.lua.glue")
     arg("export_doc", "true")
+    arg("export_api_schema", "true")
+    arg("api_display_lang", "en|kr")
+    arg("api_contexts.LuaGenerated", "base-mc")
+    arg("api_contexts.InitGenerated", "init-mc")
+    arg("api_contexts.InGameGenerated", "ingame")
+    arg("api_contexts.LuaClientOnlyGenerated", "client")
+    arg("api_contexts.ClientInitGenerated", "client-init")
+    arg("api_contexts.ClientInGameOnlyGenerated", "client-ingame")
 }
 
 publishing {
