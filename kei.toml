@@ -9,6 +9,11 @@ name = "build"
 command = "./gradlew"
 args = ["build"]
 
+[[steps]]
+name = "package-api-setup"
+command = "bash"
+args = ["scripts/package-api-setup.sh"]
+
 # Publishes me.ddayo:aris-<loader> into the kei-managed Maven repo as
 # BOTH `<version>` (immutable — pinning) and `<version>-SNAPSHOT`
 # (mutable — gradle auto-refreshes downstream builds). When mod_version
@@ -67,3 +72,11 @@ suffix = "fabric"
 [[artifacts]]
 pattern = "neoforge/build/libs/aris-*.jar"
 suffix = "neoforge"
+
+[[artifacts]]
+pattern = "build/aris-mc-api-setup.7z"
+suffix = ""
+
+[[artifacts]]
+pattern = "build/aris-mc-api-setup.7z.sha256"
+suffix = ""
