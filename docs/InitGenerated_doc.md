@@ -28,6 +28,24 @@
  @of 추가할 플레이어 인수 이름
  @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
 ```
+## aris.init.command.entity_arg(of: string) -> AbstractCommandHandler
+```
+ 단일 엔티티 selector 인수를 추가합니다.
+ @of 추가할 엔티티 인수 이름
+ @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+```
+## aris.init.command.entities_arg(of: string) -> AbstractCommandHandler
+```
+ 여러 엔티티 selector 인수를 추가합니다.
+ @of 추가할 엔티티 목록 인수 이름
+ @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+```
+## aris.init.command.players_arg(of: string) -> AbstractCommandHandler
+```
+ 여러 플레이어 selector 인수를 추가합니다.
+ @of 추가할 플레이어 목록 인수 이름
+ @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+```
 ## aris.init.command.string_arg(of: string) -> AbstractCommandHandler
 ```
  문자열 인수를 추가합니다.

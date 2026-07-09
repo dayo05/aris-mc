@@ -47,6 +47,12 @@
       "extends": []
     },
     {
+      "name": "me.ddayo.aris.engine.wrapper.LuaEntityList",
+      "displayName": "LuaEntityList",
+      "description": null,
+      "extends": []
+    },
+    {
       "name": "me.ddayo.aris.engine.wrapper.LuaEntityType",
       "displayName": "LuaEntityType",
       "description": null,
@@ -153,6 +159,12 @@
       "displayName": "LuaValue",
       "description": null,
       "extends": []
+    },
+    {
+      "name": "table",
+      "displayName": "table",
+      "description": null,
+      "extends": []
     }
   ],
   "functions": [
@@ -162,7 +174,7 @@
       "name": "iter_players",
       "luaName": "game.iter_players",
       "i18nKey": "game.iter_players(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}], "returns": "nil"}]}],
       "returns": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
       "description": "모든 플레이어를 한번씩 callback으로 넘겨줍니다.\n 플레이어 리스트에서 for문을 돌리는 것과 유사합니다.\n @param fn callback"
     },
@@ -175,6 +187,46 @@
       "params": [{"name": "command", "type": "string"}],
       "returns": "nil",
       "description": "서버 콘솔에서 커멘드를 실행합니다.\n @param command 실행할 명령어"
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "iter_selector",
+      "luaName": "game.iter_selector",
+      "i18nKey": "game.iter_selector(string,function)",
+      "params": [{"name": "selector", "type": "string"}, {"name": "fn", "type": "function", "callback": {"params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}], "returns": "nil"}]}],
+      "returns": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
+      "description": "마인크래프트 selector 문자열로 엔티티를 찾아 순회합니다.\n 기본 실행 주체는 서버 콘솔입니다. @s 또는 상대 좌표가 필요한 경우 iter_selector_from을 사용하세요.\n @param selector selector 문자열 (예: \"@e[type=minecraft:zombie,limit=5]\")\n @param fn 각 엔티티에 대해 실행할 콜백"
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "iter_selector_from",
+      "luaName": "game.iter_selector_from",
+      "i18nKey": "game.iter_selector_from(me.ddayo.aris.engine.wrapper.LuaEntity,string,function)",
+      "params": [{"name": "source", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}, {"name": "selector", "type": "string"}, {"name": "fn", "type": "function", "callback": {"params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}], "returns": "nil"}]}],
+      "returns": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
+      "description": "특정 엔티티를 실행 주체로 사용해 마인크래프트 selector 문자열로 엔티티를 찾아 순회합니다.\n @param source selector의 @s, 상대 좌표, 거리 조건 기준이 되는 엔티티\n @param selector selector 문자열 (예: \"@e[distance=..10]\")\n @param fn 각 엔티티에 대해 실행할 콜백"
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "get_selector_one",
+      "luaName": "game.get_selector_one",
+      "i18nKey": "game.get_selector_one(string)",
+      "params": [{"name": "selector", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": "마인크래프트 selector 문자열의 첫 번째 엔티티를 가져옵니다.\n 결과가 없으면 null을 반환합니다.\n @param selector selector 문자열 (예: \"@p\")"
+    },
+    {
+      "kind": "function",
+      "namespace": "game",
+      "name": "get_selector_one_from",
+      "luaName": "game.get_selector_one_from",
+      "i18nKey": "game.get_selector_one_from(me.ddayo.aris.engine.wrapper.LuaEntity,string)",
+      "params": [{"name": "source", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}, {"name": "selector", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": "특정 엔티티를 실행 주체로 사용해 selector 문자열의 첫 번째 엔티티를 가져옵니다.\n 결과가 없으면 null을 반환합니다.\n @param source selector의 @s, 상대 좌표, 거리 조건 기준이 되는 엔티티\n @param selector selector 문자열 (예: \"@s\")"
     },
     {
       "kind": "function",
@@ -282,7 +334,7 @@
       "name": "add_c2s_packet_handler",
       "luaName": "hook.add_c2s_packet_handler",
       "i18nKey": "hook.add_c2s_packet_handler(string,function)",
-      "params": [{"name": "id", "type": "string"}, {"name": "func", "type": "function"}],
+      "params": [{"name": "id", "type": "string"}, {"name": "func", "type": "function", "callback": {"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}, {"name": "packet", "type": "table"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}, {"name": "packet", "type": "table"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "패킷이 클라이언트로부터 전송됐을때 실행할 함수를 지정합니다.\n @param id 패킷 id\n @param func 실행할 함수"
     },
@@ -292,7 +344,7 @@
       "name": "register_endpoint",
       "luaName": "hook.register_endpoint",
       "i18nKey": "hook.register_endpoint(string,function)",
-      "params": [{"name": "of", "type": "string"}, {"name": "func", "type": "function"}],
+      "params": [{"name": "of", "type": "string"}, {"name": "func", "type": "function", "callback": {"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}, {"name": "arguments", "type": "table"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}, {"name": "arguments", "type": "table"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "명령어를 입력했을때 실행할 함수를 지정합니다.\n @param of 명령어 id\n @param func 실행할 함수"
     },
@@ -302,7 +354,7 @@
       "name": "add_tick",
       "luaName": "hook.add_tick",
       "i18nKey": "hook.add_tick(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [], "returns": "nil"}, "callbacks": [{"params": [], "returns": "nil"}]}],
       "returns": "nil",
       "description": "매 틱마다 실행할 함수를 추가합니다.\n @param f 실행할 함수"
     },
@@ -312,7 +364,7 @@
       "name": "clear_tick",
       "luaName": "hook.clear_tick",
       "i18nKey": "hook.clear_tick(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [], "returns": "nil"}, "callbacks": [{"params": [], "returns": "nil"}]}],
       "returns": "nil",
       "description": "매 틱마다 실행할 함수를 초기화합니다."
     },
@@ -322,7 +374,7 @@
       "name": "on_player_join_server",
       "luaName": "hook.on_player_join_server",
       "i18nKey": "hook.on_player_join_server(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 서버에 접속했을 때 실행할 함수를 추가합니다.\n\n 엔진이 리로드(`/aris reload`)되면 새 엔진에서 이 함수가 다시 실행됩니다.\n 이때 리로드 시점에 이미 접속해 있던 모든 플레이어에 대해서도 호출되므로,\n 스크립트 입장에서 리로드는 새로 시작하는 것과 동일하게 취급됩니다.\n @param f 실행할 함수 (접속한 LuaServerPlayer를 인자로 받음)"
     },
@@ -332,7 +384,7 @@
       "name": "on_player_leave_server",
       "luaName": "hook.on_player_leave_server",
       "i18nKey": "hook.on_player_leave_server(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 서버에서 나갔을 때 실행할 함수를 추가합니다.\n\n 엔진이 리로드(`/aris reload`)되면 폐기되는 엔진에서 이 함수가 실행됩니다.\n 이때 리로드 시점에 이미 접속해 있던 모든 플레이어에 대해서도 호출되므로,\n 스크립트가 정리(cleanup) 작업을 수행할 수 있습니다.\n @param f 실행할 함수 (나간 LuaServerPlayer를 인자로 받음)"
     },
@@ -342,7 +394,7 @@
       "name": "add_on_block_left_click",
       "luaName": "hook.add_on_block_left_click",
       "i18nKey": "hook.add_on_block_left_click(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaBlockEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaBlockEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 블록을 좌클릭했을 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 블록 파괴 시작을 취소합니다.\n @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)"
     },
@@ -362,7 +414,7 @@
       "name": "add_on_block_right_click",
       "luaName": "hook.add_on_block_right_click",
       "i18nKey": "hook.add_on_block_right_click(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaBlockEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaBlockEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 블록을 우클릭했을 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 블록 상호작용을 취소합니다.\n @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)"
     },
@@ -382,7 +434,7 @@
       "name": "add_on_block_break",
       "luaName": "hook.add_on_block_break",
       "i18nKey": "hook.add_on_block_break(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaBlockEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaBlockEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 블록을 파괴하기 직전에 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 블록 파괴를 취소합니다.\n @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)"
     },
@@ -402,7 +454,7 @@
       "name": "add_on_block_place",
       "luaName": "hook.add_on_block_place",
       "i18nKey": "hook.add_on_block_place(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaBlockEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaBlockEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 블록을 설치하려고 할 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 블록 설치를 취소합니다.\n @param f 실행할 함수 (LuaBlockEvent를 인자로 받음)"
     },
@@ -422,7 +474,7 @@
       "name": "add_on_entity_interact",
       "luaName": "hook.add_on_entity_interact",
       "i18nKey": "hook.add_on_entity_interact(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 엔티티를 우클릭했을 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 엔티티 상호작용을 취소합니다.\n @param f 실행할 함수 (LuaEntityInteractEvent를 인자로 받음)"
     },
@@ -442,7 +494,7 @@
       "name": "add_on_entity_attack",
       "luaName": "hook.add_on_entity_attack",
       "i18nKey": "hook.add_on_entity_attack(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 엔티티를 공격하려고 할 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 엔티티 공격을 취소합니다.\n @param f 실행할 함수 (LuaEntityInteractEvent를 인자로 받음)"
     },
@@ -462,7 +514,7 @@
       "name": "add_on_player_death",
       "luaName": "hook.add_on_player_death",
       "i18nKey": "hook.add_on_player_death(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaPlayerEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaPlayerEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 사망했을 때 실행할 함수를 추가합니다.\n @param f 실행할 함수 (LuaPlayerEvent를 인자로 받음)"
     },
@@ -482,7 +534,7 @@
       "name": "add_on_player_respawn",
       "luaName": "hook.add_on_player_respawn",
       "i18nKey": "hook.add_on_player_respawn(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaPlayerEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaPlayerEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 리스폰했을 때 실행할 함수를 추가합니다.\n @param f 실행할 함수 (LuaPlayerEvent를 인자로 받음)"
     },
@@ -502,7 +554,7 @@
       "name": "add_on_item_consume",
       "luaName": "hook.add_on_item_consume",
       "i18nKey": "hook.add_on_item_consume(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaItemConsumeEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaItemConsumeEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 아이템 소비를 완료했을 때 실행할 함수를 추가합니다.\n @param f 실행할 함수 (LuaItemConsumeEvent를 인자로 받음)"
     },
@@ -522,7 +574,7 @@
       "name": "add_on_chat",
       "luaName": "hook.add_on_chat",
       "i18nKey": "hook.add_on_chat(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaChatEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaChatEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 채팅을 보냈을 때 실행할 함수를 추가합니다.\n event:cancel()을 호출하면 채팅 전송을 취소합니다.\n @param f 실행할 함수 (LuaChatEvent를 인자로 받음)"
     },
@@ -542,7 +594,7 @@
       "name": "add_on_use_item",
       "luaName": "hook.add_on_use_item",
       "i18nKey": "hook.add_on_use_item(string,function)",
-      "params": [{"name": "item", "type": "string"}, {"name": "func", "type": "function"}],
+      "params": [{"name": "item", "type": "string"}, {"name": "func", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaUseItemEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaUseItemEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "추가한 아이템을 사용했을때 실행할 함수를 추가합니다.\n @param item 아이템 id\n @param func 실행할 함수 (LuaUseItemEvent를 인자로 받음)"
     },
@@ -562,7 +614,7 @@
       "name": "add_on_right_click",
       "luaName": "hook.add_on_right_click",
       "i18nKey": "hook.add_on_right_click(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaRightClickEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaRightClickEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 임의의 위치를 우클릭시 실행할 함수\n @param f 실행할 함수 (LuaRightClickEvent를 인자로 받음)"
     },
@@ -582,7 +634,7 @@
       "name": "add_on_left_click",
       "luaName": "hook.add_on_left_click",
       "i18nKey": "hook.add_on_left_click(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaLeftClickEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaLeftClickEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "플레이어가 임의의 위치를 좌클릭시 실행할 함수\n @param f 실행할 함수 (LuaLeftClickEvent를 인자로 받음)"
     },
@@ -602,7 +654,7 @@
       "name": "add_on_entity_damaged",
       "luaName": "hook.add_on_entity_damaged",
       "i18nKey": "hook.add_on_entity_damaged(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaEntityDamagedEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaEntityDamagedEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "엔티티가 데미지를 입었을 때 실행할 함수\n event:cancel()을 호출하면 데미지를 취소합니다.\n @param f 실행할 함수 (LuaEntityDamagedEvent를 인자로 받음)"
     },
@@ -612,7 +664,7 @@
       "name": "add_on_item_move",
       "luaName": "hook.add_on_item_move",
       "i18nKey": "hook.add_on_item_move(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaItemMoveEvent"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "아이템 이동 시 실행할 함수를 추가합니다.\n 컨테이너 클릭, 아이템 드롭, 아이템 줍기 등을 감지합니다.\n event:cancel()을 호출하면 이동을 취소합니다.\n @param f 실행할 함수 (LuaItemMoveEvent를 인자로 받음)"
     },
@@ -1135,6 +1187,33 @@
     },
     {
       "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityList",
+      "name": "get",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityList:get(number)",
+      "params": [{"name": "index", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": "selector 결과에서 1부터 시작하는 index의 엔티티를 가져옵니다.\n 범위를 벗어나면 null을 반환합니다.\n @param index 1부터 시작하는 index"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityList",
+      "name": "iter",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityList:iter(function)",
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}], "returns": "nil"}]}],
+      "returns": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
+      "description": "selector 결과의 모든 엔티티를 순회합니다.\n @param fn 각 엔티티에 대해 실행할 콜백"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityList",
+      "name": "get_size",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityList:get_size()",
+      "params": [],
+      "returns": "number",
+      "description": "selector 결과 엔티티 수를 가져옵니다."
+    },
+    {
+      "kind": "method",
       "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
       "name": "add_damage",
       "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:add_damage(number)",
@@ -1192,7 +1271,7 @@
       "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntity",
       "name": "iter_entities_nearby",
       "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntity:iter_entities_nearby(function,number,boolean)",
-      "params": [{"name": "fn", "type": "function"}, {"name": "radius", "type": "number"}, {"name": "includeSelf", "type": "boolean"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}], "returns": "nil"}]}, {"name": "radius", "type": "number"}, {"name": "includeSelf", "type": "boolean"}],
       "returns": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
       "description": "주변 엔티티를 순회합니다.\n @param fn 각 엔티티에 대해 실행할 콜백\n @param radius 탐색 반경\n @param includeSelf 자기 자신을 포함할지 여부"
     },
@@ -1750,7 +1829,7 @@
       "ownerType": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
       "name": "iter_player_nearby",
       "i18nKey": "me.ddayo.aris.engine.wrapper.LuaServerPlayer:iter_player_nearby(function,number,boolean)",
-      "params": [{"name": "fn", "type": "function"}, {"name": "lnt", "type": "number"}, {"name": "includeSelf", "type": "boolean"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "player", "type": "me.ddayo.aris.engine.wrapper.LuaServerPlayer"}], "returns": "nil"}]}, {"name": "lnt", "type": "number"}, {"name": "includeSelf", "type": "boolean"}],
       "returns": "me.ddayo.aris.luagen.CoroutineProvider.LuaCoroutineIntegration",
       "description": "플레이어로부터 유클리드 거리(직선거리) 기준 특정 거리 이내인 플레이어를 탐색합니다.\n @param fn callback\n @param lnt 플레이어로부터의 거리\n @param includeSelf true인 경우 자기 자신을 포함하고, false인 경우 제외합니다.\n @see aris.game.iter_players"
     },
