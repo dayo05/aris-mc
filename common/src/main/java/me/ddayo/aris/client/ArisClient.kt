@@ -11,6 +11,10 @@ import java.util.function.Supplier
 
 object ArisClient {
     private var wasAttackDown = false
+    @Volatile
+    private var clientMainStartRequested = false
+    @Volatile
+    private var clientMainStarted = false
 
     inline fun runOnClientThreadBlocking(crossinline block: () -> Unit) {
         val mc = Minecraft.getInstance()
@@ -37,6 +41,11 @@ object ArisClient {
     }
 
     fun clientTick() {
+        val mc = Minecraft.getInstance()
+        if (clientMainStartRequested && !clientMainStarted && mc.overlay == null) {
+            ClientMainEngine.createEngine(LuaJit())
+            clientMainStarted = true
+        }
         ClientMainEngine.INSTANCE?.loop()
         detectLeftClick()
     }
@@ -65,13 +74,13 @@ object ArisClient {
     fun onClientClose() {
         runOnClientThreadBlocking {
             ClientMainEngine.disposeEngine()
+            clientMainStarted = false
+            clientMainStartRequested = false
         }
     }
 
     fun onClientStart() {
-        runOnClientThreadBlocking {
-            ClientMainEngine.createEngine(LuaJit())
-        }
+        clientMainStartRequested = true
     }
 
     private fun detectLeftClick() {
@@ -85,9 +94,11 @@ object ArisClient {
 
     fun reloadEngine() {
         runOnClientThreadBlocking {
+            if (Minecraft.getInstance().overlay != null) return@runOnClientThreadBlocking
             ClientMainEngine.INSTANCE ?: return@runOnClientThreadBlocking
             ClientMainEngine.disposeEngine()
             ClientMainEngine.createEngine(LuaJit())
+            clientMainStarted = true
             ClientInGameEngine.INSTANCE?.run {
                 // The local player "leaves" the outgoing engine; the matching
                 // "join" fires automatically on the new engine's first tick().
