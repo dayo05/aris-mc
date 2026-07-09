@@ -29,6 +29,12 @@ object NetworkingExtensions {
 
     @JvmStatic
     @ExpectPlatform
+    fun _sendLeftClickPacket() {
+        throw NotImplementedError()
+    }
+
+    @JvmStatic
+    @ExpectPlatform
     fun<T: CustomPacketPayload> _registerPlayS2C(id: CustomPacketPayload.Type<T>, codec: StreamCodec<in RegistryFriendlyByteBuf, T>) {
         throw NotImplementedError()
     }

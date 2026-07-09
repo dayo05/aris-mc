@@ -264,7 +264,6 @@ object EntityHooks {
         if (last != null && last.targetUuid == targetUuid && now - last.tick in 0 until ENTITY_ATTACK_DEBOUNCE_TICKS) {
             return last.cancelled
         }
-        executeOnLeftClickOncePerTick(player)
         val event = LuaEntityInteractEvent(LuaServerPlayer(player), target.toLuaValue(), "attack", "main_hand")
         entityAttackHook.call(event)
         lastEntityAttack[playerUuid] = EntityAttackDebounce(targetUuid, now, event.cancelled)
@@ -458,7 +457,6 @@ object EntityHooks {
     init {
         InGameEngine.hooks.add(leftClickHook)
     }
-    private val lastLeftClickTick = mutableMapOf<UUID, Long>()
 
     /**
      * 플레이어가 임의의 위치를 좌클릭시 실행할 함수
@@ -483,15 +481,6 @@ object EntityHooks {
     fun executeOnLeftClick(player: ServerPlayer) {
         val event = LuaLeftClickEvent(LuaServerPlayer(player))
         leftClickHook.callAsTask(event)
-    }
-
-    fun executeOnLeftClickOncePerTick(player: ServerPlayer): Boolean {
-        val now = player.level().gameTime
-        val uuid = player.uuid
-        if (lastLeftClickTick[uuid] == now) return false
-        lastLeftClickTick[uuid] = now
-        executeOnLeftClick(player)
-        return true
     }
 
     val onEntityDamagedHook = LuaHook()

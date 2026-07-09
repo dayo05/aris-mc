@@ -4,11 +4,14 @@ import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.client.ClientInitEngine
 import me.ddayo.aris.engine.hook.client.ClientInGameHooks
 import me.ddayo.aris.engine.client.ClientMainEngine
+import me.ddayo.aris.networking.NetworkingExtensions
 import net.minecraft.client.Minecraft
 import party.iroiro.luajava.luajit.LuaJit
 import java.util.function.Supplier
 
 object ArisClient {
+    private var wasAttackDown = false
+
     inline fun runOnClientThreadBlocking(crossinline block: () -> Unit) {
         val mc = Minecraft.getInstance()
         if (mc.isSameThread) {
@@ -35,6 +38,7 @@ object ArisClient {
 
     fun clientTick() {
         ClientMainEngine.INSTANCE?.loop()
+        detectLeftClick()
     }
 
     fun clientWorldTick() {
@@ -54,6 +58,7 @@ object ArisClient {
         runOnClientThreadBlocking {
             ClientInGameEngine.INSTANCE?.let { ClientInGameHooks.executeOnPlayerLeave() }
             ClientInGameEngine.disposeEngine()
+            wasAttackDown = false
         }
     }
 
@@ -67,6 +72,15 @@ object ArisClient {
         runOnClientThreadBlocking {
             ClientMainEngine.createEngine(LuaJit())
         }
+    }
+
+    private fun detectLeftClick() {
+        val mc = Minecraft.getInstance()
+        val attackDown = mc.options.keyAttack.isDown
+        if (mc.player != null && mc.level != null && mc.screen == null && attackDown && !wasAttackDown) {
+            NetworkingExtensions._sendLeftClickPacket()
+        }
+        wasAttackDown = attackDown
     }
 
     fun reloadEngine() {

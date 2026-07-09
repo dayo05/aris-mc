@@ -2,7 +2,9 @@ package me.ddayo.aris.fabric
 
 import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.networking.C2SPacketHandler
+import me.ddayo.aris.engine.hook.EntityHooks
 import me.ddayo.aris.networking.C2SLuaPayload
+import me.ddayo.aris.networking.LeftClickPayload
 import me.ddayo.aris.networking.ReloadEnginePayload
 import me.ddayo.aris.networking.SyncDataPayload
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
@@ -47,6 +49,12 @@ object ServerNetworkingFabric {
     }
 
     fun init() {
+        ServerPlayNetworking.registerGlobalReceiver(LeftClickPayload.ID) { _, context ->
+            Aris.runOnServerThreadBlocking {
+                EntityHooks.executeOnLeftClick(context.player())
+            }
+        }
+
         ServerPlayNetworking.registerGlobalReceiver(C2SLuaPayload.TYPE) { payload, context ->
             Aris.runOnServerThreadBlocking {
                 val packet = C2SPacketHandler.packets[payload.id]!!

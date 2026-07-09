@@ -1,6 +1,8 @@
 package me.ddayo.aris.networking.fabric
 
 import me.ddayo.aris.fabric.ServerNetworkingFabric
+import me.ddayo.aris.networking.LeftClickPayload
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
@@ -16,6 +18,11 @@ object NetworkingExtensionsImpl {
     @JvmStatic
     fun _sendReloadPacket(player: ServerPlayer) {
         ServerNetworkingFabric.sendReloadPacketFabricLike(player)
+    }
+
+    @JvmStatic
+    fun _sendLeftClickPacket() {
+        ClientPlayNetworking.send(LeftClickPayload)
     }
 
     @JvmStatic
