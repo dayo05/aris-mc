@@ -26,9 +26,10 @@ import java.util.UUID;
 
 @Mixin(ServerGamePacketListenerImpl.class)
 public class ServerGamePacketListenerMixin {
-    private static final long LEFT_CLICK_DEBOUNCE_TICKS = 4L;
-    private static final Map<UUID, Long> LAST_LEFT_CLICK_TICK = new HashMap<>();
+    private static final long BLOCK_ACTION_SWING_SUPPRESSION_TICKS = 8L;
     private static final Map<UUID, BlockPos> ACTIVE_DESTROY_BLOCK = new HashMap<>();
+    private static final Map<UUID, Long> ACTIVE_DESTROY_TICK = new HashMap<>();
+    private static final Map<UUID, Long> RECENT_BLOCK_ACTION_TICK = new HashMap<>();
 
     @Shadow
     public ServerPlayer player;
@@ -38,29 +39,46 @@ public class ServerGamePacketListenerMixin {
         if (packet.getHand() != InteractionHand.MAIN_HAND) return;
         MinecraftServer server = player.getServer();
         if (server.isSameThread()) {
-            if (shouldFireLeftClick()) {
-                EntityHooks.INSTANCE.executeOnLeftClick(player);
-            }
+            fireAirLeftClick();
         } else {
-            server.execute(() -> {
-                if (shouldFireLeftClick()) {
-                    EntityHooks.INSTANCE.executeOnLeftClick(player);
-                }
-            });
+            server.execute(this::fireAirLeftClick);
         }
     }
 
-    private boolean shouldFireLeftClick() {
-        if (ACTIVE_DESTROY_BLOCK.containsKey(player.getUUID())) {
-            return false;
+    private void fireAirLeftClick() {
+        if (hasActiveDestroyBlock() || hasRecentBlockAction()) {
+            return;
         }
-        long now = player.level().getGameTime();
+        EntityHooks.INSTANCE.executeOnLeftClickOncePerTick(player);
+    }
+
+    private boolean hasActiveDestroyBlock() {
         UUID uuid = player.getUUID();
-        Long last = LAST_LEFT_CLICK_TICK.get(uuid);
-        if (last != null && now - last < LEFT_CLICK_DEBOUNCE_TICKS) {
+        BlockPos activePos = ACTIVE_DESTROY_BLOCK.get(uuid);
+        if (activePos == null) return false;
+        Long startedAt = ACTIVE_DESTROY_TICK.get(uuid);
+        if (startedAt == null) {
+            ACTIVE_DESTROY_BLOCK.remove(uuid);
+            ACTIVE_DESTROY_TICK.remove(uuid);
             return false;
         }
-        LAST_LEFT_CLICK_TICK.put(uuid, now);
+        return true;
+    }
+
+    private void markRecentBlockAction() {
+        RECENT_BLOCK_ACTION_TICK.put(player.getUUID(), player.level().getGameTime());
+    }
+
+    private boolean hasRecentBlockAction() {
+        UUID uuid = player.getUUID();
+        Long actionAt = RECENT_BLOCK_ACTION_TICK.get(uuid);
+        if (actionAt == null) return false;
+        long age = player.level().getGameTime() - actionAt;
+        if (age < 0 || age >= BLOCK_ACTION_SWING_SUPPRESSION_TICKS) {
+            RECENT_BLOCK_ACTION_TICK.remove(uuid);
+            return false;
+        }
+        markRecentBlockAction();
         return true;
     }
 
@@ -68,29 +86,40 @@ public class ServerGamePacketListenerMixin {
     private void onHandlePlayerAction(ServerboundPlayerActionPacket packet, CallbackInfo ci) {
         ServerboundPlayerActionPacket.Action action = packet.getAction();
         if (action == ServerboundPlayerActionPacket.Action.ABORT_DESTROY_BLOCK || action == ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK) {
+            markRecentBlockAction();
             ACTIVE_DESTROY_BLOCK.remove(player.getUUID());
+            ACTIVE_DESTROY_TICK.remove(player.getUUID());
             return;
         }
         if (action != ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK) return;
+        markRecentBlockAction();
         MinecraftServer server = player.getServer();
         if (server.isSameThread()) {
             if (!shouldFireBlockLeftClick(packet.getPos())) return;
+            EntityHooks.INSTANCE.executeOnLeftClickOncePerTick(player);
             if (EntityHooks.INSTANCE.executeOnBlockLeftClick(player, packet.getPos(), packet.getDirection())) {
                 ACTIVE_DESTROY_BLOCK.remove(player.getUUID());
+                ACTIVE_DESTROY_TICK.remove(player.getUUID());
                 ci.cancel();
             } else {
                 ACTIVE_DESTROY_BLOCK.put(player.getUUID(), packet.getPos().immutable());
+                ACTIVE_DESTROY_TICK.put(player.getUUID(), player.level().getGameTime());
             }
         } else {
             server.execute(() -> {
-                if (shouldFireBlockLeftClick(packet.getPos()) && !EntityHooks.INSTANCE.executeOnBlockLeftClick(player, packet.getPos(), packet.getDirection())) {
-                    ACTIVE_DESTROY_BLOCK.put(player.getUUID(), packet.getPos().immutable());
+                if (shouldFireBlockLeftClick(packet.getPos())) {
+                    EntityHooks.INSTANCE.executeOnLeftClickOncePerTick(player);
+                    if (!EntityHooks.INSTANCE.executeOnBlockLeftClick(player, packet.getPos(), packet.getDirection())) {
+                        ACTIVE_DESTROY_BLOCK.put(player.getUUID(), packet.getPos().immutable());
+                        ACTIVE_DESTROY_TICK.put(player.getUUID(), player.level().getGameTime());
+                    }
                 }
             });
         }
     }
 
     private boolean shouldFireBlockLeftClick(BlockPos pos) {
+        hasActiveDestroyBlock();
         BlockPos activePos = ACTIVE_DESTROY_BLOCK.get(player.getUUID());
         return activePos == null || !activePos.equals(pos);
     }
