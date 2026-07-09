@@ -31,7 +31,7 @@ public class ServerPlayerMixin {
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
     private void onAttack(Entity target, org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
         ServerPlayer self = (ServerPlayer) (Object) this;
-        if (EntityHooks.INSTANCE.executeOnEntityAttackClick(self, target)) {
+        if (EntityHooks.INSTANCE.executeOnEntityAttack(self, target)) {
             ci.cancel();
         }
     }
