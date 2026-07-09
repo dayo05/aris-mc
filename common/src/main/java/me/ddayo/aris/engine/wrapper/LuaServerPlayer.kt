@@ -31,7 +31,7 @@ object LuaServerPlayerFunctions : CoroutineProvider {
         fn: LuaFunc
     ) = coroutine<Unit> {
         Aris.server.playerList.players.forEach {
-            fn.await(this@coroutine, LuaServerPlayer(it))
+            yield(fn.await(this@coroutine, LuaServerPlayer(it)))
         }
     }
 }
@@ -87,7 +87,7 @@ class LuaServerPlayer(player: ServerPlayer) : LuaPlayerEntity(player), Coroutine
     ) = coroutine<Unit> {
         Aris.server.playerList.players.forEach {
             if (it.position().distanceTo(player.position()) < lnt && (includeSelf || it != player))
-                fn.await(this@coroutine, LuaServerPlayer(it))
+                yield(fn.await(this@coroutine, LuaServerPlayer(it)))
         }
     }
 }
