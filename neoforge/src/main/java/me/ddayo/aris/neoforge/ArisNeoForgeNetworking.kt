@@ -3,9 +3,11 @@ package me.ddayo.aris.neoforge
 import me.ddayo.aris.Aris
 import me.ddayo.aris.client.ArisClient
 import me.ddayo.aris.engine.client.ClientInGameEngine
+import me.ddayo.aris.engine.hook.EntityHooks
 import me.ddayo.aris.engine.networking.C2SPacketHandler
 import me.ddayo.aris.engine.networking.S2CPacketHandler
 import me.ddayo.aris.networking.C2SLuaPayload
+import me.ddayo.aris.networking.LeftClickPayload
 import me.ddayo.aris.networking.ReloadEnginePayload
 import me.ddayo.aris.networking.S2CLuaPayload
 import me.ddayo.aris.networking.SyncDataPayload
@@ -43,6 +45,11 @@ object ArisNeoForgeNetworking {
         }
 
         // C2S payloads
+        registrar.playToServer(LeftClickPayload.ID, LeftClickPayload.CODEC) { _, context ->
+            context.enqueueWork {
+                EntityHooks.executeOnLeftClick(context.player() as ServerPlayer)
+            }.join()
+        }
         registrar.playToServer(C2SLuaPayload.TYPE, C2SLuaPayload.CODEC) { payload, context ->
             context.enqueueWork {
                 val player = context.player() as ServerPlayer

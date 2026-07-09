@@ -1,10 +1,12 @@
 package me.ddayo.aris.networking.neoforge
 
 import me.ddayo.aris.neoforge.ArisNeoForgeNetworking
+import me.ddayo.aris.networking.LeftClickPayload
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import net.minecraft.server.level.ServerPlayer
+import net.neoforged.neoforge.network.PacketDistributor
 
 object NetworkingExtensionsImpl {
     @JvmStatic
@@ -15,6 +17,11 @@ object NetworkingExtensionsImpl {
     @JvmStatic
     fun _sendReloadPacket(player: ServerPlayer) {
         ArisNeoForgeNetworking.sendReloadPacketNeoForge(player)
+    }
+
+    @JvmStatic
+    fun _sendLeftClickPacket() {
+        PacketDistributor.sendToServer(LeftClickPayload)
     }
 
     @JvmStatic

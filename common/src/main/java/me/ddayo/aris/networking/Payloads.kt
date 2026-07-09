@@ -13,12 +13,20 @@ import org.apache.logging.log4j.LogManager
 
 object NetworkPayloadManager {
     fun init() {
+        NetworkingExtensions._registerPlayC2S(LeftClickPayload.ID, LeftClickPayload.CODEC)
         NetworkingExtensions._registerPlayC2S(C2SLuaPayload.TYPE, C2SLuaPayload.CODEC)
         NetworkingExtensions._registerPlayS2C(S2CLuaPayload.TYPE, S2CLuaPayload.CODEC)
 
         NetworkingExtensions._registerPlayS2C(SyncDataPayload.ID, SyncDataPayload.CODEC)
         NetworkingExtensions._registerPlayS2C(ReloadEnginePayload.ID, ReloadEnginePayload.CODEC)
     }
+}
+
+object LeftClickPayload : CustomPacketPayload {
+    val ID = CustomPacketPayload.Type<LeftClickPayload>(RegistryHelper.getResourceLocation("left_click"))
+    val CODEC: StreamCodec<RegistryFriendlyByteBuf, LeftClickPayload> = StreamCodec.unit(this)
+
+    override fun type() = ID
 }
 
 class C2SLuaPayload(
