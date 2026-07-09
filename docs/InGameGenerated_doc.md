@@ -9,6 +9,33 @@
  서버 콘솔에서 커멘드를 실행합니다.
  @param command 실행할 명령어
 ```
+## aris.game.iter_selector(selector: string, fn: function) -> 
+```
+ 마인크래프트 selector 문자열로 엔티티를 찾아 순회합니다.
+ 기본 실행 주체는 서버 콘솔입니다. @s 또는 상대 좌표가 필요한 경우 iter_selector_from을 사용하세요.
+ @param selector selector 문자열 (예: "@e[type=minecraft:zombie,limit=5]")
+ @param fn 각 엔티티에 대해 실행할 콜백
+```
+## aris.game.iter_selector_from(source: LuaEntity, selector: string, fn: function) -> 
+```
+ 특정 엔티티를 실행 주체로 사용해 마인크래프트 selector 문자열로 엔티티를 찾아 순회합니다.
+ @param source selector의 @s, 상대 좌표, 거리 조건 기준이 되는 엔티티
+ @param selector selector 문자열 (예: "@e[distance=..10]")
+ @param fn 각 엔티티에 대해 실행할 콜백
+```
+## aris.game.get_selector_one(selector: string) -> LuaEntity
+```
+ 마인크래프트 selector 문자열의 첫 번째 엔티티를 가져옵니다.
+ 결과가 없으면 null을 반환합니다.
+ @param selector selector 문자열 (예: "@p")
+```
+## aris.game.get_selector_one_from(source: LuaEntity, selector: string) -> LuaEntity
+```
+ 특정 엔티티를 실행 주체로 사용해 selector 문자열의 첫 번째 엔티티를 가져옵니다.
+ 결과가 없으면 null을 반환합니다.
+ @param source selector의 @s, 상대 좌표, 거리 조건 기준이 되는 엔티티
+ @param selector selector 문자열 (예: "@s")
+```
 ## aris.game.create_effect_builder(of: string) -> LuaMobEffectInstance
 ## aris.game.create_effect_builder(ns: string, of: string) -> LuaMobEffectInstance
 ## aris.game.summon_entity(entityType: LuaEntityType, world: LuaServerWorld, pos: Point3) -> LuaEntity
@@ -521,6 +548,27 @@
 ```
 
 
+
+
+## LuaEntityList:get(index: number) -> LuaEntity
+```
+ selector 결과에서 1부터 시작하는 index의 엔티티를 가져옵니다.
+ 범위를 벗어나면 null을 반환합니다.
+ @param index 1부터 시작하는 index
+```
+
+
+## LuaEntityList:iter(fn: function) -> 
+```
+ selector 결과의 모든 엔티티를 순회합니다.
+ @param fn 각 엔티티에 대해 실행할 콜백
+```
+
+
+## LuaEntityList:get_size() -> number
+```
+ selector 결과 엔티티 수를 가져옵니다.
+```
 
 
 ## LuaEntity:add_damage(damage: number)

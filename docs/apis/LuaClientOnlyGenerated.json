@@ -132,7 +132,7 @@
       "name": "add_tick_hook",
       "luaName": "hook.add_tick_hook",
       "i18nKey": "hook.add_tick_hook(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [], "returns": "nil"}, "callbacks": [{"params": [], "returns": "nil"}]}],
       "returns": "nil",
       "description": "매 틱마다 실행할 함수를 추가합니다.\n @param f 실행할 함수"
     },
@@ -142,7 +142,7 @@
       "name": "clear_tick_hook",
       "luaName": "hook.clear_tick_hook",
       "i18nKey": "hook.clear_tick_hook(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [], "returns": "nil"}, "callbacks": [{"params": [], "returns": "nil"}]}],
       "returns": "nil",
       "description": "매 틱마다 실행할 함수를 초기화합니다."
     },
@@ -152,7 +152,7 @@
       "name": "on_key_pressed",
       "luaName": "hook.on_key_pressed",
       "i18nKey": "hook.on_key_pressed(string,function)",
-      "params": [{"name": "key", "type": "string"}, {"name": "function", "type": "function"}],
+      "params": [{"name": "key", "type": "string"}, {"name": "function", "type": "function", "callback": {"params": [], "returns": "nil"}, "callbacks": [{"params": [], "returns": "nil"}]}],
       "returns": "nil",
       "description": "새로 추가한 조작키를 실행할때 실행될 함수를 지정합니다.\n @param key 누를 키\n @param function 실행할 함수"
     },
@@ -162,7 +162,7 @@
       "name": "on_player_leave_server",
       "luaName": "hook.on_player_leave_server",
       "i18nKey": "hook.on_player_leave_server(function)",
-      "params": [{"name": "f", "type": "function"}],
+      "params": [{"name": "f", "type": "function", "callback": {"params": [], "returns": "nil"}, "callbacks": [{"params": [], "returns": "nil"}]}],
       "returns": "nil",
       "description": "클라이언트가 서버에서 나갔을 때 실행할 함수를 추가합니다.\n\n 엔진이 리로드되면 폐기되는 엔진에서 이 함수가 실행되므로,\n 스크립트가 정리(cleanup) 작업을 수행할 수 있습니다.\n @param f 실행할 함수"
     },
@@ -222,7 +222,7 @@
       "name": "create_clickable",
       "luaName": "client.create_clickable",
       "i18nKey": "client.create_clickable(function,me.ddayo.aris.math.Area)",
-      "params": [{"name": "onClick", "type": "function"}, {"name": "area", "type": "me.ddayo.aris.math.Area"}],
+      "params": [{"name": "onClick", "type": "function", "callback": {"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}]}, {"name": "area", "type": "me.ddayo.aris.math.Area"}],
       "returns": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
       "description": "Creates an invisible clickable component defined by a custom [Area].\n @param onClick The Lua function to execute when clicked.\n @param area The definition of the clickable area."
     },
@@ -232,7 +232,7 @@
       "name": "create_clickable",
       "luaName": "client.create_clickable",
       "i18nKey": "client.create_clickable(function,number,number,number,number)",
-      "params": [{"name": "onClick", "type": "function"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "width", "type": "number"}, {"name": "height", "type": "number"}],
+      "params": [{"name": "onClick", "type": "function", "callback": {"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}]}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "width", "type": "number"}, {"name": "height", "type": "number"}],
       "returns": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
       "description": "Creates an invisible clickable component defined by a rectangle.\n @param onClick The Lua function to execute when clicked.\n @param x The x-coordinate of the rectangle.\n @param y The y-coordinate of the rectangle.\n @param width The width of the rectangle.\n @param height The height of the rectangle."
     },
@@ -420,7 +420,7 @@
       "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
       "name": "add_render_hook",
       "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:add_render_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "scaled_mouse_x", "type": "number"}, {"name": "scaled_mouse_y", "type": "number"}, {"name": "tick_delta", "type": "number"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "scaled_mouse_x", "type": "number"}, {"name": "scaled_mouse_y", "type": "number"}, {"name": "tick_delta", "type": "number"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Adds a hook function to be invoked on each frame during rendering.\n\n @param fn The Lua function to call. (scaled_mouse_x, scaled_mouse_y, tick_delta) -> void"
     },
@@ -438,7 +438,7 @@
       "ownerType": "me.ddayo.aris.client.gui.BaseComponent",
       "name": "add_tick_hook",
       "i18nKey": "me.ddayo.aris.client.gui.BaseComponent:add_tick_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [], "returns": "nil"}, "callbacks": [{"params": [], "returns": "nil"}]}],
       "returns": "nil",
       "description": null
     },
@@ -888,7 +888,7 @@
       "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
       "name": "set_mouse_up_hook",
       "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:set_mouse_up_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function to be called when a mouse button is released (mouse up) within the component's area.\n\n The Lua function will receive the following arguments:\n 1. `mx` (Double): The X coordinate of the mouse cursor.\n 2. `my` (Double): The Y coordinate of the mouse cursor.\n 3. `button` (Int): The index of the mouse button pressed.\n\n @param fn The Lua function to serve as the callback."
     },
@@ -906,7 +906,7 @@
       "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
       "name": "set_mouse_down_hook",
       "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:set_mouse_down_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function to be called when a mouse button is pressed (mouse down) within the component's area.\n\n The Lua function will receive the following arguments:\n 1. `mx` (Double): The X coordinate of the mouse cursor.\n 2. `my` (Double): The Y coordinate of the mouse cursor.\n 3. `button` (Int): The index of the mouse button pressed.\n\n @param fn The Lua function to serve as the callback."
     },
@@ -924,7 +924,7 @@
       "ownerType": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer",
       "name": "set_mouse_drag_hook",
       "i18nKey": "me.ddayo.aris.client.gui.element.ScriptMouseHandlerRenderer:set_mouse_drag_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "mouse_x", "type": "number"}, {"name": "mouse_y", "type": "number"}, {"name": "button", "type": "number"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function to be called when the mouse is dragged within the component's area.\n\n The Lua function will receive the following arguments:\n 1. `mx` (Double): The X coordinate of the mouse cursor.\n 2. `my` (Double): The Y coordinate of the mouse cursor.\n 3. `button` (Int): The index of the mouse button being held.\n\n @param fn The Lua function to serve as the callback."
     },
@@ -960,7 +960,7 @@
       "ownerType": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer",
       "name": "set_change_hook",
       "i18nKey": "me.ddayo.aris.client.gui.element.ScriptCheckboxRenderer:set_change_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "checked", "type": "boolean"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "checked", "type": "boolean"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function called when the checked state is toggled by a click.\n The callback receives the new checked state (Boolean)."
     },
@@ -1104,7 +1104,7 @@
       "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
       "name": "set_change_hook",
       "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_change_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "text", "type": "string"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "text", "type": "string"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function called whenever the text content changes.\n The callback receives the new text (String)."
     },
@@ -1122,7 +1122,7 @@
       "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
       "name": "set_enter_hook",
       "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_enter_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "text", "type": "string"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "text", "type": "string"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function called when Enter is pressed while focused.\n The callback receives the current text (String)."
     },
@@ -1140,7 +1140,7 @@
       "ownerType": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer",
       "name": "set_focus_hook",
       "i18nKey": "me.ddayo.aris.client.gui.element.ScriptTextInputRenderer:set_focus_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "focused", "type": "boolean"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "focused", "type": "boolean"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function called when focus is gained or lost.\n The callback receives the new focus state (Boolean)."
     },
@@ -1455,7 +1455,7 @@
       "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
       "name": "set_key_down_hook",
       "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:set_key_down_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "key_code", "type": "number"}, {"name": "scan_code", "type": "number"}, {"name": "modifiers", "type": "number"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "key_code", "type": "number"}, {"name": "scan_code", "type": "number"}, {"name": "modifiers", "type": "number"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function to be called when a keyboard key is pressed (key down).\n\n The Lua function will receive the following arguments:\n 1. `keyCode` (Int): The unique ID of the key (GLFW key constant, e.g., 256 for ESC).\n 2. `scanCode` (Int): The platform-specific hardware scancode of the key.\n 3. `modifiers` (Int): A bitmask representing modifier keys held down (Shift, Ctrl, Alt, etc.).\n\n @param fn The Lua function to serve as the callback."
     },
@@ -1473,7 +1473,7 @@
       "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
       "name": "set_key_up_hook",
       "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:set_key_up_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "key_code", "type": "number"}, {"name": "scan_code", "type": "number"}, {"name": "modifiers", "type": "number"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "key_code", "type": "number"}, {"name": "scan_code", "type": "number"}, {"name": "modifiers", "type": "number"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function to be called when a keyboard key is released (key up).\n\n The Lua function will receive the following arguments:\n 1. `keyCode` (Int): The unique ID of the key (GLFW key constant).\n 2. `scanCode` (Int): The platform-specific hardware scancode of the key.\n 3. `modifiers` (Int): A bitmask representing modifier keys held down (Shift, Ctrl, Alt, etc.).\n\n @param fn The Lua function to serve as the callback."
     },
@@ -1491,7 +1491,7 @@
       "ownerType": "me.ddayo.aris.client.gui.ScreenRenderer",
       "name": "set_close_hook",
       "i18nKey": "me.ddayo.aris.client.gui.ScreenRenderer:set_close_hook(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [], "returns": "nil"}, "callbacks": [{"params": [], "returns": "nil"}]}],
       "returns": "nil",
       "description": "Sets the Lua function to be called when the screen is closed.\n\n The Lua function receives no arguments.\n\n @param fn The Lua function to serve as the callback."
     },

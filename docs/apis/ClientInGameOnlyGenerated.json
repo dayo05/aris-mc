@@ -33,6 +33,12 @@
       "displayName": "LuaItemStack",
       "description": null,
       "extends": []
+    },
+    {
+      "name": "table",
+      "displayName": "table",
+      "description": null,
+      "extends": []
     }
   ],
   "functions": [
@@ -212,7 +218,7 @@
       "name": "iter_inventory",
       "luaName": "client.iter_inventory",
       "i18nKey": "client.iter_inventory(function)",
-      "params": [{"name": "fn", "type": "function"}],
+      "params": [{"name": "fn", "type": "function", "callback": {"params": [{"name": "slot", "type": "number"}, {"name": "item", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "slot", "type": "number"}, {"name": "item", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "현재 플레이어 인벤토리의 모든 슬롯을 순회합니다.\n @param fn 각 슬롯에 대해 실행할 콜백 (slot: Int, item: ItemStack) -> void"
     },
@@ -252,7 +258,7 @@
       "name": "add_s2c_packet_handler",
       "luaName": "hook.add_s2c_packet_handler",
       "i18nKey": "hook.add_s2c_packet_handler(string,function)",
-      "params": [{"name": "id", "type": "string"}, {"name": "func", "type": "function"}],
+      "params": [{"name": "id", "type": "string"}, {"name": "func", "type": "function", "callback": {"params": [{"name": "packet", "type": "table"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "packet", "type": "table"}], "returns": "nil"}]}],
       "returns": "nil",
       "description": "패킷이 서버로부터 전송됐을때 실행할 함수를 지정합니다.\n @param id 패킷 id\n @param func 실행할 함수"
     },

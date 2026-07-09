@@ -129,6 +129,36 @@
     {
       "kind": "function",
       "namespace": "command",
+      "name": "entity_arg",
+      "luaName": "command.entity_arg",
+      "i18nKey": "command.entity_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "단일 엔티티 selector 인수를 추가합니다.\n @of 추가할 엔티티 인수 이름\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "entities_arg",
+      "luaName": "command.entities_arg",
+      "i18nKey": "command.entities_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "여러 엔티티 selector 인수를 추가합니다.\n @of 추가할 엔티티 목록 인수 이름\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
+      "name": "players_arg",
+      "luaName": "command.players_arg",
+      "i18nKey": "command.players_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "description": "여러 플레이어 selector 인수를 추가합니다.\n @of 추가할 플레이어 목록 인수 이름\n @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "command",
       "name": "string_arg",
       "luaName": "command.string_arg",
       "i18nKey": "command.string_arg(string)",
