@@ -19,7 +19,6 @@ import net.minecraft.world.InteractionHand
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
-import java.util.UUID
 
 @LuaProvider(InGameEngine.PROVIDER, library = "aris.game.hook")
 object EntityHooks {
@@ -227,9 +226,6 @@ object EntityHooks {
     init {
         InGameEngine.hooks.add(entityAttackHook)
     }
-    private const val ENTITY_ATTACK_DEBOUNCE_TICKS = 4L
-    private data class EntityAttackDebounce(val targetUuid: UUID, val tick: Long, val cancelled: Boolean)
-    private val lastEntityAttack = mutableMapOf<UUID, EntityAttackDebounce>()
 
     /**
      * 플레이어가 엔티티를 공격하려고 할 때 실행할 함수를 추가합니다.
@@ -253,20 +249,8 @@ object EntityHooks {
     }
 
     fun executeOnEntityAttack(player: ServerPlayer, target: Entity): Boolean {
-        return executeOnEntityAttackClick(player, target)
-    }
-
-    fun executeOnEntityAttackClick(player: ServerPlayer, target: Entity): Boolean {
-        val now = player.level().gameTime
-        val playerUuid = player.uuid
-        val targetUuid = target.uuid
-        val last = lastEntityAttack[playerUuid]
-        if (last != null && last.targetUuid == targetUuid && now - last.tick in 0 until ENTITY_ATTACK_DEBOUNCE_TICKS) {
-            return last.cancelled
-        }
         val event = LuaEntityInteractEvent(LuaServerPlayer(player), target.toLuaValue(), "attack", "main_hand")
         entityAttackHook.call(event)
-        lastEntityAttack[playerUuid] = EntityAttackDebounce(targetUuid, now, event.cancelled)
         return event.cancelled
     }
 
