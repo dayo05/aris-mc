@@ -218,11 +218,8 @@ open class LuaEntity(val inner: Entity) : ILuaStaticDecl by InGameGenerated.LuaE
     ) = coroutine<Unit> {
         val level = inner.level()
         val area: AABB? = inner.boundingBox.inflate(radius)
-        level.getEntities(inner, area) {
-            if (includeSelf || it != inner)
-                fn.await(this, LuaEntity(it))
-            true
-        }
+        level.getEntities(inner, area) { includeSelf || it != inner }
+            .forEach { yield(fn.await(this@coroutine, it.toLuaValue())) }
     }
 
     /**

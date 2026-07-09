@@ -15,6 +15,8 @@ import me.ddayo.aris.luagen.LuaFunc
 import me.ddayo.aris.engine.InitEngine
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.hook.CommandHooks
+import me.ddayo.aris.engine.wrapper.LuaEntity.Companion.toLuaValue
+import me.ddayo.aris.engine.wrapper.LuaEntityList
 import me.ddayo.aris.engine.wrapper.LuaServerPlayer
 import me.ddayo.aris.lua.glue.InitGenerated
 import me.ddayo.aris.luagen.LuaFunction
@@ -80,6 +82,48 @@ object CommandBuilderFunctions {
         override fun retrieve() = Commands.argument(of, EntityArgument.player())
         override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
             builder.inner[rl] = LuaServerPlayer(EntityArgument.getPlayer(ctx, of))
+        }
+    }
+
+    /**
+     * 단일 엔티티 selector 인수를 추가합니다.
+     * @of 추가할 엔티티 인수 이름
+     * @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+     */
+    @LuaFunction("entity_arg")
+    fun entityArg(of: String) = object : AbstractCommandHandler() {
+        val rl = RegistryHelper.getResourceLocation(of)
+        override fun retrieve() = Commands.argument(of, EntityArgument.entity())
+        override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
+            builder.inner[rl] = EntityArgument.getEntity(ctx, of).toLuaValue()
+        }
+    }
+
+    /**
+     * 여러 엔티티 selector 인수를 추가합니다.
+     * @of 추가할 엔티티 목록 인수 이름
+     * @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+     */
+    @LuaFunction("entities_arg")
+    fun entitiesArg(of: String) = object : AbstractCommandHandler() {
+        val rl = RegistryHelper.getResourceLocation(of)
+        override fun retrieve() = Commands.argument(of, EntityArgument.entities())
+        override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
+            builder.inner[rl] = LuaEntityList(EntityArgument.getEntities(ctx, of).toList())
+        }
+    }
+
+    /**
+     * 여러 플레이어 selector 인수를 추가합니다.
+     * @of 추가할 플레이어 목록 인수 이름
+     * @return 여기에서 획득한 값을 커멘드 핸들러에 append해야합니다.
+     */
+    @LuaFunction("players_arg")
+    fun playersArg(of: String) = object : AbstractCommandHandler() {
+        val rl = RegistryHelper.getResourceLocation(of)
+        override fun retrieve() = Commands.argument(of, EntityArgument.players())
+        override fun write(ctx: CommandContext<CommandSourceStack>, builder: CommandBuilder) {
+            builder.inner[rl] = LuaEntityList(EntityArgument.getPlayers(ctx, of).toList())
         }
     }
 
