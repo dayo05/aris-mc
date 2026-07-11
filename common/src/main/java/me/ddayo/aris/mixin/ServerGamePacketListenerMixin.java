@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ServerboundChatPacket;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -61,6 +62,22 @@ public class ServerGamePacketListenerMixin {
     private boolean shouldFireBlockLeftClick(BlockPos pos) {
         BlockPos activePos = ACTIVE_DESTROY_BLOCK.get(player.getUUID());
         return activePos == null || !activePos.equals(pos);
+    }
+
+    @Inject(method = "handlePlayerCommand", at = @At("HEAD"))
+    private void onHandlePlayerCommand(ServerboundPlayerCommandPacket packet, CallbackInfo ci) {
+        ServerboundPlayerCommandPacket.Action action = packet.getAction();
+        if (action != ServerboundPlayerCommandPacket.Action.PRESS_SHIFT_KEY && action != ServerboundPlayerCommandPacket.Action.RELEASE_SHIFT_KEY) {
+            return;
+        }
+
+        MinecraftServer server = player.getServer();
+        boolean isRelease = action == ServerboundPlayerCommandPacket.Action.RELEASE_SHIFT_KEY;
+        if (server.isSameThread()) {
+            EntityHooks.INSTANCE.executeOnSneak(player, isRelease);
+        } else {
+            server.execute(() -> EntityHooks.INSTANCE.executeOnSneak(player, isRelease));
+        }
     }
 
     @Inject(method = "handleUseItemOn", at = @At("HEAD"), cancellable = true)
