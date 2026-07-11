@@ -72,6 +72,16 @@ Aris uses several specialized engines:
 - `ClientInGameEngine` loads `robots/client-game`, exists only while joined to a
   world, handles client world ticks, key hooks, and server-synced values.
 
+Engine creation is driven by platform lifecycle events:
+
+| Engine | Script path | Created by | Runs while | Disposed/reloaded by |
+| --- | --- | --- | --- | --- |
+| `InitEngine` | `robots/init` | `Aris.init()` during common mod initialization. Fabric calls it from `ModInitializer.onInitialize`; NeoForge calls it from `FMLConstructModEvent`. | Startup only. It loops until all init tasks finish. | Disposed immediately after startup tasks finish. |
+| `ClientInitEngine` | `robots/client-init` | `ArisClient.init()` during client initialization. Fabric calls it from `ClientModInitializer.onInitializeClient`; NeoForge calls it from the client branch of `FMLConstructModEvent`. | Client startup only. Its collected data, such as particle metadata, can be used later. | Disposed immediately after client init tasks finish. |
+| `InGameEngine` | `robots/game` | `Aris.onServerStart(server)`. Fabric calls it from `ServerLifecycleEvents.SERVER_STARTING`; NeoForge calls it from `ServerStartingEvent`. | Server lifetime. Each server tick calls `loop()` and then the tick hook. | `/aris reload` disposes and recreates it. Server shutdown drops the process/runtime. |
+| `ClientMainEngine` | `robots/client` | `ArisClient.onClientStart()`. Fabric calls it from `ClientLifecycleEvents.CLIENT_STARTED`; NeoForge calls it from `FMLLoadCompleteEvent`. | Minecraft client lifetime. Each client tick calls `loop()`. | Client shutdown calls `ClientMainEngine.disposeEngine()`. Client resource reload and server reload packets recreate it. |
+| `ClientInGameEngine` | `robots/client-game` | `ArisClient.onClientJoinGame()`. Fabric calls it from `ClientPlayConnectionEvents.JOIN`; NeoForge calls it from `ClientPlayerNetworkEvent.LoggingIn`. | While the local client is joined to a world. Client world ticks call its tick hooks, key hooks, and `loop()`. | Disconnect calls leave hooks and disposes it. Client resource reload and server reload packets recreate it if a world is active. |
+
 Persistent engines are managed by `AbstractPersistentEngineCompanion`. On
 reload or shutdown it:
 
@@ -100,6 +110,25 @@ Examples:
 KSP generates the glue classes under package `me.ddayo.aris.lua.glue`, and the
 generated API documentation is committed in `docs/`.
 
+## Extension Entrypoints
+
+Other mods can attach Kotlin-side engine initializers before scripts are loaded.
+Those initializers receive the engine instance and can register additional Lua
+libraries, wrappers, hooks, or setup behavior.
+
+Fabric discovers these add-on entrypoints with `FabricLoader`:
+
+- `aris-init` - add-ons for `InitEngine`.
+- `aris-game` - add-ons for `InGameEngine`.
+- `aris-client-init` - add-ons for `ClientInitEngine`.
+- `aris-client-main` - add-ons for `ClientMainEngine`.
+- `aris-client-game` - add-ons for `ClientInGameEngine`.
+
+The runtime `ClientMainEngine` entrypoint and the Fabric `aris-client-main`
+add-on entrypoint are related but separate: the lifecycle event creates the
+engine, and the add-on entrypoint contributes extra initialization to that
+engine.
+
 ## Hooks And Events
 
 Hooks are represented by `LuaHook` and `LuaHookMap`. Lua scripts register
@@ -110,6 +139,7 @@ Important hook areas include:
 
 - game tick callbacks,
 - player join and leave callbacks,
+- player sneak start and release callbacks,
 - block left click, right click, break, and place callbacks,
 - entity interaction and attack callbacks,
 - item movement, consumption, and use callbacks,
@@ -120,6 +150,11 @@ Important hook areas include:
 Some event wrappers are cancellable. For example, block and entity interaction
 events can call `event:cancel()` from Lua, and the Kotlin hook executor returns
 that cancellation state back to the Minecraft mixin.
+
+Sneak hooks are notification-only. A callback registered with
+`aris.game.hook.add_on_sneak(function(event) ... end)` receives a
+`LuaSneakEvent`; `event:get_is_release()` is `false` when the player starts
+sneaking and `true` when the player releases sneak.
 
 ## Networking
 

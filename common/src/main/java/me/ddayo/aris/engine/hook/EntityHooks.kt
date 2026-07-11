@@ -312,6 +312,36 @@ object EntityHooks {
         playerRespawnHook.callAsTask(LuaPlayerEvent(LuaServerPlayer(player), "respawn"))
     }
 
+    val sneakHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(sneakHook)
+    }
+
+    /**
+     * 플레이어가 웅크리기를 시작하거나 해제했을 때 실행할 함수를 추가합니다.
+     * event:get_is_release()가 true이면 웅크리기 해제, false이면 웅크리기 시작입니다.
+     * @param f 실행할 함수 (LuaSneakEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_sneak")
+    fun onSneak(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaSneakEvent::class)])
+        f: LuaFunc
+    ) {
+        sneakHook.add(f)
+    }
+
+    /**
+     * 웅크리기 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_sneak")
+    fun clearOnSneak() {
+        sneakHook.clear()
+    }
+
+    fun executeOnSneak(player: ServerPlayer, isRelease: Boolean) {
+        sneakHook.callAsTask(LuaSneakEvent(LuaServerPlayer(player), isRelease))
+    }
+
     val itemConsumeHook = LuaHook()
     init {
         InGameEngine.hooks.add(itemConsumeHook)
