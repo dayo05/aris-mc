@@ -11,6 +11,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 import net.neoforged.neoforge.event.server.ServerStartingEvent
 import net.neoforged.neoforge.event.tick.ServerTickEvent
 
@@ -38,6 +39,12 @@ object ArisNeoForgeServerEventSubscriber {
         } else {
             event.amount = result.amount
         }
+    }
+
+    @SubscribeEvent
+    fun onLivingDeath(event: LivingDeathEvent) {
+        val player = event.entity as? ServerPlayer ?: return
+        EntityHooks.executeOnPlayerDeath(player)
     }
 
     @SubscribeEvent
