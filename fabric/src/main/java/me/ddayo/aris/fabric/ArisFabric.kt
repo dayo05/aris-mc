@@ -10,6 +10,7 @@ import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents
 import net.fabricmc.fabric.api.event.player.UseItemCallback
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.loader.api.FabricLoader
@@ -59,6 +60,12 @@ class ArisFabric: ModInitializer {
         ServerPlayConnectionEvents.DISCONNECT.register { handler, _ ->
             Aris.runOnServerThreadBlocking {
                 GameHooks.executeOnPlayerLeave(handler.player)
+            }
+        }
+
+        ServerLivingEntityEvents.AFTER_DEATH.register { entity, _ ->
+            if (entity is ServerPlayer) {
+                EntityHooks.executeOnPlayerDeath(entity)
             }
         }
 
