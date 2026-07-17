@@ -8,6 +8,7 @@
   ],
   "mixins": [
     "AbstractContainerMenuMixin",
+    "EntityMixin",
     "ServerGamePacketListenerMixin",
     "ServerPlayerGameModeMixin",
     "ServerPlayerMixin",
