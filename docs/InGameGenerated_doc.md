@@ -172,6 +172,16 @@
 ```
  엔티티 공격 훅을 초기화합니다.
 ```
+## aris.game.hook.add_on_entity_death(f: function)
+```
+ 엔티티가 사망하거나 kill 되었을 때 실행할 함수를 추가합니다.
+ 플레이어를 포함한 모든 엔티티를 감지합니다.
+ @param f 실행할 함수 (LuaEntityEvent를 인자로 받음)
+```
+## aris.game.hook.clear_on_entity_death()
+```
+ 엔티티 사망 훅을 초기화합니다.
+```
 ## aris.game.hook.add_on_player_death(f: function)
 ```
  플레이어가 사망했을 때 실행할 함수를 추가합니다.
@@ -567,6 +577,22 @@
 ```
 
 
+
+
+## LuaEntityEvent:get_action() -> string
+
+
+## LuaEntityEvent:get_entity() -> LuaEntity
+```
+ 사망한 엔티티
+```
+
+
+## LuaEntityEvent:get_player() -> LuaServerPlayer
+```
+ 사망한 엔티티가 플레이어이면 해당 플레이어를 반환합니다.
+ 플레이어가 아니면 nil을 반환합니다.
+```
 
 
 ## LuaEntityList:get(index: number) -> LuaEntity

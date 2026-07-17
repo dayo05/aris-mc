@@ -41,6 +41,12 @@
       "extends": []
     },
     {
+      "name": "me.ddayo.aris.engine.wrapper.LuaEntityEvent",
+      "displayName": "LuaEntityEvent",
+      "description": null,
+      "extends": []
+    },
+    {
       "name": "me.ddayo.aris.engine.wrapper.LuaEntityInteractEvent",
       "displayName": "LuaEntityInteractEvent",
       "description": null,
@@ -513,6 +519,26 @@
       "params": [],
       "returns": "nil",
       "description": "엔티티 공격 훅을 초기화합니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "add_on_entity_death",
+      "luaName": "hook.add_on_entity_death",
+      "i18nKey": "hook.add_on_entity_death(function)",
+      "params": [{"name": "f", "type": "function", "callback": {"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaEntityEvent"}], "returns": "nil"}, "callbacks": [{"params": [{"name": "event", "type": "me.ddayo.aris.engine.wrapper.LuaEntityEvent"}], "returns": "nil"}]}],
+      "returns": "nil",
+      "description": "엔티티가 사망하거나 kill 되었을 때 실행할 함수를 추가합니다.\n 플레이어를 포함한 모든 엔티티를 감지합니다.\n @param f 실행할 함수 (LuaEntityEvent를 인자로 받음)"
+    },
+    {
+      "kind": "function",
+      "namespace": "hook",
+      "name": "clear_on_entity_death",
+      "luaName": "hook.clear_on_entity_death",
+      "i18nKey": "hook.clear_on_entity_death()",
+      "params": [],
+      "returns": "nil",
+      "description": "엔티티 사망 훅을 초기화합니다."
     },
     {
       "kind": "function",
@@ -1228,6 +1254,33 @@
       "params": [],
       "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
       "description": "해당 아이템의 custom NBT data를 읽고 씁니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityEvent",
+      "name": "get_action",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityEvent:get_action()",
+      "params": [],
+      "returns": "string",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityEvent",
+      "name": "get_entity",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityEvent:get_entity()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaEntity",
+      "description": "사망한 엔티티"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.wrapper.LuaEntityEvent",
+      "name": "get_player",
+      "i18nKey": "me.ddayo.aris.engine.wrapper.LuaEntityEvent:get_player()",
+      "params": [],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaServerPlayer",
+      "description": "사망한 엔티티가 플레이어이면 해당 플레이어를 반환합니다.\n 플레이어가 아니면 nil을 반환합니다."
     },
     {
       "kind": "method",
