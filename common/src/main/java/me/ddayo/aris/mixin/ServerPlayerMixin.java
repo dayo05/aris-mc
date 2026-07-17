@@ -1,5 +1,6 @@
 package me.ddayo.aris.mixin;
 
+import me.ddayo.aris.engine.hook.EntityDeathTracker;
 import me.ddayo.aris.engine.hook.EntityHooks;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,7 +39,7 @@ public class ServerPlayerMixin {
 
     @Inject(method = "die", at = @At("HEAD"))
     private void onDie(DamageSource source, org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
-        EntityHooks.INSTANCE.executeOnPlayerDeath((ServerPlayer) (Object) this);
+        ((EntityDeathTracker) this).aris$fireDeathHooks();
     }
 
     @Inject(method = "restoreFrom", at = @At("TAIL"))

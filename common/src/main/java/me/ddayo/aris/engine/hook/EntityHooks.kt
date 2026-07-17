@@ -254,6 +254,39 @@ object EntityHooks {
         return event.cancelled
     }
 
+    val entityDeathHook = LuaHook()
+    init {
+        InGameEngine.hooks.add(entityDeathHook)
+    }
+
+    /**
+     * 엔티티가 사망하거나 kill 되었을 때 실행할 함수를 추가합니다.
+     * 플레이어를 포함한 모든 엔티티를 감지합니다.
+     * @param f 실행할 함수 (LuaEntityEvent를 인자로 받음)
+     */
+    @LuaFunction("add_on_entity_death")
+    fun onEntityDeath(
+        @LuaCallback(params = [LuaCallbackParam("event", LuaEntityEvent::class)])
+        f: LuaFunc
+    ) {
+        entityDeathHook.add(f)
+    }
+
+    /**
+     * 엔티티 사망 훅을 초기화합니다.
+     */
+    @LuaFunction("clear_on_entity_death")
+    fun clearOnEntityDeath() {
+        entityDeathHook.clear()
+    }
+
+    fun executeOnEntityDeath(entity: Entity) {
+        entityDeathHook.callAsTask(LuaEntityEvent(entity.toLuaValue(), "death"))
+        if (entity is ServerPlayer) {
+            executeOnPlayerDeath(entity)
+        }
+    }
+
     val playerDeathHook = LuaHook()
     init {
         InGameEngine.hooks.add(playerDeathHook)
