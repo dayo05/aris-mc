@@ -9,6 +9,8 @@ import me.ddayo.aris.luagen.LuaProvider
 import net.minecraft.core.Registry
 import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
 
@@ -20,10 +22,13 @@ object InitFunction {
      */
     @LuaFunction("create_item")
     fun registerItem(key: String) {
-        RegistryHelper.registerItem(RegistryHelper.getResourceLocation(key)) {
+        val location = RegistryHelper.getResourceLocation(key)
+        val itemKey = ResourceKey.create(Registries.ITEM, location)
+
+        RegistryHelper.registerItem(location) {
             ScriptableItem(
-                RegistryHelper.getResourceLocation(key),
-                Item.Properties()
+                location,
+                Item.Properties().setId(itemKey)
             )
         }
     }

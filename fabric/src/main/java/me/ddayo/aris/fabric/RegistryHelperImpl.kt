@@ -14,6 +14,10 @@ import net.minecraft.world.item.Item
 object RegistryHelperImpl {
     @JvmStatic
     fun registerItem(location: ResourceLocation, item: () -> Item) {
+        require(!BuiltInRegistries.ITEM.containsKey(location)) {
+            "Item is already registered: $location"
+        }
+
         Registry.register(
             BuiltInRegistries.ITEM,
             location,
