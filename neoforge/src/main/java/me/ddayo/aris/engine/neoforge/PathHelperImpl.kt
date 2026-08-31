@@ -1,4 +1,4 @@
-package me.ddayo.aris.neoforge
+package me.ddayo.aris.engine.neoforge
 
 import net.neoforged.fml.loading.FMLPaths
 import java.io.File

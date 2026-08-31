@@ -1,4 +1,4 @@
-package me.ddayo.aris.fabric
+package me.ddayo.aris.engine.fabric
 
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File
