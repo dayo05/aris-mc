@@ -140,126 +140,6 @@
     },
     {
       "kind": "function",
-      "namespace": "nbt",
-      "name": "from_table",
-      "luaName": "nbt.from_table",
-      "i18nKey": "nbt.from_table(any)",
-      "params": [{"name": "table", "type": "any"}],
-      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
-      "description": "Converts Lua Table into NBT Compound"
-    },
-    {
-      "kind": "function",
-      "namespace": "nbt",
-      "name": "from_entity",
-      "luaName": "nbt.from_entity",
-      "i18nKey": "nbt.from_entity(me.ddayo.aris.engine.wrapper.LuaEntity)",
-      "params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}],
-      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
-      "description": "Get NBT of entity\n @param entity entity to get nbt\n @return full nbt object of entity"
-    },
-    {
-      "kind": "function",
-      "namespace": "nbt",
-      "name": "from_item_stack",
-      "luaName": "nbt.from_item_stack",
-      "i18nKey": "nbt.from_item_stack(me.ddayo.aris.engine.wrapper.LuaItemStack)",
-      "params": [{"name": "stack", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
-      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
-      "description": "Get NBT of item stack\n @param stack item stack to get nbt\n @return full nbt object of item stack"
-    },
-    {
-      "kind": "function",
-      "namespace": "nbt",
-      "name": "from_block_entity",
-      "luaName": "nbt.from_block_entity",
-      "i18nKey": "nbt.from_block_entity(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
-      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
-      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
-      "description": "Get NBT of block entity at specific position\n @param level server level for target block entity\n @param x x position for target block entity\n @param y y position for target block entity\n @param z z position for target block entity\n @return full nbt object of provided location. Nil if not exists."
-    },
-    {
-      "kind": "function",
-      "namespace": "nbt",
-      "name": "from_block_state",
-      "luaName": "nbt.from_block_state",
-      "i18nKey": "nbt.from_block_state(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
-      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
-      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
-      "description": "Get NBT of block state at specific position\n @param level server level for target block state\n @param x x position for target block state\n @param y y position for target block state\n @param z z position for target block state\n @return full nbt object of provided location"
-    },
-    {
-      "kind": "function",
-      "namespace": "nbt",
-      "name": "from_string",
-      "luaName": "nbt.from_string",
-      "i18nKey": "nbt.from_string(string)",
-      "params": [{"name": "string", "type": "string"}],
-      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
-      "description": "Converts string into NBT\n @param string nbt string to convert into nbt\n @return nbt object of provided string"
-    },
-    {
-      "kind": "function",
-      "namespace": "networking",
-      "name": "create_s2c_packet",
-      "luaName": "networking.create_s2c_packet",
-      "i18nKey": "networking.create_s2c_packet(string)",
-      "params": [{"name": "_id", "type": "string"}],
-      "returns": "me.ddayo.aris.engine.networking.S2CPacketDeclaration",
-      "description": "패킷을 새로 생성합니다.\n @param _id 패킷 id\n @return 생성된 패킷 정의 Builder"
-    },
-    {
-      "kind": "function",
-      "namespace": "networking",
-      "name": "create_c2s_packet",
-      "luaName": "networking.create_c2s_packet",
-      "i18nKey": "networking.create_c2s_packet(string)",
-      "params": [{"name": "_id", "type": "string"}],
-      "returns": "me.ddayo.aris.engine.networking.C2SPacketDeclaration",
-      "description": "패킷을 새로 생성합니다.\n @param _id 패킷 id\n @return 생성된 패킷 정의 Builder"
-    },
-    {
-      "kind": "function",
-      "namespace": "networking",
-      "name": "integer_arg",
-      "luaName": "networking.integer_arg",
-      "i18nKey": "networking.integer_arg(string)",
-      "params": [{"name": "of", "type": "string"}],
-      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
-      "description": "정수 인자를 패킷에 추가합니다.\n @param of 패킷에 첨부할 정수의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
-    },
-    {
-      "kind": "function",
-      "namespace": "networking",
-      "name": "float_arg",
-      "luaName": "networking.float_arg",
-      "i18nKey": "networking.float_arg(string)",
-      "params": [{"name": "of", "type": "string"}],
-      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
-      "description": "실수 인자를 패킷에 추가합니다.\n @param of 패킷에 첨부할 실수의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
-    },
-    {
-      "kind": "function",
-      "namespace": "networking",
-      "name": "string_arg",
-      "luaName": "networking.string_arg",
-      "i18nKey": "networking.string_arg(string)",
-      "params": [{"name": "of", "type": "string"}],
-      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
-      "description": "문자열 인자를 패킷에 추가합니다.\n @param of 패킷에 첨부할 문자열의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
-    },
-    {
-      "kind": "function",
-      "namespace": "networking",
-      "name": "itemstack_arg",
-      "luaName": "networking.itemstack_arg",
-      "i18nKey": "networking.itemstack_arg(string)",
-      "params": [{"name": "of", "type": "string"}],
-      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
-      "description": "아이템 스택 인자를 패킷에 추가합니다. (S2C/C2S 모두 지원)\n @param of 패킷에 첨부할 아이템 스택의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
-    },
-    {
-      "kind": "function",
       "namespace": "command",
       "name": "sub_command",
       "luaName": "command.sub_command",
@@ -397,9 +277,237 @@
       "params": [{"name": "id", "type": "string"}],
       "returns": "nil",
       "description": "명령어 자동완성 리스트를 비웁니다.\n @param id 자동완성 리스트 id"
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "integer_arg",
+      "luaName": "networking.integer_arg",
+      "i18nKey": "networking.integer_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
+      "description": "정수 인자를 패킷에 추가합니다.\n @param of 패킷에 첨부할 정수의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "float_arg",
+      "luaName": "networking.float_arg",
+      "i18nKey": "networking.float_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
+      "description": "실수 인자를 패킷에 추가합니다.\n @param of 패킷에 첨부할 실수의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "string_arg",
+      "luaName": "networking.string_arg",
+      "i18nKey": "networking.string_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
+      "description": "문자열 인자를 패킷에 추가합니다.\n @param of 패킷에 첨부할 문자열의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "itemstack_arg",
+      "luaName": "networking.itemstack_arg",
+      "i18nKey": "networking.itemstack_arg(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.AbstractPackableData",
+      "description": "아이템 스택 인자를 패킷에 추가합니다. (S2C/C2S 모두 지원)\n @param of 패킷에 첨부할 아이템 스택의 이름\n @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다."
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "create_s2c_packet",
+      "luaName": "networking.create_s2c_packet",
+      "i18nKey": "networking.create_s2c_packet(string)",
+      "params": [{"name": "_id", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.S2CPacketDeclaration",
+      "description": "패킷을 새로 생성합니다.\n @param _id 패킷 id\n @return 생성된 패킷 정의 Builder"
+    },
+    {
+      "kind": "function",
+      "namespace": "networking",
+      "name": "create_c2s_packet",
+      "luaName": "networking.create_c2s_packet",
+      "i18nKey": "networking.create_c2s_packet(string)",
+      "params": [{"name": "_id", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.networking.C2SPacketDeclaration",
+      "description": "패킷을 새로 생성합니다.\n @param _id 패킷 id\n @return 생성된 패킷 정의 Builder"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_table",
+      "luaName": "nbt.from_table",
+      "i18nKey": "nbt.from_table(any)",
+      "params": [{"name": "table", "type": "any"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Converts Lua Table into NBT Compound"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_entity",
+      "luaName": "nbt.from_entity",
+      "i18nKey": "nbt.from_entity(me.ddayo.aris.engine.wrapper.LuaEntity)",
+      "params": [{"name": "entity", "type": "me.ddayo.aris.engine.wrapper.LuaEntity"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of entity\n @param entity entity to get nbt\n @return full nbt object of entity"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_item_stack",
+      "luaName": "nbt.from_item_stack",
+      "i18nKey": "nbt.from_item_stack(me.ddayo.aris.engine.wrapper.LuaItemStack)",
+      "params": [{"name": "stack", "type": "me.ddayo.aris.engine.wrapper.LuaItemStack"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of item stack\n @param stack item stack to get nbt\n @return full nbt object of item stack"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_block_entity",
+      "luaName": "nbt.from_block_entity",
+      "i18nKey": "nbt.from_block_entity(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of block entity at specific position\n @param level server level for target block entity\n @param x x position for target block entity\n @param y y position for target block entity\n @param z z position for target block entity\n @return full nbt object of provided location. Nil if not exists."
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_block_state",
+      "luaName": "nbt.from_block_state",
+      "i18nKey": "nbt.from_block_state(me.ddayo.aris.engine.wrapper.LuaServerWorld,number,number,number)",
+      "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Get NBT of block state at specific position\n @param level server level for target block state\n @param x x position for target block state\n @param y y position for target block state\n @param z z position for target block state\n @return full nbt object of provided location"
+    },
+    {
+      "kind": "function",
+      "namespace": "nbt",
+      "name": "from_string",
+      "luaName": "nbt.from_string",
+      "i18nKey": "nbt.from_string(string)",
+      "params": [{"name": "string", "type": "string"}],
+      "returns": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
+      "description": "Converts string into NBT\n @param string nbt string to convert into nbt\n @return nbt object of provided string"
     }
   ],
   "methods": [
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder",
+      "name": "title",
+      "i18nKey": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder:title(string)",
+      "params": [{"name": "value", "type": "string"}],
+      "returns": "nil",
+      "description": "탭 이름을 일반 문자열로 지정합니다. 빈 이름은 허용하지 않습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder",
+      "name": "icon",
+      "i18nKey": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder:icon(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "nil",
+      "description": "aris 아이템을 아이콘으로 지정합니다. 아이템은 이 선언 이후에 등록해도 됩니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder",
+      "name": "icon",
+      "i18nKey": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder:icon(string,string)",
+      "params": [{"name": "namespace", "type": "string"}, {"name": "path", "type": "string"}],
+      "returns": "nil",
+      "description": "지정한 namespace의 아이템을 아이콘으로 지정합니다. 예: icon(\"minecraft\", \"diamond\")."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
+      "name": "max_stack_size",
+      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:max_stack_size(number)",
+      "params": [{"name": "value", "type": "number"}],
+      "returns": "nil",
+      "description": "최대 스택 수를 지정합니다 (1..99). 내구도가 있으면 1만 허용합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
+      "name": "durability",
+      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:durability(number)",
+      "params": [{"name": "value", "type": "number"}],
+      "returns": "nil",
+      "description": "최대 내구도를 지정합니다 (양수). 스택 수를 생략했다면 1을 사용합니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
+      "name": "fire_resistant",
+      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:fire_resistant(boolean)",
+      "params": [{"name": "value", "type": "boolean"}],
+      "returns": "nil",
+      "description": "드롭된 아이템의 화염/용암 피해 저항 여부를 지정합니다. 기본값은 false입니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
+      "name": "creative_tab",
+      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:creative_tab(string)",
+      "params": [{"name": "path", "type": "string"}],
+      "returns": "nil",
+      "description": "aris namespace의 크리에이티브 탭에 추가합니다. 여러 번 호출할 수 있습니다."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
+      "name": "creative_tab",
+      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:creative_tab(string,string)",
+      "params": [{"name": "namespace", "type": "string"}, {"name": "path", "type": "string"}],
+      "returns": "nil",
+      "description": "지정한 namespace의 탭에 추가합니다. 예: creative_tab(\"minecraft\", \"combat\")."
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "name": "set_endpoint",
+      "i18nKey": "me.ddayo.aris.engine.command.AbstractCommandHandler:set_endpoint(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "nil",
+      "description": "여기에서 설정한 id를 register_endpoint를 통해 등록할 수 있습니다.\n @param of endpoint id"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "name": "append",
+      "i18nKey": "me.ddayo.aris.engine.command.AbstractCommandHandler:append(me.ddayo.aris.engine.command.AbstractCommandHandler)",
+      "params": [{"name": "of", "type": "me.ddayo.aris.engine.command.AbstractCommandHandler"}],
+      "returns": "nil",
+      "description": null
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.command.AbstractCommandHandler",
+      "name": "set_suggestion_list",
+      "i18nKey": "me.ddayo.aris.engine.command.AbstractCommandHandler:set_suggestion_list(string)",
+      "params": [{"name": "of", "type": "string"}],
+      "returns": "nil",
+      "description": "이 인수의 자동완성 리스트를 설정합니다.\n @param of 자동완성에 사용할 리스트 id"
+    },
+    {
+      "kind": "method",
+      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration",
+      "name": "append",
+      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration:append(me.ddayo.aris.engine.networking.AbstractPackableData)",
+      "params": [{"name": "packet", "type": "me.ddayo.aris.engine.networking.AbstractPackableData"}],
+      "returns": "nil",
+      "description": "패킷에 인자를 추가합니다.\n @param packet 추가할 패킷 인자"
+    },
     {
       "kind": "method",
       "ownerType": "me.ddayo.aris.engine.wrapper.LuaNBTCompound",
@@ -462,114 +570,6 @@
       "params": [{"name": "level", "type": "me.ddayo.aris.engine.wrapper.LuaServerWorld"}, {"name": "x", "type": "number"}, {"name": "y", "type": "number"}, {"name": "z", "type": "number"}],
       "returns": "boolean",
       "description": "Place block with this NBT at provided position\n If exists then it replaces\n @return is successful"
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.networking.PacketDeclaration",
-      "name": "append",
-      "i18nKey": "me.ddayo.aris.engine.networking.PacketDeclaration:append(me.ddayo.aris.engine.networking.AbstractPackableData)",
-      "params": [{"name": "packet", "type": "me.ddayo.aris.engine.networking.AbstractPackableData"}],
-      "returns": "nil",
-      "description": "패킷에 인자를 추가합니다.\n @param packet 추가할 패킷 인자"
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
-      "name": "max_stack_size",
-      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:max_stack_size(number)",
-      "params": [{"name": "value", "type": "number"}],
-      "returns": "nil",
-      "description": "최대 스택 수를 지정합니다 (1..99). 내구도가 있으면 1만 허용합니다."
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
-      "name": "durability",
-      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:durability(number)",
-      "params": [{"name": "value", "type": "number"}],
-      "returns": "nil",
-      "description": "최대 내구도를 지정합니다 (양수). 스택 수를 생략했다면 1을 사용합니다."
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
-      "name": "fire_resistant",
-      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:fire_resistant(boolean)",
-      "params": [{"name": "value", "type": "boolean"}],
-      "returns": "nil",
-      "description": "드롭된 아이템의 화염/용암 피해 저항 여부를 지정합니다. 기본값은 false입니다."
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
-      "name": "creative_tab",
-      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:creative_tab(string)",
-      "params": [{"name": "path", "type": "string"}],
-      "returns": "nil",
-      "description": "aris namespace의 크리에이티브 탭에 추가합니다. 여러 번 호출할 수 있습니다."
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.item.ItemAttrBuilder",
-      "name": "creative_tab",
-      "i18nKey": "me.ddayo.aris.engine.item.ItemAttrBuilder:creative_tab(string,string)",
-      "params": [{"name": "namespace", "type": "string"}, {"name": "path", "type": "string"}],
-      "returns": "nil",
-      "description": "지정한 namespace의 탭에 추가합니다. 예: creative_tab(\"minecraft\", \"combat\")."
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder",
-      "name": "title",
-      "i18nKey": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder:title(string)",
-      "params": [{"name": "value", "type": "string"}],
-      "returns": "nil",
-      "description": "탭 이름을 일반 문자열로 지정합니다. 빈 이름은 허용하지 않습니다."
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder",
-      "name": "icon",
-      "i18nKey": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder:icon(string)",
-      "params": [{"name": "path", "type": "string"}],
-      "returns": "nil",
-      "description": "aris 아이템을 아이콘으로 지정합니다. 아이템은 이 선언 이후에 등록해도 됩니다."
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder",
-      "name": "icon",
-      "i18nKey": "me.ddayo.aris.engine.item.CreativeTabAttrBuilder:icon(string,string)",
-      "params": [{"name": "namespace", "type": "string"}, {"name": "path", "type": "string"}],
-      "returns": "nil",
-      "description": "지정한 namespace의 아이템을 아이콘으로 지정합니다. 예: icon(\"minecraft\", \"diamond\")."
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.command.AbstractCommandHandler",
-      "name": "set_endpoint",
-      "i18nKey": "me.ddayo.aris.engine.command.AbstractCommandHandler:set_endpoint(string)",
-      "params": [{"name": "of", "type": "string"}],
-      "returns": "nil",
-      "description": "여기에서 설정한 id를 register_endpoint를 통해 등록할 수 있습니다.\n @param of endpoint id"
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.command.AbstractCommandHandler",
-      "name": "append",
-      "i18nKey": "me.ddayo.aris.engine.command.AbstractCommandHandler:append(me.ddayo.aris.engine.command.AbstractCommandHandler)",
-      "params": [{"name": "of", "type": "me.ddayo.aris.engine.command.AbstractCommandHandler"}],
-      "returns": "nil",
-      "description": null
-    },
-    {
-      "kind": "method",
-      "ownerType": "me.ddayo.aris.engine.command.AbstractCommandHandler",
-      "name": "set_suggestion_list",
-      "i18nKey": "me.ddayo.aris.engine.command.AbstractCommandHandler:set_suggestion_list(string)",
-      "params": [{"name": "of", "type": "string"}],
-      "returns": "nil",
-      "description": "이 인수의 자동완성 리스트를 설정합니다.\n @param of 자동완성에 사용할 리스트 id"
     }
   ]
 }
