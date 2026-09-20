@@ -47,9 +47,7 @@ object ArisNeoForgeClientEvents {
     }
 }
 
-@EventBusSubscriber(modid = "aris", value = [Dist.CLIENT])
 object ArisNeoForgeClientInitEvents {
-    @SubscribeEvent
     @JvmStatic
     fun registerParticleFactories(event: RegisterParticleProvidersEvent) {
         RegistryHelperImpl.PARTICLES.entries.forEach { reg ->

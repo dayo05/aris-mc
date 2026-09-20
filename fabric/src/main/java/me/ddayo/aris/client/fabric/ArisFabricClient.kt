@@ -5,6 +5,7 @@ import me.ddayo.aris.client.ArisClient
 import me.ddayo.aris.client.gui.HudRenderer
 import me.ddayo.aris.client.gui.Resource
 import me.ddayo.aris.engine.EngineInitializer
+import me.ddayo.aris.engine.item.CreativeTabRegistry
 import me.ddayo.aris.engine.client.ClientInGameEngine
 import me.ddayo.aris.engine.client.ClientInitEngine
 import me.ddayo.aris.engine.client.ClientMainEngine
@@ -63,6 +64,7 @@ class ArisFabricClient: ClientModInitializer {
 
         ArisClient.init()
         ClientLifecycleEvents.CLIENT_STARTED.register {
+            CreativeTabRegistry.validateReferences()
             ArisClient.onClientStart()
         }
 

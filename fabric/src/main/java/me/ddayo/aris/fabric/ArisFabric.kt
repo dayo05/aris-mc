@@ -4,6 +4,7 @@ import me.ddayo.aris.Aris
 import me.ddayo.aris.engine.EngineInitializer
 import me.ddayo.aris.engine.InGameEngine
 import me.ddayo.aris.engine.InitEngine
+import me.ddayo.aris.engine.item.CreativeTabRegistry
 import me.ddayo.aris.engine.hook.EntityHooks
 import me.ddayo.aris.engine.hook.GameHooks
 import net.fabricmc.api.ModInitializer
@@ -45,6 +46,7 @@ class ArisFabric: ModInitializer {
 
         Aris.init()
         ServerLifecycleEvents.SERVER_STARTING.register { server ->
+            CreativeTabRegistry.validateReferences()
             Aris.onServerStart(server)
         }
         ServerTickEvents.START_SERVER_TICK.register {

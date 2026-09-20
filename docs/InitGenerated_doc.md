@@ -3,7 +3,103 @@
  새로운 아이템을 추가합니다.
  @param key 추가할 아이템 id
 ```
+## aris.init.create_item(key: string, attr: ItemAttrBuilder)
+```
+ 속성을 적용한 aris 아이템을 등록합니다. 등록 이후 빌더 수정은 이 아이템에 영향을 주지 않습니다.
+ @param key 추가할 아이템 경로 (namespace는 aris)
+ @param attr 아이템 속성 빌더
+```
+## aris.init.item_attr() -> ItemAttrBuilder
+```
+ 빈 아이템 속성 빌더를 생성합니다. create_item 호출 시 설정이 복사됩니다.
+```
+## aris.init.creative_tab_attr() -> CreativeTabAttrBuilder
+```
+ 빈 크리에이티브 탭 속성 빌더를 생성합니다. title과 icon은 필수입니다.
+```
+## aris.init.create_creative_tab(key: string, attr: CreativeTabAttrBuilder)
+```
+ aris 크리에이티브 탭을 등록합니다. 변경에는 게임 재시작이 필요합니다.
+ @param key 탭 경로 (namespace는 aris)
+ @param attr 탭 속성 빌더. 호출 시 설정이 복사됩니다.
+```
 ## aris.init.create_particle(key: string)
+## aris.init.nbt.from_table(table: any) -> LuaNBTCompound
+```
+ Converts Lua Table into NBT Compound
+```
+## aris.init.nbt.from_entity(entity: LuaEntity) -> LuaNBTCompound
+```
+ Get NBT of entity
+ @param entity entity to get nbt
+ @return full nbt object of entity
+```
+## aris.init.nbt.from_item_stack(stack: LuaItemStack) -> LuaNBTCompound
+```
+ Get NBT of item stack
+ @param stack item stack to get nbt
+ @return full nbt object of item stack
+```
+## aris.init.nbt.from_block_entity(level: LuaServerWorld, x: number, y: number, z: number) -> LuaNBTCompound
+```
+ Get NBT of block entity at specific position
+ @param level server level for target block entity
+ @param x x position for target block entity
+ @param y y position for target block entity
+ @param z z position for target block entity
+ @return full nbt object of provided location. Nil if not exists.
+```
+## aris.init.nbt.from_block_state(level: LuaServerWorld, x: number, y: number, z: number) -> LuaNBTCompound
+```
+ Get NBT of block state at specific position
+ @param level server level for target block state
+ @param x x position for target block state
+ @param y y position for target block state
+ @param z z position for target block state
+ @return full nbt object of provided location
+```
+## aris.init.nbt.from_string(string: string) -> LuaNBTCompound
+```
+ Converts string into NBT
+ @param string nbt string to convert into nbt
+ @return nbt object of provided string
+```
+## aris.init.networking.create_s2c_packet(_id: string) -> S2CPacketDeclaration
+```
+ 패킷을 새로 생성합니다.
+ @param _id 패킷 id
+ @return 생성된 패킷 정의 Builder
+```
+## aris.init.networking.create_c2s_packet(_id: string) -> C2SPacketDeclaration
+```
+ 패킷을 새로 생성합니다.
+ @param _id 패킷 id
+ @return 생성된 패킷 정의 Builder
+```
+## aris.init.networking.integer_arg(of: string) -> AbstractPackableData
+```
+ 정수 인자를 패킷에 추가합니다.
+ @param of 패킷에 첨부할 정수의 이름
+ @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
+```
+## aris.init.networking.float_arg(of: string) -> AbstractPackableData
+```
+ 실수 인자를 패킷에 추가합니다.
+ @param of 패킷에 첨부할 실수의 이름
+ @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
+```
+## aris.init.networking.string_arg(of: string) -> AbstractPackableData
+```
+ 문자열 인자를 패킷에 추가합니다.
+ @param of 패킷에 첨부할 문자열의 이름
+ @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
+```
+## aris.init.networking.itemstack_arg(of: string) -> AbstractPackableData
+```
+ 아이템 스택 인자를 패킷에 추가합니다. (S2C/C2S 모두 지원)
+ @param of 패킷에 첨부할 아이템 스택의 이름
+ @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
+```
 ## aris.init.command.sub_command(of: string) -> AbstractCommandHandler
 ```
  하위 커멘드를 추가합니다.
@@ -88,106 +184,6 @@
  명령어 자동완성 리스트를 비웁니다.
  @param id 자동완성 리스트 id
 ```
-## aris.init.networking.integer_arg(of: string) -> AbstractPackableData
-```
- 정수 인자를 패킷에 추가합니다.
- @param of 패킷에 첨부할 정수의 이름
- @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
-```
-## aris.init.networking.float_arg(of: string) -> AbstractPackableData
-```
- 실수 인자를 패킷에 추가합니다.
- @param of 패킷에 첨부할 실수의 이름
- @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
-```
-## aris.init.networking.string_arg(of: string) -> AbstractPackableData
-```
- 문자열 인자를 패킷에 추가합니다.
- @param of 패킷에 첨부할 문자열의 이름
- @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
-```
-## aris.init.networking.itemstack_arg(of: string) -> AbstractPackableData
-```
- 아이템 스택 인자를 패킷에 추가합니다. (S2C/C2S 모두 지원)
- @param of 패킷에 첨부할 아이템 스택의 이름
- @return 이 함수로 획득한 값을 패킷에 append할 수 있습니다.
-```
-## aris.init.networking.create_s2c_packet(_id: string) -> S2CPacketDeclaration
-```
- 패킷을 새로 생성합니다.
- @param _id 패킷 id
- @return 생성된 패킷 정의 Builder
-```
-## aris.init.networking.create_c2s_packet(_id: string) -> C2SPacketDeclaration
-```
- 패킷을 새로 생성합니다.
- @param _id 패킷 id
- @return 생성된 패킷 정의 Builder
-```
-## aris.init.nbt.from_table(table: any) -> LuaNBTCompound
-```
- Converts Lua Table into NBT Compound
-```
-## aris.init.nbt.from_entity(entity: LuaEntity) -> LuaNBTCompound
-```
- Get NBT of entity
- @param entity entity to get nbt
- @return full nbt object of entity
-```
-## aris.init.nbt.from_item_stack(stack: LuaItemStack) -> LuaNBTCompound
-```
- Get NBT of item stack
- @param stack item stack to get nbt
- @return full nbt object of item stack
-```
-## aris.init.nbt.from_block_entity(level: LuaServerWorld, x: number, y: number, z: number) -> LuaNBTCompound
-```
- Get NBT of block entity at specific position
- @param level server level for target block entity
- @param x x position for target block entity
- @param y y position for target block entity
- @param z z position for target block entity
- @return full nbt object of provided location. Nil if not exists.
-```
-## aris.init.nbt.from_block_state(level: LuaServerWorld, x: number, y: number, z: number) -> LuaNBTCompound
-```
- Get NBT of block state at specific position
- @param level server level for target block state
- @param x x position for target block state
- @param y y position for target block state
- @param z z position for target block state
- @return full nbt object of provided location
-```
-## aris.init.nbt.from_string(string: string) -> LuaNBTCompound
-```
- Converts string into NBT
- @param string nbt string to convert into nbt
- @return nbt object of provided string
-```
-
-
-## AbstractCommandHandler:set_endpoint(of: string)
-```
- 여기에서 설정한 id를 register_endpoint를 통해 등록할 수 있습니다.
- @param of endpoint id
-```
-
-
-## AbstractCommandHandler:append(of: AbstractCommandHandler)
-
-
-## AbstractCommandHandler:set_suggestion_list(of: string)
-```
- 이 인수의 자동완성 리스트를 설정합니다.
- @param of 자동완성에 사용할 리스트 id
-```
-
-
-## PacketDeclaration:append(packet: AbstractPackableData)
-```
- 패킷에 인자를 추가합니다.
- @param packet 추가할 패킷 인자
-```
 
 
 ## LuaNBTCompound:into_string() -> string
@@ -230,6 +226,73 @@
  @return is successful
 ```
 
+
+## PacketDeclaration:append(packet: AbstractPackableData)
+```
+ 패킷에 인자를 추가합니다.
+ @param packet 추가할 패킷 인자
+```
+
+
+## ItemAttrBuilder:max_stack_size(value: number)
+```
+ 최대 스택 수를 지정합니다 (1..99). 내구도가 있으면 1만 허용합니다.
+```
+
+
+## ItemAttrBuilder:durability(value: number)
+```
+ 최대 내구도를 지정합니다 (양수). 스택 수를 생략했다면 1을 사용합니다.
+```
+
+
+## ItemAttrBuilder:fire_resistant(value: boolean)
+```
+ 드롭된 아이템의 화염/용암 피해 저항 여부를 지정합니다. 기본값은 false입니다.
+```
+
+
+## ItemAttrBuilder:creative_tab(path: string)
+```
+ aris namespace의 크리에이티브 탭에 추가합니다. 여러 번 호출할 수 있습니다.
+```
+## ItemAttrBuilder:creative_tab(namespace: string, path: string)
+```
+ 지정한 namespace의 탭에 추가합니다. 예: creative_tab("minecraft", "combat").
+```
+
+
+## CreativeTabAttrBuilder:title(value: string)
+```
+ 탭 이름을 일반 문자열로 지정합니다. 빈 이름은 허용하지 않습니다.
+```
+
+
+## CreativeTabAttrBuilder:icon(path: string)
+```
+ aris 아이템을 아이콘으로 지정합니다. 아이템은 이 선언 이후에 등록해도 됩니다.
+```
+## CreativeTabAttrBuilder:icon(namespace: string, path: string)
+```
+ 지정한 namespace의 아이템을 아이콘으로 지정합니다. 예: icon("minecraft", "diamond").
+```
+
+
+## AbstractCommandHandler:set_endpoint(of: string)
+```
+ 여기에서 설정한 id를 register_endpoint를 통해 등록할 수 있습니다.
+ @param of endpoint id
+```
+
+
+## AbstractCommandHandler:append(of: AbstractCommandHandler)
+
+
+## AbstractCommandHandler:set_suggestion_list(of: string)
+```
+ 이 인수의 자동완성 리스트를 설정합니다.
+ @param of 자동완성에 사용할 리스트 id
+```
 
 
 

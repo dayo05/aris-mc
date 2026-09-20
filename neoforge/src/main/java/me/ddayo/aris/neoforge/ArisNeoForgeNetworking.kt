@@ -13,17 +13,13 @@ import me.ddayo.aris.networking.S2CLuaPayload
 import me.ddayo.aris.networking.SyncDataPayload
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.ItemStack
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.network.PacketDistributor
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent
 import net.neoforged.neoforge.network.handling.IPayloadContext
 
-@EventBusSubscriber(modid = Aris.MOD_ID)
 object ArisNeoForgeNetworking {
     enum class ScriptDataType { STRING, NUMBER, ITEM }
 
-    @SubscribeEvent
     @JvmStatic
     fun register(event: RegisterPayloadHandlersEvent) {
         val registrar = event.registrar("1")
